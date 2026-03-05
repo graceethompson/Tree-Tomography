@@ -7,9 +7,9 @@ Corresponding to an existing biometric plot network established around the footp
 (Add)
 ## Data
 ### Raw data
-Electric resistivity tomograms (Add)
-Sonic tomograms (Add)
+* Electric resistivity tomograms (Add)
+* Sonic tomograms (Add)
 ### Precessed data
-Add .csv for app data (Add)
-Add .csv for water content data (Add)
-Add .csv for tomgram visual assessments and tree ID (Add)
+* Add .csv for app data (Add)
+* Add .csv for water content data (Add)
+* Add .csv for tomgram visual assessments and tree ID (Add)
