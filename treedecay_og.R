@@ -70,11 +70,14 @@ ggplot(treedecayinfo) +
     )
   ) +
   
-  theme_minimal() + 
-  theme(legend.position = "none", 
-        panel.grid.minor = element_blank(), 
-        strip.text = element_text(size = 11), 
-        axis.title = element_text(size = 12))
+  theme_classic() + 
+  theme(legend.position = "none",
+        panel.grid.major = element_line(color = "grey90"),
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, linewidth = 0.5), 
+        strip.text = element_text(size = 10), 
+        axis.title = element_text(size = 11))
+
 
 
 # Two-way ANOVA test for SoT percent of solid wood: 
@@ -84,6 +87,29 @@ summary(SoT_solid_twowayanova)
 
 # Tukey HSD test for two-way ANOVA SoT percent of solid wood: 
 TukeyHSD(SoT_solid_twowayanova)
+
+# Adjusting anova for overlapping species
+overlapping_spp <- treedecayinfo %>%
+  filter(species %in% c("rm", "hem"))
+
+overlapping_solid_twowayanova <- aov(percent_solid_wood ~ species * site, 
+                             data = overlapping_spp)
+summary(overlapping_solid_twowayanova)
+
+TukeyHSD(overlapping_solid_twowayanova)
+
+par(mfrow = c(2,2))
+plot(overlapping_solid_twowayanova)
+
+
+install.packages("lmPerm")
+library(lmPerm)
+
+overlapping_solid_permanova <- aovp(percent_solid_wood ~ species * site, 
+                                     data = overlapping_spp)
+summary(overlapping_solid_permanova)
+
+TukeyHSD(overlapping_solid_permanova)
 
 
 
@@ -128,17 +154,34 @@ ggplot(treedecayinfo) +
     )
   ) +
   
-  theme_minimal() + 
-  theme(legend.position = "none", 
-        panel.grid.minor = element_blank(), 
-        strip.text = element_text(size = 11), 
-        axis.title = element_text(size = 12))
+  theme_classic() + 
+  theme(legend.position = "none",
+        panel.grid.major = element_line(color = "grey90"),
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, linewidth = 0.5), 
+        strip.text = element_text(size = 10), 
+        axis.title = element_text(size = 11))
 
 
 # Two-way ANOVA test for SoT percent of damaged wood: 
 SoT_damaged_twowayanova <- aov(percent_damaged ~ species * site, 
                                data = treedecayinfo)
 summary(SoT_damaged_twowayanova)
+
+
+overlapping_dam_permanova <- aovp(percent_damaged ~ species * site, 
+                                    data = overlapping_spp)
+summary(overlapping_dam_permanova)
+
+species_dam_permanova <- aovp(percent_damaged ~ species, 
+                                  data = overlapping_spp)
+
+summary(species_dam_permanova)
+
+site_dam_permanova <- aovp(percent_damaged ~ site, 
+                              data = overlapping_spp)
+
+summary(site_dam_permanova)
 
 
 # Basic statistics for SoT percent of solid wood 
@@ -152,7 +195,9 @@ treedecayinfo %>%
     median = median(percent_solid_wood, na.rm = TRUE),
     min = min(percent_solid_wood, na.rm = TRUE),
     max = max(percent_solid_wood, na.rm = TRUE),
-    .groups = "drop"
+    q1 = quantile(percent_solid_wood, 0.25, na.rm = TRUE),
+    q3 = quantile(percent_solid_wood, 0.75, na.rm = TRUE),
+    iqr = IQR(percent_damaged, na.rm = TRUE)
   )
 
 # Basic statistics for SoT percent of damaged wood 
@@ -165,7 +210,10 @@ treedecayinfo %>%
     se = sd / sqrt(n),
     median = median(percent_damaged, na.rm = TRUE),
     min = min(percent_damaged, na.rm = TRUE),
-    max = max(percent_damaged, na.rm = TRUE)
+    max = max(percent_damaged, na.rm = TRUE),
+    q1 = quantile(percent_damaged, 0.25, na.rm = TRUE),
+    q3 = quantile(percent_damaged, 0.75, na.rm = TRUE),
+    iqr = IQR(percent_damaged, na.rm = TRUE)
   )
 
 
@@ -194,11 +242,13 @@ ggplot(treedecayinfo) +
       EMS  = alpha("gold3", 0.2)
     )
   ) +
-  theme_minimal() +
+  theme_classic() +
   theme(legend.position = "none",
-        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey90"),
         axis.title.x = element_text(size = 11), 
-        axis.title = element_text(size = 12))
+        axis.title = element_text(size = 12), 
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, linewidth = 0.5))
 
 
 # One-way ANOVA test for SoT percent of solid wood:
@@ -206,6 +256,33 @@ SoT_solid_onewayanova <- aov(percent_solid_wood ~ site, data = treedecayinfo)
 summary(SoT_solid_onewayanova)
 
 TukeyHSD(SoT_solid_onewayanova)
+
+# Welch's t-test 
+t.test(percent_solid_wood ~ site,
+       data = treedecayinfo)
+
+# Normality by site
+ggplot(treedecayinfo, aes(x = percent_solid_wood, fill = site)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~site) # Skewed
+
+# Shapiro-Wilk test for each site
+by(treedecayinfo$percent_solid_wood,
+   treedecayinfo$site,
+   shapiro.test) # Assumptions are violated
+
+var.test(percent_solid_wood ~ site,
+         data = treedecayinfo) # True ratio of variances is not equal to 1
+
+# QQ plot
+ggplot(treedecayinfo, aes(sample = percent_solid_wood)) +
+  stat_qq() +
+  stat_qq_line() +
+  facet_wrap(~ site) # Not normal
+
+# Non-parametric alternative (if normality assumption violated)
+wilcox.test(percent_solid_wood ~ site, data = treedecayinfo)
+
 
 
 # For SoT percent of damaged wood:
@@ -232,11 +309,13 @@ ggplot(treedecayinfo) +
       EMS  = alpha("gold3", 0.2)
     )
   ) +
-  theme_minimal() +
-  theme(legend.position = "none", 
-        panel.grid.minor = element_blank(),
+  theme_classic() +
+  theme(legend.position = "none",
+        panel.grid.major = element_line(color = "grey90"),
         axis.title.x = element_text(size = 11), 
-        axis.title = element_text(size = 12))
+        axis.title = element_text(size = 12), 
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, linewidth = 0.5))
 
 
 # One-way ANOVA test for SoT percent of damaged wood:
@@ -244,6 +323,32 @@ SoT_damaged_onewayanova <- aov(percent_damaged ~ site, data = treedecayinfo)
 summary(SoT_damaged_onewayanova)
 
 TukeyHSD(SoT_damaged_onewayanova)
+
+# Welch's t-test
+t.test(percent_damaged ~ site,
+       data = treedecayinfo) 
+
+# Normality by site
+ggplot(treedecayinfo, aes(x = percent_damaged, fill = site)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~site) # Skewed
+
+# Shapiro-Wilk test for each site
+by(treedecayinfo$percent_damaged,
+   treedecayinfo$site,
+   shapiro.test) # Assumptions are violated
+
+var.test(percent_damaged ~ site,
+         data = treedecayinfo) # True ratio of variances is not equal to 1
+
+# QQ plot
+ggplot(treedecayinfo, aes(sample = percent_damaged)) +
+  stat_qq() +
+  stat_qq_line() +
+  facet_wrap(~ site) # Not normal
+
+# Non-parametric alternative (if normality assumption violated)
+wilcox.test(percent_damaged ~ site, data = treedecayinfo)
 
 
 # Alternative data visualization to the first boxplots
@@ -316,6 +421,36 @@ ggplot(treedecayinfo, aes(species, percent_damaged, color = species)) +
   )) +
   scale_x_discrete(drop = TRUE) + 
   theme_minimal() 
+
+
+
+# Trying a beta regression generalized linear model 
+install.packages("betareg")
+library(betareg)
+
+
+treedecayinfo <- treedecayinfo %>%
+  mutate(damaged_prop = percent_damaged / 100)
+
+summary(treedecayinfo$damaged_prop)
+range(treedecayinfo$damaged_prop, na.rm = TRUE)
+sum(is.na(treedecayinfo$damaged_prop))
+
+sum(treedecayinfo$damaged_prop == 0.001)
+nrow(treedecayinfo)
+table(treedecayinfo$species, treedecayinfo$site)
+
+n <- nrow(treedecayinfo)
+
+treedecayinfo$damaged_prop_adj <- 
+  (treedecayinfo$damaged_prop * (n - 1) + 0.5) / n
+
+
+overlapping_betareg <- betareg(
+  damaged_prop ~ species * site, data = overlapping_spp)
+summary(overlapping_betareg)
+
+
 
 
 
