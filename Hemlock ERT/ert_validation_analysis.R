@@ -13,7 +13,7 @@ library(cowplot)
 library(grid)
 
 # Set working directory
-setwd("/Users/jongewirtzman/Downloads/ERT JPEGS_Absolute")
+setwd("/Users/jongewirtzman/My Drive/Research/Tomography/Tree-Tomography/Hemlock ERT")
 
 # ── Color palette ──────────────────────────────────────────────────────────
 pal_height <- c("DBH" = "#2166AC", "Lower" = "#4DAC26", "Upper" = "#D6604D")
@@ -31,7 +31,8 @@ theme_pub <- theme_classic(base_size = 11) +
 theme_set(theme_pub)
 
 # ── Metric names (consistent labels) ──────────────────────────────────────
-metric_names <- c("Mean", "Median", "SD", "CV", "Gini", "Entropy", "CMA", "RadialGradient")
+metric_names <- c("Conductance", "Median", "SD", "CV", "Gini", "Entropy", "CMA", "RadialGradient")
+# Note: Conductance is in milliSiemens (mS) = 1000/Resistance
 
 ##############################################################################
 # 1. DATA LOADING & CLEANING
@@ -66,6 +67,9 @@ names(mc) <- c("tree_id", "moisture")
 # Merge ERT with moisture
 ert <- ert %>% left_join(mc, by = "tree_id")
 
+# Add conductance (1/Resistance)
+ert <- ert %>% mutate(Conductance = 1000 / Mean)  # milliSiemens (mS)
+
 # Subsets
 ert_dbh   <- ert %>% filter(height == "DBH")
 ert_lower <- ert %>% filter(height == "Lower")
@@ -74,7 +78,8 @@ ert_upper <- ert %>% filter(height == "Upper")
 # Average across heights per tree
 ert_avg <- ert %>%
   group_by(tree_id) %>%
-  summarise(across(all_of(metric_names), mean), moisture = first(moisture), .groups = "drop")
+  summarise(across(all_of(metric_names), mean), moisture = first(moisture),
+            Conductance = mean(Conductance), .groups = "drop")
 
 cat("\nDBH trees:", nrow(ert_dbh), "\n")
 cat("Lower trees:", nrow(ert_lower), "\n")
@@ -374,7 +379,7 @@ fmt_ps_best <- if (p_spear_best < 0.001) "p < 0.001" else paste0("p = ", formatC
 
 # Annotation (plain text with Unicode, rendered via cairo_pdf)
 ann_label <- paste0(
-  "Mean = ", b0, " + ", b1, " \u00d7 Moisture\n",
+  best_metric, " = ", b0, " + ", b1, " \u00d7 Moisture\n",
   "R\u00b2 = ", r2, ", ", fmt_p_best, "\n",
   "r = ", round(best_cors$pearson_r, 3),
   ",  \u03c1 = ", rho_best, " (", fmt_ps_best, ")"
