@@ -172,15 +172,57 @@ p_C <- ggplot(pred_sev, aes(x = species, y = pred)) +
     plot.tag = element_text(face = "bold")
   )
 
-# --- 5. COMBINE AND SAVE ----------------------------------------------------
+# --- 5. PANEL D: Expected severity = P(decay) × E[severity | decay] ---------
 
-fig <- p_A | p_B | p_C
-fig <- fig + plot_layout(widths = c(1.2, 0.8, 1.2))
+# Only species present in both models
+spp_both <- intersect(as.character(pred_spp$species), as.character(pred_sev$species))
 
-ggsave("output/figures/decay_presence_severity.pdf", fig, width = 12, height = 4.5)
+pred_combined <- data.frame(
+  species = factor(spp_both, levels = levels(df$species))
+)
+pred_combined <- pred_combined %>%
+  left_join(pred_spp %>% select(species, prob), by = "species") %>%
+  left_join(pred_sev %>% select(species, sev = pred), by = "species") %>%
+  mutate(expected_sev = prob * sev)
+
+# Bootstrap CIs for combined metric
+boot_combined <- matrix(NA, nrow = n_boot, ncol = length(spp_both))
+colnames(boot_combined) <- spp_both
+
+for (i in seq_len(n_boot)) {
+  p_presence <- boot_mat[i, spp_both]
+  p_severity <- boot_sev[i, spp_both]
+  if (!any(is.na(p_presence)) && !any(is.na(p_severity))) {
+    boot_combined[i, ] <- p_presence * p_severity
+  }
+}
+
+pred_combined$lo <- apply(boot_combined, 2, quantile, 0.025, na.rm = TRUE)
+pred_combined$hi <- apply(boot_combined, 2, quantile, 0.975, na.rm = TRUE)
+
+cat("\n=== Expected severity = P(decay) × E[severity | decay] ===\n")
+print(pred_combined)
+
+p_D <- ggplot(pred_combined, aes(x = species, y = expected_sev)) +
+  geom_pointrange(aes(ymin = lo, ymax = hi), size = 0.6, linewidth = 0.7) +
+  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+  labs(x = "Species", y = "Expected damage (proportion)",
+       tag = "D") +
+  theme_classic(base_size = 12) +
+  theme(
+    panel.grid.major.y = element_line(color = "grey90"),
+    plot.tag = element_text(face = "bold")
+  )
+
+# --- 6. COMBINE AND SAVE ----------------------------------------------------
+
+fig <- p_A | p_B | p_C | p_D
+fig <- fig + plot_layout(widths = c(1, 0.7, 1, 1))
+
+ggsave("output/figures/decay_presence_severity.pdf", fig, width = 15, height = 4.5)
 cat("\nSaved: output/figures/decay_presence_severity.pdf\n")
 
-# --- 6. SUPPLEMENTARY: Full model with site interaction ----------------------
+# --- 7. SUPPLEMENTARY: Full model with site interaction ----------------------
 
 cat("\n=== Binomial GLM: decay ~ species * site ===\n")
 glm_full <- glm(decay_binary ~ species * site, data = df, family = binomial)
