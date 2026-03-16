@@ -1,0 +1,61 @@
+Tree ID,Density,Crack Detected,Moisture_Normalized,Moisture_Absolute,Notes
+153,Sound,No,Present,Present,
+165,Sound,No,Present,Present,
+175,Reduced,No,Present,Present,
+176,Sound,No,Absent,Absent,
+217,Reduced,No,Present,Present,
+236,Sound,No,Present,Absent,disagree - norm
+288,Sound,No,Present,Absent,disagree - norm
+302,Sound,No,Present,Present,
+309,Sound,No,Present,Present,
+318,Sound,No,Present,Present,
+351,Reduced,No,Present,Absent,disagree - norm
+356,Reduced,No,Present,Present,
+362,Sound,No,Absent,Absent,
+366,Missing,Missing,Present,Present,
+380,Reduced,Yes,Present,Present,
+386,Sound,No,Present,Present,
+411,Sound,No,Present,Present,
+412,Sound,No,Present,Present,
+413,Sound,No,Absent,Absent,
+414,Sound,No,Present,Absent,
+417,Sound,No,Present,Absent,
+418,Sound,No,Present,Present,
+419,Sound,No,Absent,Absent,
+420,Reduced,Yes,Present,Absent,
+421,Sound,No,Present,Present,
+422,Sound,No,Present,Present,
+423,Sound,No,Present,Present,disagree - norm
+424,Sound,No,Absent,Present,disagree - norm
+425,Sound,No,Present,Present,
+426,Sound,No,Absent,Absent,
+427,Reduced,No,Present,Present,disagree - both
+428,Missing,Missing,Present,Present,
+429,Sound,No,Present,Present,wasnt missing for me 
+431,Sound,Yes,Present,Present,not sound?
+432,Sound,No,Present,Present,
+433,Reduced,No,Present,Present,
+434,Sound,No,Absent,Absent,
+435,Sound,No,Present,Present,disagree - abs
+436,Sound,No,Present,Absent,
+438,Sound,No,Present,Present,disagree - norm
+439,Reduced,No,Present,Present,disagree - both
+441,Sound,No,Absent,Absent,
+442,Sound,No,Present,Present,disagree - both
+443,Sound,No,Present,Absent,
+444,Sound,No,Present,Absent,
+452,Sound,No,Absent,Absent,
+529,Reduced,No,Present,Present,
+544,Sound,No,Present,Absent,disagree - abs
+583,Reduced,No,Present,Present,
+677,Missing,Missing,Present,Present,
+678,Sound,No,Present,Present,
+876,Sound,No,Present,Present,
+880,Reduced,Yes,Absent,Absent,
+889,Reduced,Yes,Present,Present,
+892,Sound,No,Present,Present,
+893,Reduced,No,Present,Present,
+895,Sound,Yes,Present,Present,
+903,Sound,Yes,Present,Present,
+905,Reduced,Yes,Present,Present,
+933,Sound,No,Present,Present,
