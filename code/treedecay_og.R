@@ -70,15 +70,15 @@ ggplot(treedecayinfo) +
     )
   ) +
   
-  theme_classic() + 
+  theme_classic() +
   theme(legend.position = "none",
         panel.grid.major = element_line(color = "grey90"),
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, linewidth = 0.5), 
-        strip.text = element_text(size = 10), 
+        panel.border = element_rect(color = "black",
+                                    fill = NA, linewidth = 0.5),
+        strip.text = element_text(size = 10),
         axis.title = element_text(size = 11))
 
-
+ggsave("output/figures/sot_solid_wood_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA test for SoT percent of solid wood: 
 SoT_solid_twowayanova <- aov(percent_solid_wood ~ species * site, 
@@ -154,14 +154,15 @@ ggplot(treedecayinfo) +
     )
   ) +
   
-  theme_classic() + 
+  theme_classic() +
   theme(legend.position = "none",
         panel.grid.major = element_line(color = "grey90"),
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, linewidth = 0.5), 
-        strip.text = element_text(size = 10), 
+        panel.border = element_rect(color = "black",
+                                    fill = NA, linewidth = 0.5),
+        strip.text = element_text(size = 10),
         axis.title = element_text(size = 11))
 
+ggsave("output/figures/sot_damaged_wood_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA test for SoT percent of damaged wood: 
 SoT_damaged_twowayanova <- aov(percent_damaged ~ species * site, 
@@ -245,11 +246,12 @@ ggplot(treedecayinfo) +
   theme_classic() +
   theme(legend.position = "none",
         panel.grid.major = element_line(color = "grey90"),
-        axis.title.x = element_text(size = 11), 
-        axis.title = element_text(size = 12), 
-        panel.border = element_rect(color = "black", 
+        axis.title.x = element_text(size = 11),
+        axis.title = element_text(size = 12),
+        panel.border = element_rect(color = "black",
                                     fill = NA, linewidth = 0.5))
 
+ggsave("output/figures/sot_solid_wood_by_site.pdf", width = 5, height = 5)
 
 # One-way ANOVA test for SoT percent of solid wood:
 SoT_solid_onewayanova <- aov(percent_solid_wood ~ site, data = treedecayinfo)
@@ -312,11 +314,12 @@ ggplot(treedecayinfo) +
   theme_classic() +
   theme(legend.position = "none",
         panel.grid.major = element_line(color = "grey90"),
-        axis.title.x = element_text(size = 11), 
-        axis.title = element_text(size = 12), 
-        panel.border = element_rect(color = "black", 
+        axis.title.x = element_text(size = 11),
+        axis.title = element_text(size = 12),
+        panel.border = element_rect(color = "black",
                                     fill = NA, linewidth = 0.5))
 
+ggsave("output/figures/sot_damaged_wood_by_site.pdf", width = 5, height = 5)
 
 # One-way ANOVA test for SoT percent of damaged wood:
 SoT_damaged_onewayanova <- aov(percent_damaged ~ site, data = treedecayinfo)

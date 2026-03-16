@@ -69,8 +69,9 @@ ggplot(combined_SoT_ERT,
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_mean_by_species_site.pdf", width = 8, height = 5)
 
-# Two-way ANOVA for mean resistivity 
+# Two-way ANOVA for mean resistivity
 ERT_mean_twowayanova <- aov(mean ~ species * site, data = combined_SoT_ERT)
 summary(ERT_mean_twowayanova)
 
@@ -110,11 +111,12 @@ ggplot(combined_SoT_ERT,
     ro  = scales::alpha("orchid3", 0.2)
   )) +
 
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_gini_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA for Gini coefficient 
 ERT_gini_twowayanova <- aov(gini ~ species * site, data = combined_SoT_ERT)
@@ -156,13 +158,14 @@ ggplot(combined_SoT_ERT,
     ro  = scales::alpha("orchid3", 0.2)
   )) +
   
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_cma_by_species_site.pdf", width = 8, height = 5)
 
-# Two-way ANOVA for CMA 
+# Two-way ANOVA for CMA
 ERT_cma_twowayanova <- aov(cma ~ species * site, data = combined_SoT_ERT)
 summary(ERT_cma_twowayanova)
 
@@ -203,13 +206,14 @@ ggplot(combined_SoT_ERT,
     ro  = scales::alpha("orchid3", 0.2)
   )) +
   
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_radialgradient_by_species_site.pdf", width = 8, height = 5)
 
-# Two-way ANOVA for CMA 
+# Two-way ANOVA for radial gradient
 ERT_radialgradient_twowayanova <- aov(radialgradient ~ species * site, data = combined_SoT_ERT)
 summary(ERT_radialgradient_twowayanova)
 
@@ -254,8 +258,9 @@ ggplot(combined_SoT_ERT,
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_median_by_species_site.pdf", width = 8, height = 5)
 
-# Two-way ANOVA for mean resistivity 
+# Two-way ANOVA for median resistivity
 ERT_median_twowayanova <- aov(median ~ species * site, data = combined_SoT_ERT)
 summary(ERT_median_twowayanova)
 
@@ -299,6 +304,7 @@ ggplot(combined_SoT_ERT,
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_sd_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA for standard deviation 
 ERT_sd_twowayanova <- aov(sd ~ species * site, data = combined_SoT_ERT)
@@ -344,6 +350,7 @@ ggplot(combined_SoT_ERT,
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_cv_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA for CV
 ERT_cv_twowayanova <- aov(cv ~ species * site, data = combined_SoT_ERT)
@@ -390,6 +397,7 @@ ggplot(combined_SoT_ERT,
     legend.position = "none",
     panel.grid.minor = element_blank())
 
+ggsave("output/figures/ert_entropy_by_species_site.pdf", width = 8, height = 5)
 
 # Two-way ANOVA for Shannon entropy 
 ERT_entropy_twowayanova <- aov(entropy ~ species * site, data = combined_SoT_ERT)
@@ -464,8 +472,6 @@ ggplot(long_combined_SoT_ERT,
     strip.text.y = element_text(face = "bold")
   )
 
-
-
-
+ggsave("output/figures/ert_combined_metrics_by_species_site.pdf", width = 10, height = 10)
 
 
