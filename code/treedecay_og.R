@@ -385,6 +385,7 @@ ggplot(treedecayinfo, aes(x = species, y = percent_damaged, color = site)) +
     color = "Site"
   )
 
+ggsave("output/figures/sot_damaged_jitter_errorbar.pdf", width = 7, height = 5)
 
 # Visual exploration of adding tree tags to points
 ggplot(treedecayinfo, 
@@ -406,7 +407,8 @@ ggplot(treedecayinfo,
   scale_x_discrete(drop = TRUE) +
   theme_minimal()
 
- 
+ggsave("output/figures/sot_solid_wood_tagged.pdf", width = 8, height = 5)
+
 ggplot(treedecayinfo, aes(species, percent_damaged, color = species)) + 
   geom_boxplot(outlier.shape = NA) + 
   geom_jitter(width = 0.2, alpha = 1) +
@@ -422,10 +424,10 @@ ggplot(treedecayinfo, aes(species, percent_damaged, color = species)) +
     bg  = "steelblue3",
     ro  = "orchid3"
   )) +
-  scale_x_discrete(drop = TRUE) + 
-  theme_minimal() 
+  scale_x_discrete(drop = TRUE) +
+  theme_minimal()
 
-
+ggsave("output/figures/sot_damaged_wood_tagged.pdf", width = 8, height = 5)
 
 # Trying a beta regression generalized linear model 
 install.packages("betareg")

@@ -160,7 +160,9 @@ combo <- left_join(supplimentary_dat, tomography_categories, "Tree.ID") %>%
 
 tocd <- TOC(combo$mean_Soil_Water_Content_m3pm3, combo$Absolute_boolean)
 
-
+pdf("output/figures/toc_curve_all.pdf", width = 7, height = 5)
+plot(tocd)
+dev.off()
 plot(tocd)
 
 #Testing by Species
@@ -169,6 +171,9 @@ sub_combo <- subset(combo, combo$species == "bg")
 
 tocd_sub <- TOC(sub_combo$mean_Soil_Water_Content_m3pm3, sub_combo$Absolute_boolean)
 
+pdf("output/figures/toc_curve_bg.pdf", width = 7, height = 5)
+plot(tocd_sub)
+dev.off()
 plot(tocd_sub)
 
 ```
@@ -297,8 +302,9 @@ ggplot(tom_df_graphic, aes(x = percent_solid_wood, y = mean, color = decay_class
     color = "Decay Class"
     # title = "Decay Classes",
     # subtitle = "Optional subtitle"
-  ) 
+  )
 
+ggsave("output/figures/decay_class_scatter.pdf", width = 8, height = 6)
 
 ```
 
@@ -358,7 +364,9 @@ ggplot(tom_df_graphic, aes(x = percent_solid_wood, y = mean, color = decay_class
     color = "Decay Class"
     # title = "Decay Classes",
     # subtitle = "Optional subtitle"
-  ) 
+  )
+
+ggsave("output/figures/decay_class_ellipse.pdf", width = 8, height = 6)
 
 ```
 
@@ -427,6 +435,8 @@ ggplot(df_z, aes(x = mean_z, fill = species)) +
     x = "z-score of resistivity (Ω·m) per species"
   )
 
+ggsave("output/figures/zscore_resistivity_histogram.pdf", width = 8, height = 6)
+
 ```
 
 ----
@@ -490,6 +500,7 @@ ggplot(tom_df_2, aes(x = percent_dif_healthiest_moist, y = percent_solid_wood, c
     # subtitle = "Optional subtitle"
   )
 
+ggsave("output/figures/pct_from_healthiest_scatter.pdf", width = 9, height = 7)
 
 # ggplot(tom_df_2, aes(x = cma, y = mean,
 #                      color = ifelse(cma > 0.33, "blue", "brown"))) +
@@ -530,6 +541,8 @@ tom_df_2$cluster <- factor(kmean$cluster)
 
 ggplot(tom_df_2, aes(cma, gini, color = cluster)) +
   geom_point(size = 3)
+
+ggsave("output/figures/kmeans_cma_gini.pdf", width = 7, height = 5)
 
 ```
 
