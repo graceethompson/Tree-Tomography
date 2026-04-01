@@ -64,10 +64,13 @@ ggplot(combined_SoT_ERT,
     ro  = scales::alpha("orchid3", 0.2)
   )) +
   
-  theme_minimal() +
-  theme(
-    legend.position = "none",
-    panel.grid.minor = element_blank())
+  theme_classic() +
+  theme(legend.position = "none",
+        panel.grid.major = element_line(color = "grey90"),
+        panel.border = element_rect(color = "black",
+                                    fill = NA, linewidth = 0.5),
+        strip.text = element_text(size = 10),
+        axis.title = element_text(size = 11))
 
 ggsave("output/figures/ert_mean_by_species_site.pdf", width = 8, height = 5)
 
