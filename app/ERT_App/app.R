@@ -556,7 +556,7 @@ ui <- dashboardPage(
                          solidHeader = TRUE,
                          
                          h3("Overview"),
-                         p("This application analyzes Electrical Resistivity Tomography (ERT) images of tree cross-sections to extract quantitative metrics about moisture distribution and heterogeneity. The tool handles non-linear colorbars commonly found in ERT data."),
+                         p("This application analyzes Electrical Resistivity Tomography (ERT) images of tree cross-sections to extract quantitative metrics about moisture distribution and heterogeneity. The tool handles non-linear colorbars commonly found in ERT data and can automatically detect the blue measurement polygon from PiCUS ERT exports."),
                          hr(),
                          
                          h3("Step-by-Step Instructions"),
@@ -589,28 +589,40 @@ ui <- dashboardPage(
                          ),
                          
                          h4("Step 3: Define the Tree Boundary"),
+                         p(strong("Option A: Auto-Detect (recommended for PiCUS images)")),
                          tags$ol(
-                           tags$li("Click points around the tree cross-section boundary"),
+                           tags$li("Click 'Auto-Detect Boundary' to automatically detect the blue measurement polygon drawn by the PiCUS software"),
+                           tags$li("The app identifies blue boundary pixels, traces the outermost boundary, and creates a smoothed polygon"),
+                           tags$li("The polygon status will show the number of detected vertices (typically 150-180 points)"),
+                           tags$li("If auto-detection fails (e.g., no blue polygon in the image), use manual mode instead")
+                         ),
+                         p(strong("Option B: Manual polygon")),
+                         tags$ol(
+                           tags$li("Click points around the tree cross-section boundary on the image"),
                            tags$li("Points will appear as red dots connected by lines"),
                            tags$li("Click 'Finish Polygon' when you've outlined the complete boundary (minimum 3 points)"),
-                           tags$li("Adjust 'Edge Erosion' to exclude pixels near the boundary (reduces edge artifacts)"),
                            tags$li("Click 'Clear Points' to start over if needed")
                          ),
+                         p("Adjust 'Edge Erosion' (default: 2 pixels) to exclude pixels near the boundary and reduce edge artifacts."),
                          
                          h4("Step 4: Process the Image"),
                          tags$ol(
                            tags$li("Click 'Process This Image' to analyze the current image"),
-                           tags$li("Results will appear in the Statistics box and Radial Profile plot"),
-                           tags$li("Processed results are automatically added to the Results Table"),
-                           tags$li("Repeat for additional images")
+                           tags$li("The Statistics box will display key metrics (Mean, CV, Gini, CMA) for the current image"),
+                           tags$li("The Radial Profile plot will show mean resistivity across 8 concentric rings from center to edge"),
+                           tags$li("Results are automatically appended to the cumulative Results Table (one row per processed image)"),
+                           tags$li("The polygon is cleared after processing so you can proceed to the next image"),
+                           tags$li("Use the Previous/Next buttons to navigate between uploaded images and repeat Steps 3-4 for each")
                          ),
-                         
-                         h4("Step 5: Export Results"),
+
+                         h4("Step 5: Review and Export Results"),
                          tags$ol(
-                           tags$li("Go to the 'Results Table' tab"),
-                           tags$li("Review all processed images"),
-                           tags$li("Click 'Download CSV' to export the data")
+                           tags$li("Click the 'Results Table' tab in the left sidebar to see all processed images"),
+                           tags$li("The table contains one row per image with columns: Filename, Mean, Median, SD, CV, Gini, Entropy, CMA, RadialGradient, NPixels"),
+                           tags$li("Click 'Download CSV' to export the full table as a CSV file"),
+                           tags$li("Click 'Clear All' to reset the results table (this cannot be undone)")
                          ),
+                         p(strong("Important:"), " Results are stored only for the current session. If you close or refresh the browser, all results are lost. Export your CSV before closing the app."),
                          
                          hr(),
                          
@@ -673,12 +685,27 @@ ui <- dashboardPage(
                            tags$li("Try adjusting calibration positions if mapping seems incorrect")
                          ),
                          
+                         h4("Auto-Detect Boundary Issues"),
+                         tags$ul(
+                           tags$li("'Could not detect blue boundary polygon': The image may not have a PiCUS-style blue measurement polygon. Use manual polygon mode instead."),
+                           tags$li("Auto-detected boundary looks wrong: The algorithm looks for blue pixels (high blue channel, low red and green). Non-standard color schemes may confuse it. Switch to manual mode."),
+                           tags$li("Boundary includes artifacts: Increase the Edge Erosion slider to shrink the boundary inward by more pixels.")
+                         ),
+
                          h4("Processing Errors"),
                          tags$ul(
                            tags$li("'No pixels in mask': Reduce edge erosion or redraw polygon"),
                            tags$li("'Need at least 2 calibration points': Fill in at least 2 position-value pairs"),
                            tags$li("Unexpected values: Check calibration and ensure colorbar goes from low (blue) to high (red)")
-                         )
+                         ),
+
+                         hr(),
+
+                         h3("About"),
+                         p("This application was developed for extracting quantitative metrics from PiCUS ERT tomogram images, enabling reproducible, threshold-based decay classification. It is open-source and available at:"),
+                         tags$a(href = "https://github.com/graceethompson/Tree-Tomography",
+                                "github.com/graceethompson/Tree-Tomography",
+                                target = "_blank")
                        )
                 )
               )
