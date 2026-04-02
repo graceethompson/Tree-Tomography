@@ -12,7 +12,26 @@ Corresponding to an existing biometric plot network established around the footp
 
 Twelve eastern hemlocks were measured at multiple heights with ERT to validate ERT-derived moisture metrics against core-extracted gravimetric moisture content.
 
+## ERT Image Analysis App
+
+An open-source R/Shiny application for extracting quantitative metrics from PiCUS ERT tomogram images. The app maps pixel colors to calibrated resistivity values via colorbar extraction and computes 8 summary statistics (mean, median, SD, CV, Gini, entropy, CMA, radial gradient) along with an 8-ring radial profile.
+
+**Live app:** https://jgewirtzman-tree-tomography.share.connect.posit.cloud
+
+**Features:**
+- Automatic boundary detection of PiCUS blue measurement polygon
+- Manual polygon delineation as alternative
+- Log-scale colorbar calibration with user-defined control points
+- Batch processing with CSV export
+
+Source code: `app/ERT_App/app.R`
+
 ## Repository structure
+
+### `app/`
+
+- `ERT_App/app.R` — Shiny app for ERT image analysis (deployed to Posit Connect Cloud)
+- `ERT_App/manifest.json` — Deployment manifest for Posit Connect Cloud
 
 ### `data/`
 
@@ -35,6 +54,9 @@ Twelve eastern hemlocks were measured at multiple heights with ERT to validate E
 - `treedecay_relfreq.R` — Relative frequency analysis
 - `ert_validation_analysis.R` — Hemlock ERT validation against core moisture
 - `check_agreement.R` — Agreement analysis between SoT and ERT
+- `decay_hurdle_analysis.R` — Hurdle model analysis of decay presence/severity
+- `decay_presence_severity.R` — Decay presence/severity analysis with figures
+- `fig_ert_workflow.R` — 3-panel ERT workflow figure (raw tomogram, calibration, quantitative output)
 - `Tree_Tomography_Data_Analysis.Rmd` — Data compilation (Max Lutz)
 
 ### `images/`
@@ -47,7 +69,7 @@ Twelve eastern hemlocks were measured at multiple heights with ERT to validate E
 
 ### `output/`
 
-- `figures/` — Main study figures (phase diagram, PCA biplot, quadrant distributions, SoT/ERT boxplots)
+- `figures/` — Main study figures (phase diagram, PCA biplot, quadrant distributions, SoT/ERT boxplots, ERT workflow figure)
 - `hemlock_figures/` — Hemlock validation and scan figures
 - `panels/` — Tomogram image panels by phase diagram position
 - `tables/` — Analysis result tables
