@@ -228,15 +228,19 @@ panel_a <- ggplot() +
 # Panel B -- Boundary delineation & calibration (two sub-panels stacked)
 # ============================================================================
 
-# ERT color scale
-ert_colors <- c("#00008B", "#0000FF", "#00BFFF", "#00FFFF", "#00FF00",
-                "#ADFF2F", "#FFFF00", "#FFA500", "#FF4500", "#FF0000", "#8B0000")
+# ERT color scale: use actual extracted colorbar colors from the image
+cb_colors <- rgb(cb$r, cb$g, cb$b)
+cb_values <- calib_func(cb$t)
+# Sample evenly across the colorbar for the gradient
+n_samp <- 50
+samp_idx <- round(seq(1, length(cb_colors), length.out = n_samp))
+ert_colors_from_image <- cb_colors[samp_idx]
 
 # B-top: calibrated cross-section with polygon boundary overlay
 panel_b_top <- ggplot(spatial, aes(x = x, y = y, fill = resistivity)) +
   geom_tile(width = 1, height = 1) +
   scale_fill_gradientn(
-    colours = ert_colors,
+    colours = ert_colors_from_image,
     trans = "log10",
     limits = c(30, 1000),
     breaks = c(30, 100, 300, 1000),
