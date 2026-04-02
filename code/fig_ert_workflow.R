@@ -361,7 +361,7 @@ arrow_grob <- ggdraw() +
 fig <- plot_grid(
   panel_a, arrow_grob, panel_b_titled, arrow_grob, panel_c_titled,
   nrow = 1,
-  rel_widths = c(1, 0.1, 1, 0.1, 1),
+  rel_widths = c(1, 0.15, 1, 0.15, 1),
   labels = c("A", "", "B", "", "C"),
   label_size = 12,
   label_fontface = "bold"
