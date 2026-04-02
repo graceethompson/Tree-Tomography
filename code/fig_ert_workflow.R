@@ -258,16 +258,13 @@ panel_b_top <- ggplot(spatial, aes(x = x, y = y, fill = resistivity)) +
   )
 
 # B-bottom: calibration curve (colorbar position vs resistivity)
-calib_curve_df <- data.frame(
-  position = seq(0, 1, length.out = 200)
-)
+calib_curve_df <- data.frame(position = seq(0, 1, length.out = 200))
 calib_curve_df$resistivity <- calib_func(calib_curve_df$position)
 calib_points <- data.frame(position = calib_pos, resistivity = calib_val)
 
 panel_b_bottom <- ggplot(calib_curve_df, aes(x = position, y = resistivity)) +
   geom_line(color = "grey30", linewidth = 0.6) +
-  geom_point(data = calib_points, aes(x = position, y = resistivity),
-             color = "red", size = 1.5) +
+  geom_point(data = calib_points, color = "red", size = 1.5) +
   scale_y_log10(
     breaks = c(30, 100, 300, 1000),
     labels = c("30", "100", "300", "1000")
@@ -283,7 +280,7 @@ panel_b_bottom <- ggplot(calib_curve_df, aes(x = position, y = resistivity)) +
   theme_classic(base_size = 7) +
   theme(
     axis.title = element_text(size = 6),
-    axis.text  = element_text(size = 5),
+    axis.text = element_text(size = 5),
     plot.background = element_rect(fill = "white", color = NA),
     plot.margin = margin(2, 6, 2, 6)
   )
