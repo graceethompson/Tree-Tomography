@@ -188,7 +188,8 @@ p_biplot <- ggplot(biplot_df, aes(x = PC1, y = PC2)) +
   )
 
 ggsave("output/figures/pca_biplot.pdf", p_biplot, width = 9, height = 7)
-cat("Saved: output/figures/pca_biplot.pdf\n")
+ggsave("output/figures/pca_biplot.png", p_biplot, width = 9, height = 7, dpi = 300, bg = "white")
+cat("Saved: output/figures/pca_biplot.pdf and .png\n")
 
 # Assign quadrants
 dat <- dat %>%
@@ -292,7 +293,8 @@ p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
   )
 
 ggsave("output/figures/final_phase_diagram.pdf", p_final, width = 9, height = 8)
-cat("\nSaved: output/figures/final_phase_diagram.pdf\n")
+ggsave("output/figures/final_phase_diagram.png", p_final, width = 9, height = 8, dpi = 300, bg = "white")
+cat("\nSaved: output/figures/final_phase_diagram.pdf and .png\n")
 
 # ============================================================================
 # 4. COMPUTE PC1 FOR HEMLOCK PER-HEIGHT DATA (for scans_by_height figures)
@@ -637,7 +639,9 @@ fig_bp <- ggplot(hem_dbh, aes(x = moisture, y = pc1)) +
 
 ggsave("output/hemlock_figures/fig_best_predictor_pc1.pdf", fig_bp,
        width = 7, height = 6, device = cairo_pdf)
-cat("Saved: output/hemlock_figures/fig_best_predictor_pc1.pdf\n")
+ggsave("output/hemlock_figures/fig_best_predictor_pc1.png", fig_bp,
+       width = 7, height = 6, dpi = 300, bg = "white")
+cat("Saved: output/hemlock_figures/fig_best_predictor_pc1.pdf and .png\n")
 
 # ============================================================================
 # 9. QUADRANT DISTRIBUTION BY SPECIES AND SITE (training set only)
@@ -706,6 +710,7 @@ fig_combined <- p_final / (p_spp_pct | p_site_pct) +
   plot_layout(heights = c(2, 1))
 
 ggsave("output/figures/quadrant_distribution.pdf", fig_combined, width = 12, height = 14)
+ggsave("output/figures/quadrant_distribution.png", fig_combined, width = 12, height = 14, dpi = 300, bg = "white")
 cat("Saved: output/figures/quadrant_distribution.pdf\n")
 
 cat("\n=== ALL DONE ===\n")
