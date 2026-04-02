@@ -375,3 +375,31 @@ ggsave("output/figures/fig_ert_workflow.png", fig,
        width = 7.5, height = 3.8, units = "in", dpi = 300, bg = "white")
 
 cat("Figure saved to output/figures/fig_ert_workflow.pdf and .png\n")
+
+# ============================================================================
+# SI Figure: App screenshot
+# ============================================================================
+
+library(png)
+app_img <- readPNG("images/app_screenshot.png")
+app_H <- nrow(app_img); app_W <- ncol(app_img)
+
+# Crop Chrome UI (~17% from top)
+crop_top <- round(app_H * 0.17)
+crop_bot <- round(app_H * 0.98)
+app_cropped <- app_img[crop_top:crop_bot, , ]
+crop_H <- nrow(app_cropped); crop_W <- ncol(app_cropped)
+
+fig_si <- ggplot() +
+  annotation_raster(app_cropped, xmin = 0, xmax = crop_W, ymin = 0, ymax = crop_H) +
+  coord_fixed(xlim = c(0, crop_W), ylim = c(0, crop_H), expand = FALSE) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = "white", color = NA),
+        plot.margin = margin(5, 5, 5, 5))
+
+ggsave("output/figures/fig_si_app_screenshot.pdf", fig_si,
+       width = 7.5, height = 4.5, units = "in")
+ggsave("output/figures/fig_si_app_screenshot.png", fig_si,
+       width = 7.5, height = 4.5, units = "in", dpi = 300, bg = "white")
+
+cat("SI figure saved to output/figures/fig_si_app_screenshot.pdf and .png\n")
