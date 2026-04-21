@@ -34,7 +34,7 @@ combined_SoT_ERT$species <- factor(combined_SoT_ERT$species,
                                    levels = c("hem", "rm", "bg", "ro"))
 
 
-## MEAN RESISTIVITY
+#### MEAN RESISTIVITY ####
 ggplot(combined_SoT_ERT, 
        aes(species, mean, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -82,9 +82,21 @@ summary(ERT_mean_twowayanova)
 # Tukey HSD test for two-way ANOVA for mean resistivity
 TukeyHSD(ERT_mean_twowayanova)
 
+# Summary statistics for mean resistivity:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(mean)),
+    avg      = mean(mean, na.rm = TRUE),
+    std_dev  = sd(mean, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(mean, na.rm = TRUE),
+    min_val  = min(mean, na.rm = TRUE),
+    max_val  = max(mean, na.rm = TRUE)
+  )
 
 
-# GINI COEFFICIENT
+#### GINI COEFFICIENT ####
 ggplot(combined_SoT_ERT, 
        aes(species, gini, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) +
@@ -129,9 +141,21 @@ summary(ERT_gini_twowayanova)
 # Tukey HSD test for two-way ANOVA for Gini coefficient 
 TukeyHSD(ERT_gini_twowayanova)
 
+# Summary statistics for Gini coefficient:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(gini)),
+    avg      = mean(gini, na.rm = TRUE),
+    std_dev  = sd(gini, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(gini, na.rm = TRUE),
+    min_val  = min(gini, na.rm = TRUE),
+    max_val  = max(gini, na.rm = TRUE)
+  )
 
 
-## CENTRAL MOISTURE ACCUMULATION (CMA)
+#### CENTRAL MOISTURE ACCUMULATION (CMA) ####
 ggplot(combined_SoT_ERT, 
        aes(species, cma, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -176,9 +200,20 @@ summary(ERT_cma_twowayanova)
 # Tukey HSD test for two-way ANOVA for CMA
 TukeyHSD(ERT_cma_twowayanova)
 
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(cma)),
+    avg      = mean(cma, na.rm = TRUE),
+    std_dev  = sd(cma, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(cma, na.rm = TRUE),
+    min_val  = min(cma, na.rm = TRUE),
+    max_val  = max(cma, na.rm = TRUE)
+    )
 
 
-## RADIAL GRADIENT
+#### RADIAL GRADIENT ####
 ggplot(combined_SoT_ERT, 
        aes(species, radialgradient, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -224,9 +259,21 @@ summary(ERT_radialgradient_twowayanova)
 # Tukey HSD test for two-way ANOVA for CMA
 TukeyHSD(ERT_radialgradient_twowayanova)
 
+# Summary statistics for radialgradient:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(radialgradient)),
+    avg      = mean(radialgradient, na.rm = TRUE),
+    std_dev  = sd(radialgradient, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(radialgradient, na.rm = TRUE),
+    min_val  = min(radialgradient, na.rm = TRUE),
+    max_val  = max(radialgradient, na.rm = TRUE)
+  )
 
 
-## MEDIAN RESISTIVITY
+#### MEDIAN RESISTIVITY ####
 ggplot(combined_SoT_ERT, 
        aes(species, median, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -271,8 +318,20 @@ summary(ERT_median_twowayanova)
 # Tukey HSD test for two-way ANOVA for mean resistivity
 TukeyHSD(ERT_median_twowayanova)
 
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(median)),
+    avg      = mean(median, na.rm = TRUE),
+    std_dev  = sd(median, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(median, na.rm = TRUE),
+    min_val  = min(median, na.rm = TRUE),
+    max_val  = max(median, na.rm = TRUE)
+  )
 
-## STANDARD DEVIATION
+
+#### STANDARD DEVIATION ####
 ggplot(combined_SoT_ERT, 
        aes(species, sd, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -317,8 +376,21 @@ summary(ERT_sd_twowayanova)
 # Tukey HSD test for two-way ANOVA for standard deviation
 TukeyHSD(ERT_sd_twowayanova)
 
+# Summary statistics for standard deviation:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(sd)),
+    avg      = mean(sd, na.rm = TRUE),
+    std_dev  = sd(sd, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(sd, na.rm = TRUE),
+    min_val  = min(sd, na.rm = TRUE),
+    max_val  = max(sd, na.rm = TRUE)
+  )
 
-## COEFFICIENT OF VARIATION
+
+#### COEFFICIENT OF VARIATION ####
 ggplot(combined_SoT_ERT, 
        aes(species, cv, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -363,9 +435,21 @@ summary(ERT_cv_twowayanova)
 # Tukey HSD test for two-way ANOVA for CV
 TukeyHSD(ERT_cv_twowayanova)
 
+# Summary statistics for CV:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(cv)),
+    avg      = mean(cv, na.rm = TRUE),
+    std_dev  = sd(cv, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(cv, na.rm = TRUE),
+    min_val  = min(cv, na.rm = TRUE),
+    max_val  = max(cv, na.rm = TRUE)
+  )
 
 
-## SHANNON ENTROPY
+#### SHANNON ENTROPY ####
 ggplot(combined_SoT_ERT, 
        aes(species, entropy, color = species, fill = species)) + 
   geom_boxplot(alpha = 0.2, outlier.shape = NA) + 
@@ -410,9 +494,21 @@ summary(ERT_entropy_twowayanova)
 # Tukey HSD test for two-way ANOVA for Shannon entropy
 TukeyHSD(ERT_entropy_twowayanova)
 
+# Summary statistics for Shannon entropy:
+combined_SoT_ERT %>%
+  group_by(species) %>%
+  summarise(
+    n        = sum(!is.na(entropy)),
+    avg      = mean(entropy, na.rm = TRUE),
+    std_dev  = sd(entropy, na.rm = TRUE),
+    std_err  = std_dev / sqrt(n),
+    med      = median(entropy, na.rm = TRUE),
+    min_val  = min(entropy, na.rm = TRUE),
+    max_val  = max(entropy, na.rm = TRUE)
+  )
 
 
-# Try to facet wrap all boxplots
+#### Try to facet wrap all boxplots ####
 library(tidyr)
 
 simplified_ERT <- combined_SoT_ERT %>%
