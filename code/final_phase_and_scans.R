@@ -70,7 +70,7 @@ sot_threshold <- 1
 # ============================================================================
 
 pca_metrics <- c("mean", "median", "sd", "cv", "gini", "entropy",
-                 "abs_cma", "abs_radgrad")
+                 "cma", "radialgradient")
 
 # Species means/sds from TRAINING data
 train_spp_stats <- dat %>%
@@ -155,9 +155,9 @@ loadings$PC1 <- loadings$PC1 * arrow_scale
 loadings$PC2 <- loadings$PC2 * arrow_scale
 
 # Pretty metric labels
-metric_labels <- c(mean = "Mean", median = "Median", sd = "SD", cv = "CV",
+metric_labels <- c(mean = "Mean Resistivity", median = "Median Resistivity", sd = "SD", cv = "CV",
                    gini = "Gini", entropy = "Entropy",
-                   abs_cma = "|CMA|", abs_radgrad = "|RadGrad|")
+                   cma = "CMA", radialgradient = "RadGrad")
 loadings$label <- metric_labels[loadings$metric]
 
 # Variance explained
@@ -589,58 +589,78 @@ library(ggrepel)
 # Use DBH-level PC1 for each hemlock tree (all 12)
 hem_dbh <- hem_ert_height %>%
   filter(height == "DBH") %>%
-  select(tree_id, moisture, pc1, mean)
-
-# Correlation tests
-ct_p <- cor.test(hem_dbh$moisture, hem_dbh$pc1, method = "pearson")
-ct_s <- cor.test(hem_dbh$moisture, hem_dbh$pc1, method = "spearman", exact = FALSE)
-
-r_val  <- round(ct_p$estimate, 3)
-rho    <- round(ct_s$estimate, 3)
+  select(tree_id, moisture, pc1, mean) %>%
+  mutate(conductance = 1000 / mean)  # mS (inverse of resistivity)
 
 fmt_p <- function(p) {
   if (p < 0.001) return("p < 0.001")
   paste0("p = ", formatC(p, format = "f", digits = 3))
 }
 
-# Regression
-lm_fit <- lm(pc1 ~ moisture, data = hem_dbh)
-lm_sum <- summary(lm_fit)
-r2 <- round(lm_sum$r.squared, 3)
-b0 <- round(coef(lm_fit)[1], 2)
-b1 <- round(coef(lm_fit)[2], 4)
+val_theme <- theme_classic(base_size = 12) +
+  theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5),
+        plot.tag = element_text(face = "bold"))
 
-ann_label <- paste0(
-  "PC1 = ", b0, " + ", b1, " \u00d7 Moisture\n",
-  "R\u00b2 = ", r2, ", ", fmt_p(lm_sum$coefficients[2, 4]), "\n",
-  "r = ", r_val, " (", fmt_p(ct_p$p.value), ")\n",
-  "\u03c1 = ", rho, " (", fmt_p(ct_s$p.value), ")"
+# --- Panel A (left): Mean conductance vs moisture ---
+ct_cond   <- cor.test(hem_dbh$moisture, hem_dbh$conductance, method = "pearson")
+ct_cond_s <- cor.test(hem_dbh$moisture, hem_dbh$conductance, method = "spearman", exact = FALSE)
+lm_cond   <- lm(conductance ~ moisture, data = hem_dbh)
+lm_cond_sum <- summary(lm_cond)
+
+ann_cond <- paste0(
+  "r = ", round(ct_cond$estimate, 2), " (", fmt_p(ct_cond$p.value), ")\n",
+  "\u03c1 = ", round(ct_cond_s$estimate, 2), " (", fmt_p(ct_cond_s$p.value), ")\n",
+  "R\u00b2 = ", round(lm_cond_sum$r.squared, 2)
 )
 
-fig_bp <- ggplot(hem_dbh, aes(x = moisture, y = pc1)) +
+pA <- ggplot(hem_dbh, aes(x = moisture, y = conductance)) +
+  geom_smooth(method = "lm", se = TRUE, color = "#B2182B",
+              fill = "#B2182B", alpha = 0.15, linewidth = 0.8) +
+  geom_point(size = 3, color = "#B2182B") +
+  geom_text_repel(aes(label = tree_id), size = 2.8, max.overlaps = 20) +
+  annotate("text",
+           x = min(hem_dbh$moisture) + diff(range(hem_dbh$moisture)) * 0.02,
+           y = max(hem_dbh$conductance) - diff(range(hem_dbh$conductance)) * 0.02,
+           label = ann_cond,
+           hjust = 0, vjust = 1, size = 3.2, color = "grey25", lineheight = 1.2) +
+  labs(x = "Core Moisture (%)",
+       y = "Mean Conductance (mS)",
+       tag = "A") +
+  val_theme
+
+# --- Panel B (right): PC1 vs moisture ---
+ct_p  <- cor.test(hem_dbh$moisture, hem_dbh$pc1, method = "pearson")
+ct_s  <- cor.test(hem_dbh$moisture, hem_dbh$pc1, method = "spearman", exact = FALSE)
+lm_pc1 <- lm(pc1 ~ moisture, data = hem_dbh)
+lm_pc1_sum <- summary(lm_pc1)
+
+ann_pc1 <- paste0(
+  "r = ", round(ct_p$estimate, 2), " (", fmt_p(ct_p$p.value), ")\n",
+  "\u03c1 = ", round(ct_s$estimate, 2), " (", fmt_p(ct_s$p.value), ")\n",
+  "R\u00b2 = ", round(lm_pc1_sum$r.squared, 2)
+)
+
+pB <- ggplot(hem_dbh, aes(x = moisture, y = pc1)) +
   geom_smooth(method = "lm", se = TRUE, color = "#2166AC",
               fill = "#2166AC", alpha = 0.15, linewidth = 0.8) +
-  geom_point(size = 3.5, color = "#2166AC") +
-  geom_text_repel(aes(label = tree_id), size = 3, max.overlaps = 20) +
+  geom_point(size = 3, color = "#2166AC") +
+  geom_text_repel(aes(label = tree_id), size = 2.8, max.overlaps = 20) +
   annotate("text",
-           x = max(hem_dbh$moisture) - diff(range(hem_dbh$moisture)) * 0.02,
+           x = min(hem_dbh$moisture) + diff(range(hem_dbh$moisture)) * 0.02,
            y = max(hem_dbh$pc1) - diff(range(hem_dbh$pc1)) * 0.02,
-           label = ann_label,
-           hjust = 1, vjust = 1, size = 3.5, color = "grey25",
-           lineheight = 1.1) +
+           label = ann_pc1,
+           hjust = 0, vjust = 1, size = 3.2, color = "grey25", lineheight = 1.2) +
   labs(x = "Core Moisture (%)",
        y = "ERT PC1 (species-normalized)\nhigh = wet / anomalous",
-       title = "ERT PC1 vs. Core Moisture (Hemlock, DBH)") +
-  theme_classic(base_size = 12) +
-  theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5),
-    plot.title = element_text(face = "bold", size = 13)
-  )
+       tag = "B") +
+  val_theme
+
+fig_bp <- pA + pB
 
 ggsave("output/hemlock_figures/fig_best_predictor_pc1.pdf", fig_bp,
-       width = 7, height = 6, device = cairo_pdf)
+       width = 12, height = 5.5, device = cairo_pdf)
 ggsave("output/hemlock_figures/fig_best_predictor_pc1.png", fig_bp,
-       width = 7, height = 6, dpi = 300, bg = "white")
+       width = 12, height = 5.5, dpi = 300, bg = "white")
 cat("Saved: output/hemlock_figures/fig_best_predictor_pc1.pdf and .png\n")
 
 # ============================================================================
