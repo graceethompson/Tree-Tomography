@@ -183,7 +183,7 @@ p_biplot <- ggplot(biplot_df, aes(x = PC1, y = PC2)) +
             color = "#B22222", size = 3.5, fontface = "bold", inherit.aes = FALSE) +
   scale_shape_manual(name = "Species", values = spp_shapes,
                      labels = italic_species) +
-  labs(x = paste0("PC1 (", round(ve[1], 1), "% variance)\nhigh = wet / anomalous"),
+  labs(x = paste0("PC1 (", round(ve[1], 1), "% variance)\nhigh = lower resistivity, more heterogeneous"),
        y = paste0("PC2 (", round(ve[2], 1), "% variance)")) +
   theme_classic(base_size = 13) +
   theme(
@@ -199,7 +199,7 @@ cat("Saved: output/figures/pca_biplot.pdf and .png\n")
 # Assign quadrants
 dat <- dat %>%
   mutate(quadrant = case_when(
-    structural_loss <= sot_threshold & pc1 <= ert_threshold ~ "I: Sound",
+    structural_loss <= sot_threshold & pc1 <= ert_threshold ~ "I: No Decay",
     structural_loss <= sot_threshold & pc1 >  ert_threshold ~ "II: Incipient",
     structural_loss >  sot_threshold & pc1 >  ert_threshold ~ "III: Active",
     structural_loss >  sot_threshold & pc1 <= ert_threshold ~ "IV: Cavity"
@@ -234,10 +234,10 @@ dat <- dat %>%
          is_validation = dataset == "validation")
 
 # Muted, CB-safe severity ramp: steel blue → gold → sienna → brick
-quad_fill <- c("I: Sound" = "#4E79A7", "II: Incipient" = "#E5C460",
+quad_fill <- c("I: No Decay" = "#4E79A7", "II: Incipient" = "#E5C460",
                "III: Active" = "#D4873F", "IV: Cavity" = "#C4524E")
 # Darker versions for text labels
-quad_text <- c("I: Sound" = "#355570", "II: Incipient" = "#A89030",
+quad_text <- c("I: No Decay" = "#355570", "II: Incipient" = "#A89030",
                "III: Active" = "#9A5F28", "IV: Cavity" = "#8C3535")
 
 p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
@@ -265,7 +265,7 @@ p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
              color = "grey40", linewidth = 0.5) +
   # Quadrant labels at axis extremes
   annotate("text", x = pc1_lim[1], y = sot_lim[1],
-           label = "I: Sound", hjust = 0, vjust = 0,
+           label = "I: No Decay", hjust = 0, vjust = 0,
            color = quad_text[1], fontface = "bold", size = 4.5) +
   annotate("text", x = pc1_lim[2], y = sot_lim[1],
            label = "II: Incipient", hjust = 1, vjust = 0,
@@ -287,7 +287,7 @@ p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
   scale_y_continuous(trans = signed_sqrt_trans,
                      breaks = c(0, 1, 5, 10, 20, 30, 40, 50)) +
   coord_cartesian(xlim = pc1_lim, ylim = sot_lim) +
-  labs(x = "ERT PC1 (species-normalized, sqrt scale)\nhigh = wet / anomalous",
+  labs(x = "ERT PC1 (species-normalized, sqrt scale)\nhigh = lower resistivity, more heterogeneous",
        y = "Structural Loss (%)\n(SoT percent damaged, sqrt scale)") +
   theme_classic(base_size = 13) +
   theme(
@@ -657,7 +657,7 @@ pB <- ggplot(hem_dbh, aes(x = moisture, y = pc1)) +
            label = ann_pc1,
            hjust = 0, vjust = 1, size = 3.2, color = "grey25", lineheight = 1.2) +
   labs(x = "Core Moisture (%)",
-       y = "ERT PC1 (species-normalized)\nhigh = wet / anomalous",
+       y = "ERT PC1 (species-normalized)\nhigh = lower resistivity, more heterogeneous",
        tag = "B") +
   val_theme
 
@@ -677,7 +677,7 @@ dat_train_q <- dat %>%
   filter(dataset == "training") %>%
   mutate(species_label = spp_labels[species],
          quadrant = factor(quadrant,
-                           levels = c("I: Sound", "II: Incipient",
+                           levels = c("I: No Decay", "II: Incipient",
                                       "III: Active", "IV: Cavity")))
 
 quad_colors <- quad_fill  # same CB-safe palette as phase diagram
@@ -706,7 +706,7 @@ p_spp_pct <- ggplot(spp_counts, aes(x = species_label, y = pct, fill = quadrant)
             position = position_stack(vjust = 0.5, reverse = TRUE), size = 3.5,
             fontface = "bold", show.legend = FALSE) +
   scale_fill_manual(name = "Decay Phase", values = quad_colors) +
-  scale_color_manual(values = c("I: Sound" = "white", "II: Incipient" = "grey20",
+  scale_color_manual(values = c("I: No Decay" = "white", "II: Incipient" = "grey20",
                                 "III: Active" = "white", "IV: Cavity" = "white")) +
   scale_x_discrete(labels = italic_species) +
   labs(x = NULL, y = "Percent of Trees") +
@@ -723,7 +723,7 @@ p_site_pct <- ggplot(site_counts, aes(x = site, y = pct, fill = quadrant)) +
             position = position_stack(vjust = 0.5, reverse = TRUE), size = 3.5,
             fontface = "bold", show.legend = FALSE) +
   scale_fill_manual(name = "Decay Phase", values = quad_colors) +
-  scale_color_manual(values = c("I: Sound" = "white", "II: Incipient" = "grey20",
+  scale_color_manual(values = c("I: No Decay" = "white", "II: Incipient" = "grey20",
                                 "III: Active" = "white", "IV: Cavity" = "white")) +
   labs(x = NULL, y = NULL) +
   theme_classic(base_size = 13) +
