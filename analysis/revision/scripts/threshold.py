@@ -140,5 +140,5 @@ for ax,scheme,title in [(axes[0],'pc1_species','Within-species normalization (pu
     ax.set_title(title,fontsize=10); ax.set_xlabel('ERT PC1 (higher = lower resistivity / more heterogeneous)')
     ax.set_ylabel('density'); ax.legend(fontsize=7,frameon=False)
 plt.tight_layout()
-plt.savefig('.-threshold-fig.png',dpi=170)
+plt.savefig('analysis/revision/output/CJFR-threshold-rules.png',dpi=170)
 print("\nsaved figure")

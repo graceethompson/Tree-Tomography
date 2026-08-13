@@ -31,14 +31,14 @@ Run from the repository root, e.g. `python3 analysis/revision/scripts/reanalysis
 | `rules.py`, `flow.py` | Consolidated classification rules; decision-tree diagram |
 | `cavity.py` | Active-vs-cavity (III/IV) inspection among structurally damaged trees; core-wetness criterion |
 | `montage.py`, `contact.py`, `grouped.py`, `paired_montages.py` | Tomogram visualisations: per-category exemplars, contact sheets, and SoT+ERT paired montages grouped by scheme |
-| `make_assignments_table.py` | Writes `tables/scheme_assignments.csv`: every tree's category under each scheme |
+| `make_assignments_table.py` | Writes `output/scheme_assignments.csv`: every tree's category under each scheme |
 
 ## Outputs
 
-`output/` — generated figures (threshold sweep, absolute-unit panels, boundary
-stability, binning comparison, 6-cell scheme, decision tree, scan montages).
-`tables/` — `CJFR-absolute-thresholds.csv` (absolute threshold menu),
-`scheme_assignments.csv` (per-tree assignments under each scheme).
+`output/` — all generated outputs: figures (threshold sweep, absolute-unit panels,
+boundary stability, binning comparison, 6-cell scheme, decision tree, scan montages)
+and tables (`CJFR-absolute-thresholds.csv`, the absolute threshold menu;
+`scheme_assignments.csv`, per-tree assignments under each scheme).
 
 ## Headline numbers
 

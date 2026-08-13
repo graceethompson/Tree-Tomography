@@ -64,6 +64,6 @@ for name,(t,c) in rules.items():
 ax2.set_xlabel('anomaly threshold on ERT PC1'); ax2.set_ylabel('% of site trees classified "incipient"')
 ax2.legend(fontsize=9,frameon=False,loc='upper right')
 ax2.set_title('B.  Wetland > upland incipient holds at EVERY threshold\n(absolute % varies; the direction does not)',fontsize=10,loc='left')
-plt.tight_layout(); plt.savefig('.-threshold-fig.png',dpi=175)
+plt.tight_layout(); plt.savefig('analysis/revision/output/CJFR-threshold-fig.png',dpi=175)
 print("saved. BGS never below EMS across sweep:", all(np.array(bgs)>=np.array(ems)))
 print(f"BGS incipient range across sweep: {min(bgs):.0f}-{max(bgs):.0f}% ; EMS: {min(ems):.0f}-{max(ems):.0f}%")

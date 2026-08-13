@@ -33,6 +33,6 @@ m['cat_6cell'] = np.where(~m['struct'] & (m['xdev'] > 0.5), 'II',
 
 out = m[['tree', 'sp', 'site', 'dbh', 'percent_damaged', 'mean', 'cma', 'pc1', 'xdev',
          'cat_pc1', 'cat_species_median', 'cat_absolute', 'cat_6cell']]
-out.to_csv('analysis/revision/tables/scheme_assignments.csv', index=False)
+out.to_csv('analysis/revision/output/scheme_assignments.csv', index=False)
 print(f"wrote {len(out)} rows; 3-way identical (pc1/median/absolute): "
       f"{((out.cat_pc1==out.cat_species_median)&(out.cat_species_median==out.cat_absolute)).sum()}/57")
