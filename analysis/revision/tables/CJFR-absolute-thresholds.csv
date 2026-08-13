@@ -1,0 +1,10 @@
+rule,res_thresh,moist_equiv,n_anom,n_incip,BGS_inc,EMS_inc
+Sample median resistivity,360,104,28,18,48,14
+Sample mean resistivity,369,103,30,20,55,14
+Otsu break (data-driven),387,101,34,24,62,21
+GMM crossover (data-driven),426,98,38,26,62,29
+Lit: silver-fir wetwood ~200,200,120,8,4,10,4
+Lit: silver-fir low-ER ~166,166,123,7,3,10,0
+Validation: moisture>90% (<505),505,90,46,31,69,39
+Validation: moisture>100% (<402),402,100,34,24,62,21
+Validation: moisture>110% (<299),299,110,18,12,28,14
