@@ -69,3 +69,8 @@ remainder), and tree 583: "Solid wood: 68 % · Damaged: 19 %". This is
 PiCUS's own confirmation that its "Damaged" class excludes the green
 intermediate zone — matching `percent_damaged` in Tree_ID_info.csv exactly
 and settling how green was tabulated (see `green_zone.R`).
+
+The green exclusion also strengthens the resolution defense above: because
+only unambiguous decay classes were counted, every recorded damage value is
+≥3% of the section and none sits in the artifact-prone (0,1%] band — see
+`repro2-green-zones.md` for the full framing.

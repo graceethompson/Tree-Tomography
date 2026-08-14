@@ -87,10 +87,13 @@ green-zone panels) and tables (`CJFR-absolute-thresholds.csv`,
   on average and misses 1 of 5 trees flagged >1% at some height. ERT resistivity
   rises with height in 5/5 trees (wetter near the base), consistent with basal
   decay columns tapering upward.
-- Green zones: recorded damage excluded green (median green share 3%, up to 26%).
-  Counting green as damage would flip the >1% structural call for 21 of 57 trees;
-  the site percent-damage contrast is not sensitive to the choice (one-way ANOVA
-  p = 0.027 recorded vs p = 0.006 with green).
+- Green zones: recorded damage excluded green (median green share 3%, up to 26%) —
+  a conservative choice, since intermediate velocities are the most
+  artifact-prone class: as recorded, the smallest damage call is 3% and no tree
+  falls in (0,1%], whereas counting green would put 7 trees in (0,1%] and 15 in
+  (1,5%] and flip 21 of 57 structural calls. The site percent-damage contrast is
+  not sensitive to the choice (one-way ANOVA p = 0.027 recorded vs p = 0.006
+  with green). See notes/repro2-green-zones.md.
 - The published Fig. 4 severity panel (predict type="response") is correct, but
   the exploratory `code/decay_hurdle_analysis.R` double-transforms betareg
   emmeans with plogis(); its Panel C values are wrong and should not be reused.
