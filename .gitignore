@@ -5,7 +5,9 @@
 .DS_Store
 Icon?
 
-# Markdown drafts / prompts (keep README.md and revision notes)
+# Markdown drafts / prompts (keep README.md); notes/memos stay untracked
 *.md
 !README.md
-!analysis/revision/notes/*.md
+
+# Revision working documents (in-project but untracked)
+analysis/revision/*.docx
