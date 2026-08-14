@@ -5,6 +5,7 @@
 .DS_Store
 Icon?
 
-# Markdown drafts / prompts (keep README.md)
+# Markdown drafts / prompts (keep README.md and revision notes)
 *.md
 !README.md
+!analysis/revision/notes/*.md

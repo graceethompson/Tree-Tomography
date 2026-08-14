@@ -28,9 +28,12 @@ sc <- aggregate(sensor_count ~ tree, main_ann, function(x) max(x))
 df <- merge(load_main(), sc, by = "tree")
 df$struct <- df$percent_damaged > 1
 df$spacing <- pi * df$dbh / df$sensor_count   # cm between sensors
+df$paths <- df$sensor_count * (df$sensor_count - 1) / 2  # sensor-pair travel paths
 
 cat("=== Sensor counts, all 57 main trees ===\n")
 print(table(sensors = df$sensor_count))
+cat("Sensor-pair paths per tomogram: 7 sensors -> 21 paths; 8 -> 28\n")
+print(table(paths = df$paths))
 cat("\nBy site:\n"); print(table(df$site, df$sensor_count))
 cat("\nBy species:\n"); print(table(df$sp, df$sensor_count))
 
@@ -113,7 +116,7 @@ if (any(cmp$visual != cmp$pixel))
 
 # ---- per-tree table for the supplement ----
 out <- df[order(df$site, df$sp, df$tree),
-          c("tree", "sp", "site", "dbh", "sensor_count", "spacing", "percent_damaged")]
+          c("tree", "sp", "site", "dbh", "sensor_count", "paths", "spacing", "percent_damaged")]
 out$spacing <- round(out$spacing, 1)
 write.csv(out, file.path(OUT_DIR, "CJFR-sensor-counts.csv"), row.names = FALSE)
 
