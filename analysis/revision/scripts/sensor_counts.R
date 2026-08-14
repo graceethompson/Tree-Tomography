@@ -81,6 +81,36 @@ hem <- ann[is.na(ann$tree), ]
 cat("\n=== Validation hemlocks (per scan) ===\n")
 print(table(sensors = hem$sensor_count))
 
+# ---- independent cross-check of the visually-read sensor counts ----
+# The sensor markers are small olive-green rings (dark green, B < 45) that are
+# distinguishable from the legend green and the tomogram's decay-green class
+# (both have B ~ 86). Cluster those pixels and count clusters; decay-zone
+# boundary pixels can create false extra clusters on heavily damaged trees, so
+# a pixel count ABOVE the visual read on a damaged tree is expected noise
+# (verified by eye for 351 and 583), while a count BELOW would flag a missed
+# sensor.
+suppressPackageStartupMessages(library(jpeg))
+count_dots <- function(path) {
+  img <- readJPEG(path)
+  R <- img[, , 1] * 255; G <- img[, , 2] * 255; B <- img[, , 3] * 255
+  mask <- G >= 85 & G <= 175 & R < 115 & B < 45 & (G - R) > 25
+  mask[1:32, ] <- FALSE                       # header bar
+  idx <- which(mask, arr.ind = TRUE)
+  if (nrow(idx) < 5) return(0)
+  cl <- cutree(hclust(dist(idx), method = "single"), h = 6)
+  sum(table(cl) >= 8)
+}
+main_files <- main_ann$filename
+dots <- vapply(main_files,
+               function(f) count_dots(file.path("images/main_SoT", f)), numeric(1))
+cmp <- data.frame(filename = main_files,
+                  visual = main_ann$sensor_count, pixel = dots)
+cat("\n=== Pixel dot-count cross-check (main survey scans) ===\n")
+cat("agree:", sum(cmp$visual == cmp$pixel), "of", nrow(cmp),
+    "| pixel < visual (possible missed sensor):", sum(cmp$pixel < cmp$visual), "\n")
+if (any(cmp$visual != cmp$pixel))
+  print(cmp[cmp$visual != cmp$pixel, ], row.names = FALSE)
+
 # ---- per-tree table for the supplement ----
 out <- df[order(df$site, df$sp, df$tree),
           c("tree", "sp", "site", "dbh", "sensor_count", "spacing", "percent_damaged")]
