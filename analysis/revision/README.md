@@ -93,7 +93,7 @@ green-zone panels) and tables (`CJFR-absolute-thresholds.csv`,
   falls in (0,1%], whereas counting green would put 7 trees in (0,1%] and 15 in
   (1,5%] and flip 21 of 57 structural calls. The site percent-damage contrast is
   not sensitive to the choice (one-way ANOVA p = 0.027 recorded vs p = 0.006
-  with green). See notes/repro2-green-zones.md.
+  with green). Full derivation and sensitivity: `scripts/green_zone.R`.
 - The published Fig. 4 severity panel (predict type="response") is correct, but
   the exploratory `code/decay_hurdle_analysis.R` double-transforms betareg
   emmeans with plogis(); its Panel C values are wrong and should not be reused.
