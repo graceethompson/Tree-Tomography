@@ -135,8 +135,7 @@ p1 <- ggplot(m[ok, ], aes(percent_damaged, pix_damage_ex_green)) +
                                  "non-brown (green included)" = "#2eaf5d")) +
   labs(x = "recorded percent_damaged", y = "pixel-measured damaged area (%)",
        colour = NULL,
-       title = "A. Pixel re-measurement identifies the recorded rule",
-       subtitle = "recorded damage tracks violet+blue, not non-brown:\nthe green zone was excluded from 'damaged'") +
+       title = "A") +
   theme_classic(base_size = 10) + theme(legend.position = "bottom")
 
 p2 <- ggplot(stack, aes(tree_f, pct, fill = class)) +
@@ -145,8 +144,7 @@ p2 <- ggplot(stack, aes(tree_f, pct, fill = class)) +
   scale_fill_manual(values = pal[c("blue", "violet", "green")]) +
   labs(x = "tree (sorted by recorded damage)", y = "% of section",
        fill = "velocity class",
-       title = "B. Green share per tree (pixel-measured)",
-       subtitle = "green adds a median ~3 (up to ~26) points on top of violet+blue") +
+       title = "B") +
   theme_classic(base_size = 10) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 5.5),
         legend.position = "bottom")

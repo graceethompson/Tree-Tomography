@@ -61,10 +61,8 @@ montage <- function(key) {
   tot <- sum(units)
   W <- PER * 3.5; H <- tot * 1.7
   out <- file.path(OUT_DIR, paste0("CJFR-paired-", key, ".png"))
-  png(out, width = W, height = H, units = "in", res = 80, type = "cairo")
+  png(out, width = W, height = H, units = "in", res = 150, type = "cairo")
   grid.newpage()
-  grid.text(paste0(title, "   —   SoT (left) + ERT (right) per tree"),
-            y = 0.993, gp = gpar(fontsize = 13))
   top <- 0.985
   ycur <- top
   for (pi in seq_along(plan)) {
@@ -98,4 +96,6 @@ montage <- function(key) {
   cat("saved", out, "\n")
 }
 
-for (k in names(schemes)) montage(k)
+# Publication run regenerates only the published (PC1) scheme montage;
+# call montage("spmed") or montage("6cell") by hand if those variants are needed.
+for (k in "PC1") montage(k)

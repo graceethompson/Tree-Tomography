@@ -93,18 +93,16 @@ set.seed(1)
 png(file.path(OUT_DIR, "CJFR-binning-compare.png"),
     width = 16, height = 5.2, units = "in", res = 150)
 par(mfrow = c(1, 3), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 2.2, 0), mgp = c(2.4, 0.7, 0))
-panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A. Original — bin by PC1", ylab = TRUE)
+panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A", ylab = TRUE)
 legend("topleft", legend = names(catcol), pch = 21, pt.bg = unname(catcol),
        col = "white", pt.cex = 1.2, cex = 0.8, bty = "n", title = "Category")
-panel(m$cma, 0.33, "CMA — central moisture accumulation", B, "B. Bin by CMA (>0.33)")
+panel(m$cma, 0.33, "CMA — central moisture accumulation", B, "B")
 panel(m$mean, median(m$mean), "mean resistivity (Ω·m, absolute)", C,
-      "C. Bin by absolute resistivity", xinvert = TRUE)
-mtext("Does the ERT axis choice change the binning? Same trees, three anomaly criteria",
-      outer = TRUE, cex = 0.9, font = 1, line = 0.6)
+      "C", xinvert = TRUE)
 invisible(dev.off())
 
 # second fig: PC1 diagram colored by CMA value (continuous) to show CMA is a SEPARATE axis
-png(file.path(OUT_DIR, "CJFR-pc1-cma.png"),
+png(file.path(OUT_DIR, "archive", "CJFR-pc1-cma.png"),
     width = 7.6, height = 5.6, units = "in", res = 150)
 layout(matrix(1:2, 1, 2), widths = c(6.4, 1.2))
 par(mar = c(4.2, 4.2, 3.4, 0.6), mgp = c(2.4, 0.7, 0))

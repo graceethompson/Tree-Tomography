@@ -112,8 +112,7 @@ p1 <- ggplot(sot[sot$tree %in% multi$tree, ],
   geom_line(linewidth = 0.7, alpha = 0.85) +
   geom_point(size = 2.4) +
   labs(x = NULL, y = "SoT % of section damaged",
-       title = "A. SoT damage across measurement heights",
-       subtitle = "validation hemlocks scanned below, at, and above breast height",
+       title = "A",
        colour = NULL) +
   theme_classic(base_size = 10)
 
@@ -121,8 +120,7 @@ p2 <- ggplot(sub, aes(height, Mean, group = tree, colour = tree)) +
   geom_line(linewidth = 0.7, alpha = 0.85) +
   geom_point(size = 2.4) +
   labs(x = NULL, y = expression("ERT mean resistivity" ~ (Omega %.% m)),
-       title = "B. ERT mean resistivity across heights",
-       subtitle = "same trees; replicate image analyses averaged",
+       title = "B",
        colour = NULL) +
   theme_classic(base_size = 10)
 

@@ -125,7 +125,5 @@ text(max(pc) - 0.1, sqrt(3), "structural threshold\n(band empty = stable)",
 legend("right", legend = names(SPECIES_COLS), pch = mk[names(SPECIES_COLS)],
        pt.bg = unname(SPECIES_COLS[names(SPECIES_COLS)]), col = "white",
        pt.cex = 1.2, cex = 0.72, bty = "n")
-title(main = "Boundary stability: the structural (SoT) split is crisp; the moisture (ERT) split is fuzzy",
-      cex.main = 0.85)
 invisible(dev.off())
 cat("\nsaved figure\n")

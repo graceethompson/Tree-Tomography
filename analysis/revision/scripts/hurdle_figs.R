@@ -68,8 +68,7 @@ pa <- ggplot() +
   scale_fill_manual(values = c(BGS = "#1f77b4", EMS = "#d9822b")) +
   scale_y_continuous(breaks = c(0, 0.5, 1), limits = c(-0.18, 1.08)) +
   labs(x = NULL, y = "decay present (0/1) and fitted probability",
-       title = "A. Occurrence stage: fitted probabilities over the raw binary data",
-       subtitle = "binomial GLM decay ~ species + site; points = individual trees (jittered);\nspecialists occur at a single site, so the species×site design is non-orthogonal",
+       title = "A",
        colour = "site", fill = "site") +
   theme_classic(base_size = 10) +
   theme(axis.text.x = element_text(face = "italic"))
@@ -99,8 +98,7 @@ pb <- ggplot() +
             size = 2.9, colour = "grey30") +
   scale_colour_manual(values = c(BGS = "#1f77b4", EMS = "#d9822b")) +
   labs(x = NULL, y = "proportion of section damaged (decayed trees only)",
-       title = "B. Severity stage: model fit over the individual decayed trees",
-       subtitle = "beta regression severity ~ species; black = fitted mean ± 95% CI;\nnote the single N. sylvatica observation anchoring the reference level",
+       title = "B",
        colour = "site") +
   theme_classic(base_size = 10) +
   theme(axis.text.x = element_text(face = "italic"))
@@ -119,8 +117,7 @@ pc <- ggplot(diag_df, aes(fitted, resid)) +
   geom_hline(yintercept = 0, linetype = 2, colour = "grey50") +
   geom_point(size = 2, alpha = 0.8) +
   labs(x = "fitted proportion damaged", y = "standardized weighted residual (type 2)",
-       title = "C. Severity residuals vs fitted",
-       subtitle = paste0(n_undef, " observation (the single N. sylvatica reference tree) has\nleverage = 1: its standardized residual is undefined and is omitted")) +
+       title = "C") +
   theme_classic(base_size = 10)
 
 qq <- qqnorm(diag_df$resid, plot.it = FALSE)
@@ -128,7 +125,7 @@ pd <- ggplot(data.frame(x = qq$x, y = qq$y), aes(x, y)) +
   geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50") +
   geom_point(size = 2, alpha = 0.8) +
   labs(x = "theoretical quantiles", y = "sample quantiles",
-       title = "D. Severity residual Q-Q") +
+       title = "D") +
   theme_classic(base_size = 10)
 
 fig <- (pa | pb) / (pc | pd) + plot_layout(heights = c(1.35, 1))

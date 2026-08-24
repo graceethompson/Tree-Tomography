@@ -40,8 +40,9 @@ classification, Otsu/GMM helpers, tomogram lookup).
 | `incipient.R` | Incipient-onset sensitivity on the species-median-referenced axis; comparison with structurally confirmed decay trees; 6-cell dead-band variant |
 | `rules.R`, `flow.R` | Consolidated classification rules; decision-tree diagram |
 | `cavity.R` | Active-vs-cavity (III/IV) inspection among structurally damaged trees; core-wetness criterion |
-| `montage.R`, `contact.R`, `grouped.R`, `paired_montages.R` | Tomogram visualisations: per-category exemplars, contact sheets, and SoT+ERT paired montages grouped by scheme |
+| `montage.R`, `contact.R`, `grouped.R`, `paired_montages.R` | Tomogram visualisations: per-category exemplars, contact sheets, and SoT+ERT paired montages grouped by scheme (`paired_montages.R` regenerates only the published-scheme montage by default) |
 | `make_assignments_table.R` | Writes `output/scheme_assignments.csv`: every tree's category under each scheme |
+| `make_fisher_table.R` | Writes `output/CJFR-fisher-tests.csv`: Fisher exact tests of the site incipient contrast at each threshold and for the generalists-only subset |
 
 ### Reviewer-requested additions
 
@@ -58,11 +59,18 @@ value read from every SoT tomogram (main survey + validation hemlocks).
 
 ## Outputs
 
-`output/` — all generated figures (threshold sweep, absolute-unit panels,
-boundary stability, binning comparison, 6-cell scheme, decision tree, scan
-montages, hurdle-model panels, sensor-count panels, vertical variation,
-green-zone panels) and tables (`CJFR-absolute-thresholds.csv`,
-`scheme_assignments.csv`, `CJFR-sensor-counts.csv`).
+`output/` — the manuscript-bound (SI candidate) figures and tables:
+threshold sweep, normalization comparison, absolute-unit panels, axis
+comparison, boundary stability, hurdle-model panels + diagnostics,
+sensor-count panels, vertical variation, green-zone panels, the paired
+all-scans montage (published scheme), the 6-cell variant (pending a
+decision), and tables `CJFR-absolute-thresholds.csv`,
+`scheme_assignments.csv`, `CJFR-sensor-counts.csv`,
+`CJFR-fisher-tests.csv`. Figures are publication-rendered: bare panel
+letters, no in-figure titles (captions live with the manuscript SI).
+`output/archive/` — internal inspection material not bound for the
+manuscript (scheme montages, contact sheets, scan montage, cavity /
+PC1-vs-CMA / decision-tree panels).
 
 ## Headline numbers
 

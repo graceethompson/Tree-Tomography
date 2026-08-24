@@ -112,8 +112,8 @@ par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1), mgp = c(2.4, 0.7, 0))
 rule_cols <- c("mean (published)" = "#c0392b", "median" = "#2980b9",
                "GMM 2-comp crossover" = "#27ae60", "Otsu break" = "#8e44ad")
 panels <- list(
-  list(col = "pc1_species", title = "Within-species normalization (published)"),
-  list(col = "pc1_pooled",  title = "Pooled normalization (preserves absolute differences)"))
+  list(col = "pc1_species", title = "A"),
+  list(col = "pc1_pooled",  title = "B"))
 for (p in panels) {
   a <- m[[p$col]]
   brk <- seq(min(a), max(a), length.out = 17)      # 16 bins over the data range
@@ -144,7 +144,7 @@ for (p in panels) {
     legend("topright", legend = sprintf("mean=%.2f", mean(a)), col = "#c0392b",
            lty = 2, lwd = 1.6, bty = "n", cex = 0.7)
   }
-  title(main = p$title, cex.main = 1, font.main = 1)
+  title(main = p$title, adj = 0, cex.main = 1, font.main = 2)
 }
 invisible(dev.off())
 cat("\nsaved figure\n")

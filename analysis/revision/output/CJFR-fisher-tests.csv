@@ -1,0 +1,7 @@
+"contrast","denominator","bgs_incipient","bgs_n","bgs_pct","ems_incipient","ems_n","ems_pct","odds_ratio","p_value"
+"PC1 threshold mean - 0.5 SD","structurally sound trees",17,25,68,7,17,41,3.04,0.117
+"PC1 threshold mean (published)","structurally sound trees",9,25,36,3,17,18,2.62,0.3
+"PC1 threshold mean + 0.5 SD","structurally sound trees",4,25,16,1,17,6,3.05,0.632
+"PC1 threshold mean + 1 SD","structurally sound trees",4,25,16,0,17,0,Inf,0.134
+"PC1 threshold mean (published)","all trees",9,29,31,3,28,11,3.75,0.103
+"PC1 threshold mean (published)","generalist species only (all trees)",6,19,32,2,19,11,3.92,0.232

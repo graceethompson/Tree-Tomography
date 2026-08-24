@@ -53,8 +53,7 @@ for (name in names(rules)) {
 }
 legend("topright", legend = labs, col = lcols, lty = 2, lwd = 1.7, bty = "n", cex = 0.8)
 EMDASH <- intToUtf8(0x2014)
-title(main = paste0("A.  Anomaly axis is unimodal ", EMDASH, " no natural break\n(BIC favors 1 component over 2)"),
-      adj = 0, cex.main = 1, font.main = 1)
+title(main = "A", adj = 0, cex.main = 1, font.main = 2)
 
 # Panel B: threshold sweep, BGS vs EMS incipient %
 plot(NA, xlim = range(ts), ylim = range(c(bgs, ems)) + c(0, 4),
@@ -71,8 +70,7 @@ for (name in names(rules)) {
 }
 legend("topright", legend = c("BGS (wetland)", "EMS (upland)"),
        col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
-title(main = "B.  Wetland > upland incipient holds at EVERY threshold\n(absolute % varies; the direction does not)",
-      adj = 0, cex.main = 1, font.main = 1)
+title(main = "B", adj = 0, cex.main = 1, font.main = 2)
 invisible(dev.off())
 
 cat("saved. BGS never below EMS across sweep:",

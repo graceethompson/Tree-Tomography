@@ -138,8 +138,7 @@ for (i in seq_along(spp_order)) {
 }
 axis(2, at = 0:3, las = 1, cex.axis = 0.95,
      labels = paste0(spp_order, ifelse(spp_order %in% c("N.sylvatica", "Q.rubra"), "*", "")))
-title(main = "A.  Absolute axis is species-confounded\n(* = single-site specialist)",
-      adj = 0, cex.main = 1.05, font.main = 1)
+title(main = "A", adj = 0, cex.main = 1.05, font.main = 2)
 
 # B: predicted-moisture distribution by site with candidate thresholds
 par(mar = c(4, 4, 3.5, 1))
@@ -161,8 +160,7 @@ for (mc in list(c(90, "#999999"), c(100, "#555555"), c(110, "#111111"))) {
 }
 legend("topright", legend = c("BGS", "EMS"), col = c("#1f77b4", "#d9822b"),
        lwd = 2, bty = "n", cex = 0.9)
-title(main = "B.  Absolute (predicted moisture) axis by site",
-      adj = 0, cex.main = 1.05, font.main = 1)
+title(main = "B", adj = 0, cex.main = 1.05, font.main = 2)
 
 # C: site direction sweep on absolute resistivity, anchors marked
 par(mar = c(4, 4, 3.5, 1))
@@ -186,7 +184,6 @@ for (nm in names(anchor)) {
 }
 legend("topleft", legend = c("BGS (wetland)", "EMS (upland)"),
        col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
-title(main = "C.  Site direction across absolute thresholds\n(shaded orange = where upland exceeds wetland)",
-      adj = 0, cex.main = 1.05, font.main = 1)
+title(main = "C", adj = 0, cex.main = 1.05, font.main = 2)
 invisible(dev.off())
 cat("\nsaved figure + CSV\n")
