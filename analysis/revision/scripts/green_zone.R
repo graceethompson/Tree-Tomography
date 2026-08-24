@@ -149,6 +149,6 @@ p2 <- ggplot(stack, aes(tree_f, pct, fill = class)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 5.5),
         legend.position = "bottom")
 
-ggsave(file.path(OUT_DIR, "CJFR-green-zone.png"), p1 | p2,
+ggsave(file.path(OUT_DIR, "archive", "CJFR-green-zone.png"), p1 | p2,
        width = 12.5, height = 5.2, dpi = 170)
 cat("\nsaved", file.path(OUT_DIR, "CJFR-green-zone.png"), "\n")

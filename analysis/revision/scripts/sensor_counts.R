@@ -133,10 +133,11 @@ set.seed(3)
 p2 <- ggplot(df, aes(spacing, percent_damaged, colour = site)) +
   geom_jitter(height = 0.3, width = 0, size = 2.4, alpha = 0.85) +
   scale_colour_manual(values = c(BGS = "#1f77b4", EMS = "#d9822b")) +
-  labs(x = "sensor spacing (cm)", y = "SoT % damaged",
-       title = "B") +
+  labs(x = "sensor spacing (cm)", y = "SoT % damaged") +
   theme_classic(base_size = 10)
 
-ggsave(file.path(OUT_DIR, "CJFR-sensor-counts.png"), p1 | p2,
-       width = 11, height = 4.4, dpi = 170)
+# Panel A (spacing vs DBH) dropped: it repeats Table S-SENSORS content.
+# The figure is now the single covariance panel (damage vs spacing).
+ggsave(file.path(OUT_DIR, "CJFR-sensor-counts.png"), p2,
+       width = 5.8, height = 4.4, dpi = 170)
 cat("\nsaved CJFR-sensor-counts.png and CJFR-sensor-counts.csv\n")

@@ -60,17 +60,17 @@ value read from every SoT tomogram (main survey + validation hemlocks).
 ## Outputs
 
 `output/` — the manuscript-bound (SI candidate) figures and tables:
-threshold sweep, normalization comparison, absolute-unit panels, axis
-comparison, boundary stability, hurdle-model panels + diagnostics,
-sensor-count panels, vertical variation, green-zone panels, the paired
-all-scans montage (published scheme), the 6-cell variant (pending a
-decision), and tables `CJFR-absolute-thresholds.csv`,
+threshold sweep + normalization panel, absolute-unit panels, axis
+comparison, boundary stability, hurdle-model panels, the sensor-spacing
+covariance panel, vertical variation, the paired all-scans montage
+(published scheme), the 6-cell variant (pending a decision), and tables `CJFR-absolute-thresholds.csv`,
 `scheme_assignments.csv`, `CJFR-sensor-counts.csv`,
 `CJFR-fisher-tests.csv`. Figures are publication-rendered: bare panel
 letters, no in-figure titles (captions live with the manuscript SI).
-`output/archive/` — internal inspection material not bound for the
-manuscript (scheme montages, contact sheets, scan montage, cavity /
-PC1-vs-CMA / decision-tree panels).
+`output/archive/` — material not bound for the manuscript (scheme
+montages, contact sheets, scan montage, cavity / PC1-vs-CMA /
+decision-tree panels, the normalization-comparison figure, the binomial
+DHARMa panel, the green-zone figure).
 
 ## Headline numbers
 

@@ -134,7 +134,7 @@ ggsave(file.path(OUT_DIR, "CJFR-hurdle-fig.png"), fig, width = 12.5, height = 9,
 # DHARMa simulated residuals for the occurrence stage (as in the manuscript),
 # saved alongside for completeness.
 suppressPackageStartupMessages(library(DHARMa))
-png(file.path(OUT_DIR, "CJFR-hurdle-dharma.png"), width = 1700, height = 850, res = 150)
+png(file.path(OUT_DIR, "archive", "CJFR-hurdle-dharma.png"), width = 1700, height = 850, res = 150)
 plot(simulateResiduals(m1, seed = 1))
 dev.off()
 

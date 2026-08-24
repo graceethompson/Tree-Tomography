@@ -106,7 +106,7 @@ for (Mcut in c(90, 100, 110)) {
 
 # ---------- FIGURE ----------
 # matplotlib figsize (12, 4.6) at dpi 170 -> 2040 x 782 px
-png(file.path(OUT_DIR, "CJFR-threshold-rules.png"),
+png(file.path(OUT_DIR, "archive", "CJFR-threshold-rules.png"),
     width = 2040, height = 782, res = 170, pointsize = 10)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1), mgp = c(2.4, 0.7, 0))
 rule_cols <- c("mean (published)" = "#c0392b", "median" = "#2980b9",

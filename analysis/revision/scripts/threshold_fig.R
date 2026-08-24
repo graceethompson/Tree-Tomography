@@ -5,6 +5,7 @@ source("analysis/revision/scripts/revision_common.R")
 m <- load_merged()
 b <- build_pc1(m, "species")
 pc <- b$pc1
+pc_pooled <- build_pc1(m, "pooled")$pc1
 m$struct <- m$percent_damaged > 1
 
 mu <- mean(pc); med <- median(pc); sdv <- sd(pc)
@@ -26,10 +27,9 @@ for (i in seq_along(ts)) {
 }
 
 # ---------- FIGURE ----------
-# matplotlib figsize (12.5, 4.8) at dpi 175 -> 2188 x 840 px
 png(file.path(OUT_DIR, "CJFR-threshold-fig.png"),
-    width = 2188, height = 840, res = 175, pointsize = 10)
-par(mfrow = c(1, 2), mar = c(4, 4, 3.5, 1), mgp = c(2.4, 0.7, 0))
+    width = 3282, height = 840, res = 175, pointsize = 10)
+par(mfrow = c(1, 3), mar = c(4, 4, 3.5, 1), mgp = c(2.4, 0.7, 0))
 
 # Panel A: density with candidate thresholds
 xs2 <- seq(min(pc) - 0.4, max(pc) + 0.4, length.out = 300)
@@ -71,6 +71,25 @@ for (name in names(rules)) {
 legend("topright", legend = c("BGS (wetland)", "EMS (upland)"),
        col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
 title(main = "B", adj = 0, cex.main = 1, font.main = 2)
+
+# Panel C: same distribution under the pooled normalization (preserves
+# absolute between-site/species differences); replaces the former
+# standalone normalization figure (CJFR-threshold-rules.png, archived).
+kd3 <- density(pc_pooled)
+xs3 <- seq(min(pc_pooled) - 0.4, max(pc_pooled) + 0.4, length.out = 300)
+ky3 <- approx(kd3$x, kd3$y, xs3, rule = 2)$y
+brk3 <- seq(min(pc_pooled), max(pc_pooled), length.out = 16)
+h3 <- hist(pc_pooled, breaks = brk3, plot = FALSE)
+plot(NA, xlim = range(xs3), ylim = c(0, max(h3$density, ky3) * 1.08),
+     xaxs = "i", yaxs = "i",
+     xlab = "ERT PC1, pooled normalization",
+     ylab = "density", main = "")
+plot(h3, freq = FALSE, col = "grey86", border = "white", add = TRUE)
+lines(xs3, ky3, col = "black", lwd = 2)
+abline(v = mean(pc_pooled), col = "#c0392b", lty = 2, lwd = 1.7)
+legend("topright", legend = sprintf("mean = %.2f", mean(pc_pooled)),
+       col = "#c0392b", lty = 2, lwd = 1.7, bty = "n", cex = 0.8)
+title(main = "C", adj = 0, cex.main = 1, font.main = 2)
 invisible(dev.off())
 
 cat("saved. BGS never below EMS across sweep:",
