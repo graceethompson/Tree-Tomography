@@ -11,3 +11,6 @@ Icon?
 
 # Revision working documents (in-project but untracked)
 analysis/revision/*.docx
+
+# Local revision package (docs, previews, rendered HTML)
+analysis/revision/revision-package/

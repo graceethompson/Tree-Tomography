@@ -66,7 +66,9 @@ covariance panel, vertical variation, the paired all-scans montage
 (published scheme), the 6-cell variant (pending a decision), and tables `CJFR-absolute-thresholds.csv`,
 `scheme_assignments.csv`, `CJFR-sensor-counts.csv`,
 `CJFR-fisher-tests.csv`. Figures are publication-rendered: bare panel
-letters, no in-figure titles (captions live with the manuscript SI).
+letters, no in-figure titles (captions live with the manuscript SI; the
+figure plan, captions, and response drafts are kept locally in
+`revision-package/`, untracked).
 `output/archive/` — material not bound for the manuscript (scheme
 montages, contact sheets, scan montage, cavity / PC1-vs-CMA /
 decision-tree panels, the normalization-comparison figure, the binomial
