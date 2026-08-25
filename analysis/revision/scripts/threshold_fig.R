@@ -11,7 +11,7 @@ m$struct <- m$percent_damaged > 1
 mu <- mean(pc); med <- median(pc); sdv <- sd(pc)
 t_otsu <- otsu_threshold(pc)
 t_gmm <- gmm_1d(pc)$crossover
-rules <- list("mean (published)" = list(t = mu,     col = "#c0392b"),
+rules <- list("mean (manuscript)" = list(t = mu,    col = "#c0392b"),
               "median"           = list(t = med,    col = "#2980b9"),
               "Otsu break"       = list(t = t_otsu, col = "#8e44ad"),
               "GMM crossover"    = list(t = t_gmm,  col = "#27ae60"))
@@ -28,8 +28,8 @@ for (i in seq_along(ts)) {
 
 # ---------- FIGURE ----------
 png(file.path(OUT_DIR, "CJFR-threshold-fig.png"),
-    width = 3282, height = 840, res = 175, pointsize = 10)
-par(mfrow = c(1, 3), mar = c(4, 4, 3.5, 1), mgp = c(2.4, 0.7, 0))
+    width = 2188, height = 1680, res = 175, pointsize = 10)
+par(mfrow = c(2, 2), mar = c(4, 4, 3.5, 1), mgp = c(2.4, 0.7, 0))
 
 # Panel A: density with candidate thresholds
 xs2 <- seq(min(pc) - 0.4, max(pc) + 0.4, length.out = 300)
@@ -90,7 +90,31 @@ abline(v = mean(pc_pooled), col = "#c0392b", lty = 2, lwd = 1.7)
 legend("topright", legend = sprintf("mean = %.2f", mean(pc_pooled)),
        col = "#c0392b", lty = 2, lwd = 1.7, bty = "n", cex = 0.8)
 title(main = "C", adj = 0, cex.main = 1, font.main = 2)
+
+# Panel D: the same threshold sweep under the pooled normalization
+tsP <- seq(quantile(pc_pooled, 0.05, type = 7),
+           quantile(pc_pooled, 0.95, type = 7), length.out = 200)
+bgsP <- numeric(length(tsP)); emsP <- numeric(length(tsP))
+for (i in seq_along(tsP)) {
+  inc <- ns & (pc_pooled > tsP[i])
+  bgsP[i] <- sum(inc[mask_bgs]) / sum(mask_bgs) * 100
+  emsP[i] <- sum(inc[mask_ems]) / sum(mask_ems) * 100
+}
+plot(NA, xlim = range(tsP), ylim = range(c(bgsP, emsP)) + c(0, 4),
+     xlab = "anomaly threshold on pooled ERT PC1",
+     ylab = "% of site trees classified \"incipient\"", main = "")
+keepP <- bgsP >= emsP
+polygon(c(tsP[keepP], rev(tsP[keepP])), c(bgsP[keepP], rev(emsP[keepP])),
+        col = adjustcolor("#1f77b4", alpha.f = 0.10), border = NA)
+lines(tsP, bgsP, col = "#1f77b4", lwd = 2.4)
+lines(tsP, emsP, col = "#d9822b", lwd = 2.4)
+abline(v = mean(pc_pooled), col = "#c0392b", lty = 3, lwd = 1.3)
+legend("topright", legend = c("BGS (wetland)", "EMS (upland)"),
+       col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
+title(main = "D", adj = 0, cex.main = 1, font.main = 2)
 invisible(dev.off())
+cat("pooled sweep: BGS >= EMS at every threshold:",
+    ifelse(all(bgsP >= emsP), "True", "False"), "\n")
 
 cat("saved. BGS never below EMS across sweep:",
     ifelse(all(bgs >= ems), "True", "False"), "\n")

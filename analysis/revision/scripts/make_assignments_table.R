@@ -15,8 +15,10 @@ m$cat_pc1 <- four_cat(pc > mean(pc), m$struct)
 m$cat_species_median <- four_cat(m$xdev > 0, m$struct)
 m$cat_absolute <- four_cat(m$mean < median(m$mean), m$struct)
 m$cat_6cell <- ifelse(!m$struct & m$xdev > 0.5, "II",
+              ifelse(!m$struct & m$xdev >= -0.5, "I-II",
               ifelse(!m$struct, "I",
-              ifelse(m$struct & m$xdev < -0.5, "IV", "III")))
+              ifelse(m$struct & m$xdev < -0.5, "IV",
+              ifelse(m$struct & m$xdev <= 0.5, "III-IV", "III")))))
 
 out <- m[, c("tree", "sp", "site", "dbh", "percent_damaged", "mean", "cma", "pc1", "xdev",
              "cat_pc1", "cat_species_median", "cat_absolute", "cat_6cell")]

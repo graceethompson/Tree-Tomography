@@ -36,6 +36,9 @@ B <- four(m$cma > 0.33, m$struct)
 C <- four(m$mean < median(m$mean), m$struct)
 # Scheme D: species-normalized resistivity only (anomaly = res_z<0)
 D <- four(m$res_z < 0, m$struct)
+# Scheme SM: species-median PC1 split (matches Table S-SCHEMES)
+xdev <- pc - ave(pc, m$sp, FUN = median)
+SM <- four(xdev > 0, m$struct)
 
 cat_counts <- function(cc) {
   t <- table(factor(cc, levels = c("I", "II", "III", "IV")))
@@ -68,6 +71,8 @@ print(table(PC1 = factor(A, levels = lv), CMA = factor(B, levels = lv)))
 catcol <- c(I = "#3b6fb0", II = "#5aa02c", III = "#d98a1f", IV = "#b83232")
 yt <- c(0, 1, 5, 10, 20, 30)
 y <- sqrt(pmax(m$percent_damaged, 0))
+set.seed(1)
+yj <- y + rnorm(length(y), 0, 0.03)   # one shared jitter so labels track points
 
 panel <- function(x, anom_line, xlabel, cats, title, xinvert = FALSE, ylab = FALSE) {
   xr <- range(x); xpad <- 0.05 * diff(xr)
@@ -78,9 +83,12 @@ panel <- function(x, anom_line, xlabel, cats, title, xinvert = FALSE, ylab = FAL
   abline(v = anom_line, col = "#888888", lty = 2, lwd = 1)
   for (cat_ in names(catcol)) {
     idx <- cats == cat_
-    points(x[idx], y[idx] + rnorm(sum(idx), 0, 0.03),
-           pch = 21, bg = catcol[[cat_]], col = "white", lwd = 0.5, cex = 1.2)
+    points(x[idx], yj[idx], pch = 21, bg = catcol[[cat_]], col = "white",
+           lwd = 0.5, cex = 1.2)
   }
+  lab <- cats != "I"   # label all non-I trees so category changes can be followed
+  text(x[lab], yj[lab], labels = m$tree[lab], pos = 3, offset = 0.25,
+       cex = 0.48, col = "#444444")
   axis(1, cex.axis = 0.8)
   axis(2, at = sqrt(yt), labels = yt, cex.axis = 0.8, las = 1)
   box()
@@ -89,14 +97,13 @@ panel <- function(x, anom_line, xlabel, cats, title, xinvert = FALSE, ylab = FAL
   title(main = title, cex.main = 0.85)
 }
 
-set.seed(1)
 png(file.path(OUT_DIR, "CJFR-binning-compare.png"),
     width = 16, height = 5.2, units = "in", res = 150)
 par(mfrow = c(1, 3), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 2.2, 0), mgp = c(2.4, 0.7, 0))
 panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A", ylab = TRUE)
 legend("topleft", legend = names(catcol), pch = 21, pt.bg = unname(catcol),
        col = "white", pt.cex = 1.2, cex = 0.8, bty = "n", title = "Category")
-panel(m$cma, 0.33, "CMA — central moisture accumulation", B, "B")
+panel(xdev, 0, "ERT PC1 − species median", SM, "B")
 panel(m$mean, median(m$mean), "mean resistivity (Ω·m, absolute)", C,
       "C", xinvert = TRUE)
 invisible(dev.off())

@@ -23,6 +23,17 @@ for (scheme in c("species", "pooled")) {
   cat("  loadings:", pydict(ERT_METRICS, fmtnum(round(b$loadings[ERT_METRICS], 2))), "\n")
 }
 
+stR <- m$percent_damaged > 1
+cat4 <- function(p) ifelse(!stR & p <= mean(p), "I",
+              ifelse(!stR, "II", ifelse(p > mean(p), "III", "IV")))
+a4 <- cat4(m$pc1_species); b4 <- cat4(m$pc1_pooled)
+cat(sprintf("\nClassification agreement, species-centred vs pooled scheme: %d/57 (%.0f%%) identical; structural calls identical: %s\n",
+            sum(a4 == b4), mean(a4 == b4) * 100,
+            all((a4 %in% c("III","IV")) == (b4 %in% c("III","IV")))))
+for (sch in list(list("species-centred", a4), list("pooled", b4))) {
+  s2 <- table(factor(sch[[2]], c("I","II","III","IV")), m$site)
+  cat(sprintf("  %s incipient (II) by site: BGS %d, EMS %d\n", sch[[1]], s2["II","BGS"], s2["II","EMS"]))
+}
 cat("\ncorr(species-PC1, pooled-PC1) =",
     format(round(cor(m$pc1_species, m$pc1_pooled), 3)), "\n")
 

@@ -85,45 +85,41 @@ cat(sprintf("  III<->IV(ERT axis, +0.5SD): %d\n", flips_between("III", "IV", bas
 cat(sprintf("  II<->III(SoT axis, 1->5%%) : %d\n", flips_between("II", "III", base, altSoT)))
 cat(sprintf("  I<->IV  (SoT axis, 1->5%%) : %d\n", flips_between("I", "IV", base, altSoT)))
 
-# ======== FIGURE: phase diagram with threshold BANDS ========
-add_alpha <- function(col, a) adjustcolor(col, alpha.f = a)
-ysqrt <- sqrt(pmax(dmg, 0))
-yt <- c(0, 1, 5, 10, 20, 30)
-mk <- c(A.rubrum = 24, T.canadensis = 21, N.sylvatica = 22, Q.rubra = 23)
+# ======== FIGURE: 1-D stability of the structural (SoT) threshold ========
+# Redesigned 2026-08-24: the moisture-threshold sensitivity is covered by the
+# threshold-sweep figure; this figure focuses on the structural axis, whose
+# strongly bimodal distribution is what makes the 1% cut stable.
+nz <- sort(dmg[dmg > 0])
+sx <- sqrt(nz)
+st <- ave(nz, nz, FUN = seq_along)        # stack duplicates vertically
+xt <- c(0, 1, 3, 5, 10, 20, 30)
 
 png(file.path(OUT_DIR, "CJFR-boundary-fig.png"),
-    width = 8.2, height = 6.4, units = "in", res = 170)
-par(mar = c(4.2, 4.2, 2.6, 1), mgp = c(2.4, 0.7, 0))
-xr <- range(pc); xpad <- 0.05 * diff(xr)
-plot(NA, xlim = c(xr[1] - xpad, xr[2] + xpad), ylim = c(-0.2, sqrt(36) + 0.35),
-     axes = FALSE, xlab = "", ylab = "")
-# bands
+    width = 8.2, height = 3.4, units = "in", res = 170)
+par(mar = c(4.0, 4.0, 1.2, 0.8), mgp = c(2.4, 0.7, 0))
+plot(NA, xlim = c(-0.25, sqrt(36)), ylim = c(0.4, 4.6), axes = FALSE,
+     xlab = "", ylab = "")
 usr <- par("usr")
-rect(lo, usr[3], hi, usr[4], col = add_alpha("#f39c12", 0.13), border = NA)      # ERT ambiguous band (wide)
-rect(usr[1], sqrt(1), usr[2], sqrt(5), col = add_alpha("#7f8c8d", 0.18), border = NA) # SoT ambiguous band
-abline(v = mu, col = "#c0392b", lty = 2, lwd = 1.4)
-abline(h = sqrt(1), col = "#333333", lty = 2, lwd = 1.4)
-for (s in names(SPECIES_COLS)) {
-  idx <- m$sp == s
-  points(pc[idx], ysqrt[idx] + rnorm(sum(idx), 0, 0.03),
-         pch = mk[[s]], bg = SPECIES_COLS[[s]], col = "white", lwd = 0.5, cex = 1.25)
-}
-axis(1, cex.axis = 0.85)
-axis(2, at = sqrt(yt), labels = yt, cex.axis = 0.85, las = 1)
+rect(sqrt(1), usr[3], sqrt(5), usr[4],
+     col = adjustcolor("#7f8c8d", 0.15), border = NA)
+abline(v = sqrt(1), lty = 2, col = "#333333", lwd = 1.5)
+abline(v = sqrt(5), lty = 3, col = "#666666", lwd = 1.1)
+# the 42 trees at exactly zero, shown as one annotated marker
+points(0, 1, pch = 22, bg = "#3b6fb0", col = "white", cex = 2.4)
+text(0, 1, "42", cex = 0.55, col = "white", font = 2)
+text(0, 1.55, "42 trees at\nexactly 0%", cex = 0.66, col = "#26456e")
+# the 15 damaged trees at their recorded values
+points(sx, st, pch = 21, bg = "#b83232", col = "white", cex = 1.6, lwd = 0.6)
+text(sqrt(sqrt(1 * 5)), 4.25,
+     "threshold range 1-5%:\nonly 2 trees inside (3% and 4%)\nclassifications otherwise identical",
+     cex = 0.66, col = "#333333")
+text(sqrt(1), 0.55, "1% (manuscript)", cex = 0.62, col = "#333333", adj = -0.05)
+text(sqrt(5), 0.55, "5%", cex = 0.62, col = "#666666", adj = -0.2)
+axis(1, at = sqrt(xt), labels = xt, cex.axis = 0.85)
+axis(2, at = 1:3, labels = 1:3, cex.axis = 0.8, las = 1)
 box()
-title(xlab = "ERT PC1  (moisture axis — CONTINUUM, no natural break)", cex.lab = 0.85)
-title(ylab = "SoT structural loss %  (√ scale — BIMODAL, gap at 0→6%)", cex.lab = 0.85)
-# quadrant labels
-text(min(pc) + 0.2, sqrt(28), "IV: Cavity", cex = 0.85, col = "#7f0000", font = 2, adj = 0)
-text(max(pc) - 1.4, sqrt(28), "III: Active", cex = 0.85, col = "#7f4f00", font = 2, adj = 0)
-text(min(pc) + 0.2, 0.05, "I: No decay", cex = 0.85, col = "#26456e", font = 2, adj = 0)
-text(max(pc) - 1.6, 0.05, "II: Incipient", cex = 0.85, col = "#4d7f00", font = 2, adj = 0)
-text(mu, sqrt(34) + 0.28, "moisture threshold\n(wide band = many trees flip)",
-     cex = 0.62, col = "#c0392b")
-text(max(pc) - 0.1, sqrt(3), "structural threshold\n(band empty = stable)",
-     cex = 0.62, col = "#333333", adj = 1)
-legend("right", legend = names(SPECIES_COLS), pch = mk[names(SPECIES_COLS)],
-       pt.bg = unname(SPECIES_COLS[names(SPECIES_COLS)]), col = "white",
-       pt.cex = 1.2, cex = 0.72, bty = "n")
+title(xlab = "SoT % of section damaged (recorded value; \u221a scale)",
+      cex.lab = 0.85)
+title(ylab = "trees at value (stacked)", cex.lab = 0.85)
 invisible(dev.off())
 cat("\nsaved figure\n")

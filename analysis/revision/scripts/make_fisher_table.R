@@ -24,7 +24,7 @@ row_for <- function(label, denom, a, n1, c, n2) {
 }
 
 rows <- list()
-for (cs in list(list(-0.5, "mean - 0.5 SD"), list(0, "mean (published)"),
+for (cs in list(list(-0.5, "mean - 0.5 SD"), list(0, "mean (manuscript)"),
                 list(0.5, "mean + 0.5 SD"), list(1, "mean + 1 SD"))) {
   t0 <- mean(pc) + cs[[1]] * sdv
   inc <- sound & (pc > t0)
@@ -36,14 +36,14 @@ for (cs in list(list(-0.5, "mean - 0.5 SD"), list(0, "mean (published)"),
 
 inc0 <- sound & (pc > mean(pc))
 rows[[length(rows) + 1]] <- row_for(
-  "PC1 threshold mean (published)", "all trees",
+  "PC1 threshold mean (manuscript)", "all trees",
   sum(inc0 & m$site == "BGS"), sum(m$site == "BGS"),
   sum(inc0 & m$site == "EMS"), sum(m$site == "EMS"))
 
 g <- m[m$sp %in% c("A.rubrum", "T.canadensis"), ]
 incg <- (!g$struct) & (g$pc1 > mean(pc))
 rows[[length(rows) + 1]] <- row_for(
-  "PC1 threshold mean (published)", "generalist species only (all trees)",
+  "PC1 threshold mean (manuscript)", "generalist species only (all trees)",
   sum(incg & g$site == "BGS"), sum(g$site == "BGS"),
   sum(incg & g$site == "EMS"), sum(g$site == "EMS"))
 
