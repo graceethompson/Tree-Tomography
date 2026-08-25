@@ -43,18 +43,43 @@ draw_fit <- function(img, x, y, w, h, figw, figh) {
 montage <- function(key) {
   title <- schemes[[key]]$title
   cats <- schemes[[key]]$cats
+  # one record per displayed tree: label + image paths + category
+  recs <- data.frame(
+    label = sprintf("#%s %s SoT%s ρ%.0f", m$tree, substr(m$sp, 1, 4),
+                    m$percent_damaged, m$mean),
+    sot = vapply(m$tree, function(t) find_scan(SOT, t), character(1)),
+    ert = vapply(m$tree, function(t) find_scan(ERT, t), character(1)),
+    cat = cats, val = FALSE, stringsAsFactors = FALSE)
+  # For the published scheme, append the 12 validation hemlocks (DBH scans),
+  # classified by the identical thresholds (data/hemlock/validation_phases.csv,
+  # written by code/final_phase_and_scans.R).
+  vp <- "data/hemlock/validation_phases.csv"
+  if (key == "PC1" && file.exists(vp)) {
+    v <- read.csv(vp)
+    recs <- rbind(recs, data.frame(
+      label = sprintf("%s (val) SoT%s ρ%.0f", v$tree,
+                      v$percent_damaged, v$mean),
+      sot = file.path("images/hemlock_SoT", paste0(v$tree, "_DBH.jpg")),
+      ert = file.path("images/hemlock_ERT", paste0(v$tree, "_DBH.jpg")),
+      cat = sub(":.*$", "", v$quadrant), val = TRUE,
+      stringsAsFactors = FALSE))
+  }
   plan <- list()
   for (ci in seq_len(nrow(catinfo))) {
-    ids <- m$tree[cats == catinfo$code[ci]]
-    plan[[length(plan) + 1]] <- list(kind = "hdr",
-      txt = sprintf("%s — %s  (n=%d)", catinfo$code[ci], catinfo$nm[ci], length(ids)),
-      col = catinfo$col[ci])
-    if (length(ids) == 0) {
+    idx <- which(recs$cat == catinfo$code[ci])
+    idx <- idx[order(recs$val[idx])]   # study trees first, validation last
+    nv <- sum(recs$val[idx])
+    txt <- sprintf("%s — %s  (n=%d%s)", catinfo$code[ci], catinfo$nm[ci],
+                   length(idx) - nv,
+                   if (nv > 0) sprintf(" + %d validation", nv) else "")
+    plan[[length(plan) + 1]] <- list(kind = "hdr", txt = txt,
+                                     col = catinfo$col[ci])
+    if (length(idx) == 0) {
       plan[[length(plan) + 1]] <- list(kind = "img", ids = integer(0))
     } else {
-      for (s in seq(1, length(ids), by = PER))
+      for (s in seq(1, length(idx), by = PER))
         plan[[length(plan) + 1]] <- list(kind = "img",
-                                         ids = ids[s:min(s + PER - 1, length(ids))])
+                                         ids = idx[s:min(s + PER - 1, length(idx))])
     }
   }
   units <- vapply(plan, function(p) if (p$kind == "hdr") 0.32 else 1.0, numeric(1))
@@ -76,19 +101,18 @@ montage <- function(key) {
                 gp = gpar(fontsize = 12, fontface = "bold", col = p$col))
     } else {
       for (k in seq_along(p$ids)) {
-        t <- p$ids[k]
+        r <- recs[p$ids[k], ]
         base <- 0.01 + (k - 1) * (0.98 / PER); cellw <- 0.98 / PER
-        row <- m[m$tree == t, ][1, ]
-        dirs <- c(SOT, ERT)
-        for (jj in seq_along(dirs)) {
-          img <- image_crop(image_read(find_scan(dirs[jj], t)), CROP)
+        paths <- c(r$sot, r$ert)
+        for (jj in seq_along(paths)) {
+          img <- image_crop(image_read(paths[jj]), CROP)
           draw_fit(img, base + (jj - 1) * (cellw * 0.48), ycur + 0.03 * h,
                    cellw * 0.45, h * 0.74, W, H)
         }
-        grid.text(sprintf("#%s %s SoT%s ρ%.0f", t, substr(row$sp, 1, 4),
-                          row$percent_damaged, row$mean),
-                  x = base + cellw * 0.48, y = ycur + h * 0.88,
-                  gp = gpar(fontsize = 6.6))
+        grid.text(r$label, x = base + cellw * 0.48, y = ycur + h * 0.88,
+                  gp = gpar(fontsize = 6.6,
+                            col = if (r$val) "#555555" else "black",
+                            fontface = if (r$val) "italic" else "plain"))
       }
     }
   }

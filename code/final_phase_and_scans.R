@@ -209,6 +209,12 @@ dat <- dat %>%
 cat("\nQuadrant counts:\n")
 print(table(dat$quadrant, dat$dataset))
 
+# Persist the validation trees' phase assignments so downstream figures
+# (e.g. the paired-scan montage) use the identical classification.
+dat %>% filter(dataset == "validation") %>%
+  select(tree, pc1, percent_damaged = structural_loss, mean, quadrant) %>%
+  write_csv("data/hemlock/validation_phases.csv")
+
 # ============================================================================
 # 3. FINAL PHASE DIAGRAM — all species, symmetrical, quadrant labels
 # ============================================================================
@@ -241,11 +247,13 @@ quad_fill <- c("I: No Decay" = "#4E79A7", "II: Incipient" = "#E5C460",
 quad_text <- c("I: No Decay" = "#355570", "II: Incipient" = "#A89030",
                "III: Active" = "#9A5F28", "IV: Cavity" = "#8C3535")
 
-# Phase diagram plots ONLY the 57 classified study trees. (The submitted
-# version inadvertently also plotted the 12 validation hemlocks, which are
-# never classified; is_validation was computed but unused.)
-p_final <- ggplot(dat %>% filter(dataset == "training"),
-                  aes(x = pc1, y = structural_loss)) +
+# Phase diagram shows the 57 classified study trees (solid symbols, species
+# shapes) plus the 12 validation hemlocks as open circles. (The submitted
+# version plotted the validation trees indistinguishably from study trees.)
+phase_dat <- dat %>%
+  mutate(phase_label = ifelse(dataset == "validation",
+                              "T. canadensis (validation)", species_label))
+p_final <- ggplot(phase_dat, aes(x = pc1, y = structural_loss)) +
   # Quadrant shading
   annotate("rect",
            xmin = pc1_lim[1], xmax = ert_threshold,
@@ -293,11 +301,16 @@ p_final <- ggplot(dat %>% filter(dataset == "training"),
            label = "IV: Cavity", hjust = 0, vjust = 1,
            color = quad_text[4], fontface = "bold", size = 4.5) +
   # All points: shape by species, same size, dark grey, slight vertical jitter
-  geom_point(aes(shape = species_label),
+  geom_point(aes(shape = phase_label),
              size = 3.5, alpha = 0.75, color = "grey20",
              position = position_jitter(width = 0, height = 0.1, seed = 42)) +
-  scale_shape_manual(name = "Species", values = spp_shapes,
-                     labels = italic_species) +
+  scale_shape_manual(name = "Species",
+                     values = c(spp_shapes, "T. canadensis (validation)" = 1),
+                     breaks = c(names(spp_shapes), "T. canadensis (validation)"),
+                     labels = function(x) parse(text = ifelse(
+                       x == "T. canadensis (validation)",
+                       "italic('T. canadensis')~'(validation)'",
+                       paste0("italic('", x, "')")))) +
   scale_x_continuous(trans = signed_sqrt_trans,
                      breaks = c(-4, -2, -1, 0, 1, 2, 4)) +
   scale_y_continuous(trans = signed_sqrt_trans,
@@ -713,6 +726,16 @@ site_counts <- dat_train_q %>%
   mutate(pct = n / sum(n) * 100,
          total = sum(n)) %>%
   ungroup()
+
+# Third bar: the 12 validation hemlocks, classified by the same thresholds
+val_counts <- dat %>%
+  filter(dataset == "validation") %>%
+  mutate(quadrant = factor(quadrant,
+                           levels = levels(dat_train_q$quadrant))) %>%
+  count(quadrant, .drop = FALSE) %>%
+  mutate(site = "Validation", pct = n / sum(n) * 100, total = sum(n))
+site_counts <- bind_rows(site_counts, val_counts) %>%
+  mutate(site = factor(site, levels = c("BGS", "EMS", "Validation")))
 
 # --- Percent stacked charts ---
 p_spp_pct <- ggplot(spp_counts, aes(x = species_label, y = pct, fill = quadrant)) +
