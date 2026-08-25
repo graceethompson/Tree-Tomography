@@ -241,7 +241,11 @@ quad_fill <- c("I: No Decay" = "#4E79A7", "II: Incipient" = "#E5C460",
 quad_text <- c("I: No Decay" = "#355570", "II: Incipient" = "#A89030",
                "III: Active" = "#9A5F28", "IV: Cavity" = "#8C3535")
 
-p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
+# Phase diagram plots ONLY the 57 classified study trees. (The submitted
+# version inadvertently also plotted the 12 validation hemlocks, which are
+# never classified; is_validation was computed but unused.)
+p_final <- ggplot(dat %>% filter(dataset == "training"),
+                  aes(x = pc1, y = structural_loss)) +
   # Quadrant shading
   annotate("rect",
            xmin = pc1_lim[1], xmax = ert_threshold,
