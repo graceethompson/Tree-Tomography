@@ -24,15 +24,11 @@ names(sot) <- c("filename", "pct_damaged")
 sot$tree <- sub("^(HF_[0-9]+)_.*$", "\\1", sot$filename)
 sot$height <- sub("^HF_[0-9]+_(.*)\\.jpg$", "\\1", sot$filename)
 
-# HF_031205 lists "Lower" twice (2 then 0). Every other multi-height tree is
-# recorded in Upper, Lower, DBH order, so the first duplicate (2%) is treated
-# as the mislabeled Upper scan.
-dup <- which(sot$tree == "HF_031205" & sot$height == "Lower")
-if (length(dup) == 2) {
-  sot$height[dup[1]] <- "Upper"
-  cat("NOTE: HF_031205 had two 'Lower' rows; first (",
-      sot$pct_damaged[dup[1]], "%) relabeled as Upper by file-order convention.\n\n", sep = "")
-}
+# HF_031205 originally listed "Lower" twice (2 then 0) with no Upper row;
+# the source file was corrected 2026-08-24 after inspecting the tomograms
+# (the Upper scan shows the small central defect = 2%; the Lower scan is
+# clean = 0%). Guard against any re-introduced duplicates:
+stopifnot(!anyDuplicated(sot[c("tree", "height")]))
 sot$height <- factor(sot$height, levels = c("Lower", "DBH", "Upper"))
 
 wide <- reshape(sot[c("tree", "height", "pct_damaged")],
