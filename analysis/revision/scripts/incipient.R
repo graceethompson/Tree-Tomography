@@ -53,10 +53,9 @@ for (cut_ in c(0.5, 1.0)) {
 }
 
 # ---- FIGURE: dead-band phase diagram, nested band widths in one panel ----
-# Rationale for the widths (PC1 sd = 1.89): the alternative data-driven
-# thresholds sit at -0.13 SD (median), +0.53 SD (Otsu) and +1.03 SD (GMM
-# crossover) from the mean, so +/-0.5 SD spans the median-to-Otsu range of
-# defensible cuts and +/-1 SD additionally covers the GMM crossover.
+# The +/-0.5 SD and +/-1 SD bands are illustrative transitional zones around
+# the species-median split; the manuscript's four-category scheme (point
+# colours) is unchanged.
 set.seed(2)
 yt <- c(0, 1, 5, 10, 20, 30)
 y <- sqrt(pmax(m$percent_damaged, 0))
