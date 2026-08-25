@@ -52,7 +52,11 @@ for (cut_ in c(0.5, 1.0)) {
               sprintf("%.1f", cut_), cat_counts(classify(cut_))))
 }
 
-# ---- FIGURE: 6-cell dead-band phase diagram (two dead-band widths) ----
+# ---- FIGURE: dead-band phase diagram, nested band widths in one panel ----
+# Rationale for the widths (PC1 sd = 1.89): the alternative data-driven
+# thresholds sit at -0.13 SD (median), +0.53 SD (Otsu) and +1.03 SD (GMM
+# crossover) from the mean, so +/-0.5 SD spans the median-to-Otsu range of
+# defensible cuts and +/-1 SD additionally covers the GMM crossover.
 set.seed(2)
 yt <- c(0, 1, 5, 10, 20, 30)
 y <- sqrt(pmax(m$percent_damaged, 0))
@@ -60,52 +64,39 @@ xr <- range(m$xdev); xpad <- 0.05 * diff(xr)
 xlim <- c(xr[1] - xpad, xr[2] + xpad)
 
 png(file.path(OUT_DIR, "CJFR-6cell.png"),
-    width = 15, height = 6, units = "in", res = 140)
-par(mfrow = c(1, 2), mar = c(4.4, 4.2, 2.4, 0.8), oma = c(0, 0, 3.4, 0),
-    mgp = c(2.4, 0.7, 0))
-first <- TRUE
-for (cut_ in c(0.5, 1.0)) {
-  cat_ <- classify(cut_)
-  plot(NA, xlim = xlim, ylim = c(-0.2, sqrt(37) + 0.2), axes = FALSE,
-       xlab = "", ylab = "")
-  rect(-cut_, par("usr")[3], cut_, par("usr")[4],
-       col = adjustcolor("gray85", alpha.f = 0.6), border = NA)
-  abline(v = 0, col = "#666666", lty = 1, lwd = 1)
-  abline(h = sqrt(1), col = "#666666", lty = 1, lwd = 1)
-  for (cc in names(CAT_COLS)) {
-    idx <- cat_ == cc
-    points(m$xdev[idx], y[idx] + rnorm(sum(idx), 0, 0.03),
-           pch = 21, bg = CAT_COLS[[cc]], col = "white", lwd = 0.5, cex = 1.3)
-  }
-  axis(1, cex.axis = 0.8)
-  if (first) axis(2, at = sqrt(yt), labels = yt, cex.axis = 0.8, las = 1) else
-    axis(2, at = sqrt(yt), labels = FALSE)
-  box()
-  title(xlab = "moisture anomaly  (species-standardized;  drier ←   0 = species median   → wetter)",
-        cex.lab = 0.8)
-  if (first) title(ylab = "SoT structural loss %  (√ scale)", cex.lab = 0.85)
-  # cell labels
-  xl <- xlim
-  text(xl[1] + 0.2, sqrt(31), "IV Cavity\n(damaged, confidently dry)", cex = 0.7,
-       col = CAT_COLS[["IV"]], font = 2, adj = c(0, 1))
-  text(xl[2] - 0.2, sqrt(31), "III Active\n(damaged, wet)", cex = 0.7,
-       col = CAT_COLS[["III"]], font = 2, adj = c(1, 1))
-  text(xl[1] + 0.2, 0.05, "I No decay\n(sound, not-wet)", cex = 0.7,
-       col = CAT_COLS[["I"]], font = 2, adj = c(0, 0.5))
-  text(xl[2] - 0.2, 0.05, "II Incipient\n(sound, confidently wet)", cex = 0.7,
-       col = CAT_COLS[["II"]], font = 2, adj = c(1, 0.5))
-  text(0, sqrt(34) + 0.25,
-       sprintf("dead band ±%.1f SD\n(transition → defaults to row baseline)", cut_),
-       cex = 0.65, col = "#555555")
-  title(main = sprintf("Dead band ±%.1f SD", cut_), cex.main = 0.9)
-  if (first) {
-    legend("left", legend = names(CAT_COLS), pch = 21, pt.bg = unname(CAT_COLS),
-           col = "white", pt.cex = 1.25, cex = 0.75, bty = "n", title = "Category")
-  }
-  first <- FALSE
+    width = 8.4, height = 5.6, units = "in", res = 170)
+par(mar = c(4.4, 4.2, 1.2, 0.8), mgp = c(2.4, 0.7, 0))
+cat_ <- classify(0)   # baseline species-median split; bands overlay uncertainty
+plot(NA, xlim = xlim, ylim = c(-0.2, sqrt(37) + 0.2), axes = FALSE,
+     xlab = "", ylab = "")
+usr <- par("usr")
+rect(-1.0, usr[3], 1.0, usr[4], col = adjustcolor("gray82", alpha.f = 0.45), border = NA)
+rect(-0.5, usr[3], 0.5, usr[4], col = adjustcolor("gray62", alpha.f = 0.45), border = NA)
+abline(v = 0, col = "#666666", lty = 1, lwd = 1)
+abline(h = sqrt(1), col = "#666666", lty = 1, lwd = 1)
+for (cc in names(CAT_COLS)) {
+  idx <- cat_ == cc
+  points(m$xdev[idx], y[idx] + rnorm(sum(idx), 0, 0.03),
+         pch = 21, bg = CAT_COLS[[cc]], col = "white", lwd = 0.5, cex = 1.3)
 }
-mtext(paste0("6-cell scheme: 4 confident corners + a \"normal\" transition column that defaults to the row baseline\n",
-             "(sound→No-decay, damaged→Active). Only \"confidently wet sound\" (II) and \"confidently dry damaged\" (IV) are off-baseline."),
-      outer = TRUE, cex = 0.85, line = 0.6)
+axis(1, cex.axis = 0.8)
+axis(2, at = sqrt(yt), labels = yt, cex.axis = 0.8, las = 1)
+box()
+title(xlab = "moisture anomaly  (species-standardized;  drier \u2190   0 = species median   \u2192 wetter)",
+      cex.lab = 0.8)
+title(ylab = "SoT structural loss %  (\u221a scale)", cex.lab = 0.85)
+xl <- xlim
+text(xl[1] + 0.2, sqrt(31), "IV Cavity", cex = 0.75,
+     col = CAT_COLS[["IV"]], font = 2, adj = c(0, 1))
+text(xl[2] - 0.2, sqrt(31), "III Active", cex = 0.75,
+     col = CAT_COLS[["III"]], font = 2, adj = c(1, 1))
+text(xl[1] + 0.2, sqrt(2.6), "I No decay", cex = 0.75,
+     col = CAT_COLS[["I"]], font = 2, adj = c(0, 0.5))
+text(xl[2] - 0.2, sqrt(2.6), "II Incipient", cex = 0.75,
+     col = CAT_COLS[["II"]], font = 2, adj = c(1, 0.5))
+text(0, sqrt(35.5), "transitional \u00b10.5 SD", cex = 0.62, col = "#444444")
+text(0.75, sqrt(33), "\u00b11 SD", cex = 0.62, col = "#777777", adj = 0)
+legend("left", legend = names(CAT_COLS), pch = 21, pt.bg = unname(CAT_COLS),
+       col = "white", pt.cex = 1.25, cex = 0.75, bty = "n", title = "Category")
 invisible(dev.off())
 cat("\nsaved 6-cell figure\n")
