@@ -96,8 +96,10 @@ DHARMa panel, the green-zone figure).
 - Vertical variation (6 multi-height hemlocks): within-tree SoT range averages
   3.2 points (max 8); the BH plane understates the section maximum by 1.7 points
   on average and misses 1 of 5 trees flagged >1% at some height. ERT resistivity
-  rises with height in 5/5 trees (wetter near the base), consistent with basal
-  decay columns tapering upward.
+  rises from the lowest to the highest plane in 6/6 trees (wetter near the
+  base; the one previously unanalyzed upper-height image was processed with
+  app/ERT_App/batch.R on 2026-08-24), consistent with basal decay columns
+  tapering upward.
 - Green zones: recorded damage excluded green (median green share 3%, up to 26%) —
   a conservative choice, since intermediate velocities are the most
   artifact-prone class: as recorded, the smallest damage call is 3% and no tree

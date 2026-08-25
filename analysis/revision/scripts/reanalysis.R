@@ -124,7 +124,9 @@ vpc1 <- bpv$pc1
 rpc <- cor.test(vpc1, v$moisture)
 rmean <- cor.test(v$mean_res, v$moisture)
 cat(sprintf("n=%d hemlocks\n", nrow(v)))
-cat(sprintf("PC1 vs moisture: r=%.3f p=%.3f\n", rpc$estimate, rpc$p.value))
+spc <- suppressWarnings(cor.test(vpc1, v$moisture, method = "spearman"))
+cat(sprintf("PC1 vs moisture: r=%.3f p=%.3f; Spearman rho=%.3f p=%.3f\n",
+            rpc$estimate, rpc$p.value, spc$estimate, spc$p.value))
 cat(sprintf("mean resistivity vs moisture: r=%.3f p=%.3f\n", rmean$estimate, rmean$p.value))
 cat(sprintf("Conductance vs moisture: r=%.3f\n", cor(v$Conductance, v$moisture)))
 for (met in c("Median", "CV", "Gini", "Entropy", "CMA", "RadialGradient")) {
