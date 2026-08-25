@@ -727,15 +727,6 @@ site_counts <- dat_train_q %>%
          total = sum(n)) %>%
   ungroup()
 
-# Third bar: the 12 validation hemlocks, classified by the same thresholds
-val_counts <- dat %>%
-  filter(dataset == "validation") %>%
-  mutate(quadrant = factor(quadrant,
-                           levels = levels(dat_train_q$quadrant))) %>%
-  count(quadrant, .drop = FALSE) %>%
-  mutate(site = "Validation", pct = n / sum(n) * 100, total = sum(n))
-site_counts <- bind_rows(site_counts, val_counts) %>%
-  mutate(site = factor(site, levels = c("BGS", "EMS", "Validation")))
 
 # --- Percent stacked charts ---
 p_spp_pct <- ggplot(spp_counts, aes(x = species_label, y = pct, fill = quadrant)) +
