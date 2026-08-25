@@ -90,36 +90,35 @@ cat(sprintf("  I<->IV  (SoT axis, 1->5%%) : %d\n", flips_between("I", "IV", base
 # threshold-sweep figure; this figure focuses on the structural axis, whose
 # strongly bimodal distribution is what makes the 1% cut stable.
 nz <- sort(dmg[dmg > 0])
-sx <- sqrt(nz)
+sx <- nz                                   # linear scale
 st <- ave(nz, nz, FUN = seq_along)        # stack duplicates vertically
-xt <- c(0, 1, 3, 5, 10, 20, 30)
+xt <- c(0, 1, 5, 10, 15, 20, 25, 30, 35)
 
 png(file.path(OUT_DIR, "CJFR-boundary-fig.png"),
     width = 8.2, height = 3.4, units = "in", res = 170)
 par(mar = c(4.0, 4.0, 1.2, 0.8), mgp = c(2.4, 0.7, 0))
-plot(NA, xlim = c(-0.25, sqrt(36)), ylim = c(0.4, 4.6), axes = FALSE,
+plot(NA, xlim = c(-1, 36), ylim = c(0.4, 4.6), axes = FALSE,
      xlab = "", ylab = "")
 usr <- par("usr")
-rect(sqrt(1), usr[3], sqrt(5), usr[4],
+rect(1, usr[3], 5, usr[4],
      col = adjustcolor("#7f8c8d", 0.15), border = NA)
-abline(v = sqrt(1), lty = 2, col = "#333333", lwd = 1.5)
-abline(v = sqrt(5), lty = 3, col = "#666666", lwd = 1.1)
+abline(v = 1, lty = 2, col = "#333333", lwd = 1.5)
+abline(v = 5, lty = 3, col = "#666666", lwd = 1.1)
 # the 42 trees at exactly zero, shown as one annotated marker
 points(0, 1, pch = 22, bg = "#3b6fb0", col = "white", cex = 2.4)
 text(0, 1, "42", cex = 0.55, col = "white", font = 2)
-text(0, 1.55, "42 trees at\nexactly 0%", cex = 0.66, col = "#26456e")
+text(0, 1.75, "42 trees at\nexactly 0%", cex = 0.66, col = "#26456e", adj = c(0.62, 0))
 # the 15 damaged trees at their recorded values
 points(sx, st, pch = 21, bg = "#b83232", col = "white", cex = 1.6, lwd = 0.6)
-text(sqrt(sqrt(1 * 5)), 4.25,
-     "threshold range 1-5%:\nonly 2 trees inside (3% and 4%)\nclassifications otherwise identical",
+text(11.5, 4.25,
+     "threshold range 1-5% (shaded):\nonly 2 trees inside (3% and 4%);\nclassifications otherwise identical",
      cex = 0.66, col = "#333333")
-text(sqrt(1), 0.55, "1% (manuscript)", cex = 0.62, col = "#333333", adj = -0.05)
-text(sqrt(5), 0.55, "5%", cex = 0.62, col = "#666666", adj = -0.2)
-axis(1, at = sqrt(xt), labels = xt, cex.axis = 0.85)
+text(1, 0.55, "1% (manuscript)", cex = 0.62, col = "#333333", adj = 1.06)
+text(5, 0.55, "5%", cex = 0.62, col = "#666666", adj = -0.45)
+axis(1, at = xt, labels = xt, cex.axis = 0.85)
 axis(2, at = 1:3, labels = 1:3, cex.axis = 0.8, las = 1)
 box()
-title(xlab = "SoT % of section damaged (recorded value; \u221a scale)",
-      cex.lab = 0.85)
+title(xlab = "SoT % of section damaged (recorded value)", cex.lab = 0.85)
 title(ylab = "trees at value (stacked)", cex.lab = 0.85)
 invisible(dev.off())
 cat("\nsaved figure\n")

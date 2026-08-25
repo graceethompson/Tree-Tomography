@@ -117,6 +117,7 @@ if (pca_fit$rotation["mean", 1] > 0) {
 }
 
 ert_threshold <- mean(dat$pc1[dat$dataset == "training"], na.rm = TRUE)
+ert_band_sd <- sd(dat$pc1[dat$dataset == "training"], na.rm = TRUE)
 
 cat("\nPC1 threshold (training mean):", round(ert_threshold, 3), "\n")
 
@@ -258,6 +259,17 @@ p_final <- ggplot(dat, aes(x = pc1, y = structural_loss)) +
            xmin = pc1_lim[1], xmax = ert_threshold,
            ymin = sot_threshold, ymax = sot_max,
            fill = quad_fill[4], alpha = 0.07) +
+  # Near-threshold transitional band: assignments between I and II (or III
+  # and IV) within mean +/- 0.5 SD of PC1 are sensitive to the threshold
+  # convention (revision, reviewer 1 issue 1)
+  annotate("rect",
+           xmin = ert_threshold - 0.5 * ert_band_sd,
+           xmax = ert_threshold + 0.5 * ert_band_sd,
+           ymin = -2, ymax = sot_max,
+           fill = "grey35", alpha = 0.10) +
+  annotate("text", x = ert_threshold, y = sot_lim[1],
+           label = "transitional\n(threshold \u00b1 0.5 SD)", vjust = 0,
+           size = 3, color = "grey35", fontface = "italic", lineheight = 0.9) +
   # Threshold lines
   geom_hline(yintercept = sot_threshold, linetype = "dashed",
              color = "grey40", linewidth = 0.5) +
