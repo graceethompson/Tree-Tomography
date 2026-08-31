@@ -208,38 +208,28 @@ df_decayed <- df_h %>%
   filter(decay == "present") %>%
   mutate(
     damaged_prop = percent_damaged / 100,
-    species = factor(as.character(species))  # alphabetical: bg, hem, rm, ro
+    species = factor(as.character(species))  # alphabetical: bg (reference), hem, rm, ro
   )
 
 betareg_sev <- betareg(damaged_prop ~ species, data = df_decayed)
 
-spp_in_model <- levels(df_decayed$species)
+# Model-based 95% CIs on the response scale (emmeans handles the link
+# back-transform; matches the submitted figure's intervals). The earlier
+# bootstrap block referenced an undefined column, so every refit failed
+# silently and panel C rendered with no error bars.
+emm_sev <- as.data.frame(emmeans::emmeans(betareg_sev, ~species,
+                                          type = "response"))
 pred_sev <- data.frame(
-  species = factor(spp_in_model, levels = spp_in_model)
+  # display order matches panel A (hem, rm, bg, ro by label sort in A's data)
+  species = factor(as.character(emm_sev$species),
+                   levels = levels(df_decayed$species)),
+  pred = emm_sev$emmean,
+  lo = emm_sev$asymp.LCL,
+  hi = emm_sev$asymp.UCL
 )
-pred_sev$pred <- predict(betareg_sev, newdata = pred_sev, type = "response")
-
-boot_sev <- matrix(NA, nrow = n_boot, ncol = length(spp_in_model))
-colnames(boot_sev) <- spp_in_model
-
-for (i in seq_len(n_boot)) {
-  idx <- sample(nrow(df_decayed), replace = TRUE)
-  boot_df <- df_decayed[idx, ]
-  fit <- tryCatch(
-    betareg(damaged_prop_adj ~ species, data = boot_df),
-    error = function(e) NULL
-  )
-  if (!is.null(fit)) {
-    preds <- tryCatch(
-      predict(fit, newdata = pred_sev, type = "response"),
-      error = function(e) rep(NA, nrow(pred_sev))
-    )
-    boot_sev[i, ] <- preds
-  }
-}
-
-pred_sev$lo <- apply(boot_sev, 2, quantile, 0.025, na.rm = TRUE)
-pred_sev$hi <- apply(boot_sev, 2, quantile, 0.975, na.rm = TRUE)
+# order the x-axis like panel A: A. rubrum, N. sylvatica, Q. rubra, T. canadensis
+pred_sev$species <- factor(as.character(pred_sev$species),
+                           levels = c("rm", "bg", "ro", "hem"))
 
 p4C <- ggplot(pred_sev, aes(x = species, y = pred, color = species)) +
   geom_point(size = 2.5) +
@@ -263,19 +253,10 @@ pred_combined_sev <- data.frame(
   left_join(pred_sev %>% select(species, sev = pred), by = "species") %>%
   mutate(expected_sev = prob * sev)
 
-boot_combined_sev <- matrix(NA, nrow = n_boot, ncol = length(spp_both))
-colnames(boot_combined_sev) <- spp_both
-
-for (i in seq_len(n_boot)) {
-  p_presence <- boot_mat[i, spp_both]
-  p_severity <- boot_sev[i, spp_both]
-  if (!any(is.na(p_presence)) && !any(is.na(p_severity))) {
-    boot_combined_sev[i, ] <- p_presence * p_severity
-  }
-}
-
-pred_combined_sev$lo <- apply(boot_combined_sev, 2, quantile, 0.025, na.rm = TRUE)
-pred_combined_sev$hi <- apply(boot_combined_sev, 2, quantile, 0.975, na.rm = TRUE)
+# Panel D (internal only; not in the manuscript): no interval estimate now
+# that panel C uses model-based CIs rather than a bootstrap.
+pred_combined_sev$lo <- NA_real_
+pred_combined_sev$hi <- NA_real_
 
 p4D <- ggplot(pred_combined_sev, aes(x = species, y = expected_sev, color = species)) +
   geom_point(size = 2.5) +
