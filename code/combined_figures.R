@@ -173,13 +173,22 @@ for (i in seq_len(n_boot)) {
 pred_spp$lo <- apply(boot_mat, 2, quantile, 0.025)
 pred_spp$hi <- apply(boot_mat, 2, quantile, 0.975)
 
-p4A <- ggplot(pred_spp, aes(x = species, y = prob, color = species)) +
-  geom_point(size = 2.5) +
-  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.2, linewidth = 0.7) +
+# Raw binary outcomes overlaid (jittered), coloured by site, per reviewer
+# issue 6: the fitted probabilities are shown over the data they summarize.
+set.seed(7)
+p4A <- ggplot(pred_spp, aes(x = species, y = prob)) +
+  geom_jitter(data = df_h,
+              aes(x = species, y = decay_binary, color = site),
+              width = 0.22, height = 0.045, size = 1.7, alpha = 0.6,
+              inherit.aes = FALSE) +
+  geom_point(size = 2.6, color = "grey15") +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.2, linewidth = 0.7,
+                color = "grey15") +
   scale_x_discrete(labels = species_labels) +
-  scale_color_manual(values = species_colors) +
+  scale_color_manual(name = "Site", values = site_colors) +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.1))) +
-  labs(x = "Species", y = "Decay presence probability", tag = "A") +
+  labs(x = "Species", y = "Decay presence (0/1) and fitted probability",
+       tag = "A") +
   base_theme
 
 # Panel B: observed prevalence by site
@@ -196,7 +205,7 @@ site_prev <- df_h %>%
 p4B <- ggplot(site_prev, aes(x = site, y = prop, fill = site)) +
   geom_col(width = 0.6, alpha = 0.85) +
   geom_errorbar(aes(ymin = prop - se, ymax = prop + se), width = 0.15) +
-  scale_fill_manual(values = site_colors) +
+  scale_fill_manual(values = site_colors, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
   labs(x = "Site", y = "Proportion with decay", tag = "B") +
   base_theme
@@ -231,12 +240,25 @@ pred_sev <- data.frame(
 pred_sev$species <- factor(as.character(pred_sev$species),
                            levels = c("rm", "bg", "ro", "hem"))
 
-p4C <- ggplot(pred_sev, aes(x = species, y = pred, color = species)) +
-  geom_point(size = 2.5) +
-  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.2, linewidth = 0.7) +
+# Individual decayed trees overlaid, coloured by site, with per-species n
+# printed, per reviewer issue 7.
+df_decayed_plot <- df_decayed %>%
+  mutate(species = factor(as.character(species), levels = levels(pred_sev$species)))
+n_lab <- df_decayed_plot %>% count(species, .drop = FALSE)
+set.seed(8)
+p4C <- ggplot(pred_sev, aes(x = species, y = pred)) +
+  geom_jitter(data = df_decayed_plot,
+              aes(x = species, y = damaged_prop, color = site),
+              width = 0.18, height = 0, size = 1.7, alpha = 0.75,
+              inherit.aes = FALSE) +
+  geom_point(size = 2.6, color = "grey15") +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.2, linewidth = 0.7,
+                color = "grey15") +
+  geom_text(data = n_lab, aes(x = species, y = -0.035, label = paste0("n=", n)),
+            size = 2.9, color = "grey35", inherit.aes = FALSE) +
   scale_x_discrete(labels = species_labels) +
-  scale_color_manual(values = species_colors) +
-  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+  scale_color_manual(name = "Site", values = site_colors, guide = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0.08, 0.1))) +
   labs(x = "Species",
        y = "Decay severity (proportion damaged)",
        tag = "C") +
@@ -270,7 +292,9 @@ p4D <- ggplot(pred_combined_sev, aes(x = species, y = expected_sev, color = spec
   base_theme
 
 # 3-panel version (paper text: A, B, C)
-fig4_3 <- p4A + p4B + p4C + plot_layout(widths = c(1, 0.7, 1))
+fig4_3 <- (p4A + p4B + p4C) +
+  plot_layout(widths = c(1, 0.7, 1), guides = "collect") &
+  ggplot2::theme(legend.position = "bottom")
 ggsave("output/figures/fig4_hurdle_3panel.pdf", fig4_3,
        width = 12, height = 4.5)
 ggsave("output/figures/fig4_hurdle_3panel.png", fig4_3,

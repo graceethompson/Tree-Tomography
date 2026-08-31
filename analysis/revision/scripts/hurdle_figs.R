@@ -117,7 +117,7 @@ pc <- ggplot(diag_df, aes(fitted, resid)) +
   geom_hline(yintercept = 0, linetype = 2, colour = "grey50") +
   geom_point(size = 2, alpha = 0.8) +
   labs(x = "fitted proportion damaged", y = "standardized weighted residual (type 2)",
-       title = "C") +
+       title = "A") +
   theme_classic(base_size = 10)
 
 qq <- qqnorm(diag_df$resid, plot.it = FALSE)
@@ -125,11 +125,13 @@ pd <- ggplot(data.frame(x = qq$x, y = qq$y), aes(x, y)) +
   geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50") +
   geom_point(size = 2, alpha = 0.8) +
   labs(x = "theoretical quantiles", y = "sample quantiles",
-       title = "D") +
+       title = "B") +
   theme_classic(base_size = 10)
 
-fig <- (pa | pb) / (pc | pd) + plot_layout(heights = c(1.35, 1))
-ggsave(file.path(OUT_DIR, "CJFR-hurdle-fig.png"), fig, width = 12.5, height = 9, dpi = 170)
+# Panels (a)-(b) (occurrence fit, severity fit over raw data) moved into the
+# revised main-text Fig. 4; this SI figure keeps the severity diagnostics.
+fig <- pc | pd
+ggsave(file.path(OUT_DIR, "CJFR-hurdle-fig.png"), fig, width = 9, height = 4.2, dpi = 170)
 
 # DHARMa simulated residuals for the occurrence stage (as in the manuscript),
 # saved alongside for completeness.
