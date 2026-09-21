@@ -36,8 +36,10 @@ B <- four(m$cma > 0.33, m$struct)
 C <- four(m$mean < median(m$mean), m$struct)
 # Scheme D: species-normalized resistivity only (anomaly = res_z<0)
 D <- four(m$res_z < 0, m$struct)
-# Scheme SM: species-median PC1 split (matches Table S-SCHEMES)
-xdev <- pc - ave(pc, m$sp, FUN = median)
+# Scheme SM: split at each species' median of species-standardized mean
+# resistivity - the identical definition used for Table S2
+# (make_assignments_table.R via xdev_species_median()).
+xdev <- xdev_species_median(m)
 SM <- four(xdev > 0, m$struct)
 
 cat_counts <- function(cc) {
@@ -103,7 +105,7 @@ par(mfrow = c(1, 3), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 2.2, 0), mgp = c(2
 panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A", ylab = TRUE)
 legend("topleft", legend = names(catcol), pch = 21, pt.bg = unname(catcol),
        col = "white", pt.cex = 1.2, cex = 0.8, bty = "n", title = "Category")
-panel(xdev, 0, "ERT PC1 − species median", SM, "B")
+panel(xdev, 0, "mean resistivity, species-standardized (0 = species median; wetter →)", SM, "B")
 panel(m$mean, median(m$mean), "mean resistivity (Ω·m, absolute)", C,
       "C", xinvert = TRUE)
 invisible(dev.off())
