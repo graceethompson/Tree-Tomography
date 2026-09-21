@@ -115,8 +115,8 @@ cat(sprintf("BGS incip range %.0f-%.0f%%, EMS %.0f-%.0f%%\n",
 # ---------------- FIGURE (3 panels) ----------------
 # matplotlib figsize (16.5, 4.9) at dpi 170 -> 2805 x 833 px
 png(file.path(OUT_DIR, "CJFR-absolute-fig.png"),
-    width = 2805, height = 833, res = 170, pointsize = 10)
-par(mfrow = c(1, 3), mgp = c(2.4, 0.7, 0))
+    width = 1500, height = 2700, res = 200, pointsize = 10)
+par(mfrow = c(3, 1), mgp = c(2.4, 0.7, 0))
 par(cex = 1)   # undo the automatic mfrow cex shrink so text matches matplotlib
 OHM <- intToUtf8(0x03A9); MIDDOT <- intToUtf8(0x00B7)
 EMDASH <- intToUtf8(0x2014); ELLIP <- intToUtf8(0x2026)
@@ -176,13 +176,13 @@ if (any(ko)) polygon(c(grid[ko], rev(grid[ko])), c(bgs[ko], rev(ems[ko])),
                      col = adjustcolor("#d9822b", alpha.f = 0.18), border = NA)
 lines(grid, bgs, col = "#1f77b4", lwd = 2.4)
 lines(grid, ems, col = "#d9822b", lwd = 2.4)
-anchor <- c(median = median(res), mean = mean(res), Otsu = t_otsu,
-            "moist>100%" = r100, "wetwood~200" = 200)
+# The three independently derived breaks the text cites (converging ~400)
+anchor <- c(Otsu = t_otsu, GMM = t_gmm, "moisture >100%" = r100)
 for (nm in names(anchor)) {
   abline(v = anchor[[nm]], col = "#444444", lty = 3, lwd = 1.0)
   text(anchor[[nm]], ymax2 * 0.98, nm, srt = 90, adj = c(1, 0), cex = 0.62, col = "#444444")
 }
-legend("topleft", legend = c("BGS (wetland)", "EMS (upland)"),
+legend("right", legend = c("BGS", "EMS"),
        col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
 title(main = "C", adj = 0, cex.main = 1.05, font.main = 2)
 invisible(dev.off())
