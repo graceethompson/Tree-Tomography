@@ -57,7 +57,7 @@ title(main = "A", adj = 0, cex.main = 1, font.main = 2)
 
 # Panel B: threshold sweep, BGS vs EMS incipient %
 plot(NA, xlim = range(ts), ylim = range(c(bgs, ems)) + c(0, 4),
-     xlab = "anomaly threshold on ERT PC1",
+     xlab = "moisture threshold on ERT PC1",
      ylab = "% of site trees classified \"incipient\"", main = "")
 keep <- bgs >= ems
 polygon(c(ts[keep], rev(ts[keep])), c(bgs[keep], rev(ems[keep])),
@@ -101,7 +101,7 @@ for (i in seq_along(tsP)) {
   emsP[i] <- sum(inc[mask_ems]) / sum(mask_ems) * 100
 }
 plot(NA, xlim = range(tsP), ylim = range(c(bgsP, emsP)) + c(0, 4),
-     xlab = "anomaly threshold on pooled ERT PC1",
+     xlab = "moisture threshold on pooled ERT PC1",
      ylab = "% of site trees classified \"incipient\"", main = "")
 keepP <- bgsP >= emsP
 polygon(c(tsP[keepP], rev(tsP[keepP])), c(bgsP[keepP], rev(emsP[keepP])),

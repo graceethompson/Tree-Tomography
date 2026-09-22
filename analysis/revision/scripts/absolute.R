@@ -166,7 +166,7 @@ title(main = "B", adj = 0, cex.main = 1.05, font.main = 2)
 par(mar = c(4, 4, 3.5, 1))
 ymax2 <- max(bgs, ems) * 1.04
 plot(NA, xlim = rev(range(grid)), ylim = c(0, ymax2),
-     xlab = paste0("anomaly threshold: resistivity below ", ELLIP, " (", ohm_m, ")"),
+     xlab = paste0("moisture threshold: resistivity below ", ELLIP, " (", ohm_m, ")"),
      ylab = "% of site trees \"incipient\"", main = "")
 kp <- bgs >= ems
 if (any(kp)) polygon(c(grid[kp], rev(grid[kp])), c(bgs[kp], rev(ems[kp])),

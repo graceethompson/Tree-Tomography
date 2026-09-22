@@ -81,7 +81,7 @@ for (cc in names(CAT_COLS)) {
 axis(1, cex.axis = 0.8)
 axis(2, at = sqrt(yt), labels = yt, cex.axis = 0.8, las = 1)
 box()
-title(xlab = "moisture anomaly  (species-standardized;  drier \u2190   0 = species median   \u2192 wetter)",
+title(xlab = "moisture index  (species-standardized;  drier \u2190   0 = species median   \u2192 wetter)",
       cex.lab = 0.8)
 title(ylab = "SoT structural loss %  (\u221a scale)", cex.lab = 0.85)
 xl <- xlim
