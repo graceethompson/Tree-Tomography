@@ -252,7 +252,7 @@ quad_text <- c("I: No Decay" = "#355570", "II: Incipient" = "#A89030",
 # version plotted the validation trees indistinguishably from study trees.)
 phase_dat <- dat %>%
   mutate(phase_label = ifelse(dataset == "validation",
-                              "T. canadensis (calibration)", species_label))
+                              "T. canadensis (cored)", species_label))
 p_final <- ggplot(phase_dat, aes(x = pc1, y = structural_loss)) +
   # Quadrant shading
   annotate("rect",
@@ -305,11 +305,11 @@ p_final <- ggplot(phase_dat, aes(x = pc1, y = structural_loss)) +
              size = 3.5, alpha = 0.75, color = "grey20",
              position = position_jitter(width = 0, height = 0.1, seed = 42)) +
   scale_shape_manual(name = "Species",
-                     values = c(spp_shapes, "T. canadensis (calibration)" = 1),
-                     breaks = c(names(spp_shapes), "T. canadensis (calibration)"),
+                     values = c(spp_shapes, "T. canadensis (cored)" = 1),
+                     breaks = c(names(spp_shapes), "T. canadensis (cored)"),
                      labels = function(x) parse(text = ifelse(
-                       x == "T. canadensis (calibration)",
-                       "italic('T. canadensis')~'(calibration)'",
+                       x == "T. canadensis (cored)",
+                       "italic('T. canadensis')~'(cored)'",
                        paste0("italic('", x, "')")))) +
   scale_x_continuous(trans = signed_sqrt_trans,
                      breaks = c(-4, -2, -1, 0, 1, 2, 4)) +
