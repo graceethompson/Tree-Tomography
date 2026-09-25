@@ -16,7 +16,7 @@ row_for <- function(label, denom, a, n1, c, n2) {
   b <- n1 - a; d <- n2 - c
   or <- (a * d) / (b * c)
   p <- fisher.test(matrix(c(a, b, c, d), nrow = 2, byrow = TRUE))$p.value
-  data.frame(contrast = label, denominator = denom,
+  data.frame(contrast = label,
              bgs_incipient = a, bgs_n = n1, bgs_pct = round(a / n1 * 100),
              ems_incipient = c, ems_n = n2, ems_pct = round(c / n2 * 100),
              odds_ratio = ifelse(is.finite(or), round(or, 2), Inf),
@@ -24,26 +24,22 @@ row_for <- function(label, denom, a, n1, c, n2) {
 }
 
 rows <- list()
+# All rows use the same denominator as the manuscript (all trees at each site):
+# "incipient" = structurally sound AND PC1 above the threshold.
 for (cs in list(list(-0.5, "mean - 0.5 SD"), list(0, "mean (manuscript)"),
                 list(0.5, "mean + 0.5 SD"), list(1, "mean + 1 SD"))) {
   t0 <- mean(pc) + cs[[1]] * sdv
   inc <- sound & (pc > t0)
   rows[[length(rows) + 1]] <- row_for(
-    paste0("PC1 threshold ", cs[[2]]), "structurally sound trees",
-    sum(inc & m$site == "BGS"), sum(sound & m$site == "BGS"),
-    sum(inc & m$site == "EMS"), sum(sound & m$site == "EMS"))
+    paste0("PC1 threshold ", cs[[2]]), "all trees",
+    sum(inc & m$site == "BGS"), sum(m$site == "BGS"),
+    sum(inc & m$site == "EMS"), sum(m$site == "EMS"))
 }
-
-inc0 <- sound & (pc > mean(pc))
-rows[[length(rows) + 1]] <- row_for(
-  "PC1 threshold mean (manuscript)", "all trees",
-  sum(inc0 & m$site == "BGS"), sum(m$site == "BGS"),
-  sum(inc0 & m$site == "EMS"), sum(m$site == "EMS"))
 
 g <- m[m$sp %in% c("A.rubrum", "T.canadensis"), ]
 incg <- (!g$struct) & (g$pc1 > mean(pc))
 rows[[length(rows) + 1]] <- row_for(
-  "PC1 threshold mean (manuscript)", "generalist species only (all trees)",
+  "PC1 threshold mean (manuscript), generalist species only", "all trees",
   sum(incg & g$site == "BGS"), sum(g$site == "BGS"),
   sum(incg & g$site == "EMS"), sum(g$site == "EMS"))
 
