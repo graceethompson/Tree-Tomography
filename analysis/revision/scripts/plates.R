@@ -11,12 +11,12 @@ ERT <- "images/main_ERT"; SOT <- "images/main_SoT"; CROP <- "410x470+60+30"
 m <- load_merged(); pc <- build_pc1(m)$pc1; m$struct <- m$percent_damaged > 1
 cats <- four_cat(pc > mean(pc), m$struct)
 sp_full <- function(s) sub("^([A-Z])\\.", "\\1. ", s)
-recs <- data.frame(label = sprintf("%s  %s\n%g%% damage  |  %.0f Ω·m", m$tree, sp_full(m$sp), m$percent_damaged, m$mean),
+recs <- data.frame(label = sprintf("%s  %s\n%g%% damage  |  %.0f Ω·m  |  PC1 %+.1f", m$tree, sp_full(m$sp), m$percent_damaged, m$mean, pc),
                    sot = vapply(m$tree, function(t) find_scan(SOT, t), character(1)),
                    ert = vapply(m$tree, function(t) find_scan(ERT, t), character(1)),
                    cat = cats, cored = FALSE, stringsAsFactors = FALSE)
 v <- read.csv("data/hemlock/validation_phases.csv")
-recs <- rbind(recs, data.frame(label = sprintf("%s (cored)\n%g%% damage  |  %.0f Ω·m", v$tree, v$percent_damaged, v$mean),
+recs <- rbind(recs, data.frame(label = sprintf("%s (cored)\n%g%% damage  |  %.0f Ω·m  |  PC1 %+.1f", v$tree, v$percent_damaged, v$mean, v$pc1),
                                sot = file.path("images/hemlock_SoT", paste0(v$tree, "_DBH.jpg")),
                                ert = file.path("images/hemlock_ERT", paste0(v$tree, "_DBH.jpg")),
                                cat = sub(":.*$", "", v$quadrant), cored = TRUE, stringsAsFactors = FALSE))
