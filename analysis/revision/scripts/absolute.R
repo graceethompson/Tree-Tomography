@@ -186,3 +186,21 @@ legend("topright", bty = "n", cex = 0.85,
 title(main = "C", adj = 0, cex.main = 1.05, font.main = 2)
 invisible(dev.off())
 cat("\nsaved figure + CSV\n")
+
+# ---- classification at the three converged absolute anchors (cited in §4.4) ----
+# Same rule as the manuscript scheme, but "elevated moisture" = mean resistivity
+# below the anchor instead of species-normalized PC1 above the study-set mean.
+sa <- read.csv("analysis/revision/output/scheme_assignments.csv")
+dam <- sa$percent_damaged > 1
+anc <- do.call(rbind, lapply(names(anchor), function(nm) {
+  thr <- anchor[[nm]]; wet <- sa$mean < thr
+  cat_abs <- ifelse(!dam & !wet, "I", ifelse(!dam & wet, "II", ifelse(dam & wet, "III", "IV")))
+  ib <- sum(cat_abs == "II" & sa$site == "BGS"); ie <- sum(cat_abs == "II" & sa$site == "EMS")
+  nb <- sum(sa$site == "BGS"); ne <- sum(sa$site == "EMS")
+  data.frame(anchor = nm, threshold_ohm_m = round(thr), agreement_with_pc1_scheme = round(100 * mean(cat_abs == sa$cat_pc1)),
+             n_I = sum(cat_abs == "I"), n_II = sum(cat_abs == "II"), n_III = sum(cat_abs == "III"), n_IV = sum(cat_abs == "IV"),
+             incipient_pct_BGS = round(100 * ib / nb), incipient_pct_EMS = round(100 * ie / ne),
+             fisher_p = signif(fisher.test(matrix(c(ib, nb - ib, ie, ne - ie), 2))$p.value, 2))
+}))
+write.csv(anc, file.path(OUT_DIR, "CJFR-absolute-anchor-classification.csv"), row.names = FALSE)
+print(anc)
