@@ -45,7 +45,7 @@ m1_binary <- glm(decay_binary ~ species + site,
 summary(m1_binary)
 
 # fancy residual tests before we go too far
-m1_simres <- simulateResiduals(m1_binary)
+m1_simres <- simulateResiduals(m1_binary, n = 250, seed = 123)  # seed fixed so the reported KS/dispersion/outlier p-values (0.23/0.82/1) reproduce
 plot(m1_simres) # looks good! Ignore the little bit of red, this isn't bad for DHARMa
 
 # --- Model comparison ----------------------------

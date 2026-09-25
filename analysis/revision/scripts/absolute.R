@@ -156,7 +156,7 @@ points(m$pmoist[me], rep(-0.0006, sum(me)), col = adjustcolor("#d9822b", 0.6), p
 for (mc in list(c(90, "#999999"), c(100, "#555555"), c(110, "#111111"))) {
   x0 <- as.numeric(mc[[1]])
   abline(v = x0, col = mc[[2]], lty = 3, lwd = 1.2)
-  text(x0, ymax * 0.92, sprintf("%d%%", x0), cex = 0.6)
+  text(x0, ymax * 0.97, sprintf("%d%% MC", x0), cex = 0.8, pos = 4, offset = 0.2, col = mc[[2]])
 }
 legend("topright", legend = c("BGS", "EMS"), col = c("#1f77b4", "#d9822b"),
        lwd = 2, bty = "n", cex = 0.9)
@@ -177,13 +177,12 @@ if (any(ko)) polygon(c(grid[ko], rev(grid[ko])), c(bgs[ko], rev(ems[ko])),
 lines(grid, bgs, col = "#1f77b4", lwd = 2.4)
 lines(grid, ems, col = "#d9822b", lwd = 2.4)
 # The three independently derived breaks the text cites (converging ~400)
-anchor <- c(Otsu = t_otsu, GMM = t_gmm, "moisture >100%" = r100)
-for (nm in names(anchor)) {
-  abline(v = anchor[[nm]], col = "#444444", lty = 3, lwd = 1.0)
-  text(anchor[[nm]], ymax2 * 0.98, nm, srt = 90, adj = c(1, 0), cex = 0.62, col = "#444444")
-}
-legend("right", legend = c("BGS", "EMS"),
-       col = c("#1f77b4", "#d9822b"), lwd = 2.4, bty = "n", cex = 0.9)
+anchor <- c("Otsu threshold" = t_otsu, "GMM crossover" = t_gmm, "moisture content = 100%" = r100)
+acol <- c("#6a3d9a", "#2ca25f", "#111111"); alty <- c(2, 4, 3)
+for (i in seq_along(anchor)) abline(v = anchor[[i]], col = acol[i], lty = alty[i], lwd = 1.4)
+legend("topright", bty = "n", cex = 0.85,
+       legend = c("BGS", "EMS", sprintf("%s (%.0f %s)", names(anchor), anchor, ohm_m)),
+       col = c("#1f77b4", "#d9822b", acol), lwd = c(2.4, 2.4, 1.4, 1.4, 1.4), lty = c(1, 1, alty))
 title(main = "C", adj = 0, cex.main = 1.05, font.main = 2)
 invisible(dev.off())
 cat("\nsaved figure + CSV\n")
