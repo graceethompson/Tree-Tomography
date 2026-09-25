@@ -1,6 +1,6 @@
 # Fig. S18 plates: paired SoT + ERT tomograms for every tree, grouped by the
-# manuscript's decay category (PC1 scheme), 3 pairs per row so each plate fits
-# one portrait page. Category I is split over two plates. The 12 cored
+# manuscript's decay category (PC1 scheme): one plate per category, each fitting
+# one portrait page (category I at 4 pairs per row, the others at 3). The 12 cored
 # hemlocks (DBH scans, classified by the same thresholds) are appended to
 # their categories, labelled "(cored)".
 # Run from the repo root: Rscript analysis/revision/scripts/plates.R
@@ -22,7 +22,7 @@ recs <- rbind(recs, data.frame(label = sprintf("%s (cored)  |  %g%%  |  %.0f Ω�
                                cat = sub(":.*$", "", v$quadrant), cored = TRUE, stringsAsFactors = FALSE))
 catinfo <- data.frame(code = c("I", "II", "III", "IV"), nm = c("No Decay", "Incipient", "Active", "Cavity"),
                       col = c("#3b6fb0", "#4e9a2c", "#d98a1f", "#b83232"))
-PER <- 3; MAXROWS <- 7
+PER_FOR <- c(I = 4, II = 3, III = 3, IV = 3); ROWH_FOR <- c(`4` = 0.95, `3` = 1.15)
 draw_fit <- function(img, x, y, w, h, figw, figh) {
   info <- image_info(img); ar <- info$height / info$width; wi <- w * figw; hi <- h * figh
   if (wi * ar <= hi) { dw <- wi; dh <- wi * ar } else { dh <- hi; dw <- hi / ar }
@@ -31,19 +31,15 @@ draw_fit <- function(img, x, y, w, h, figw, figh) {
 plates <- list(); part <- 0
 for (ci in seq_len(nrow(catinfo))) {
   idx <- which(recs$cat == catinfo$code[ci]); idx <- idx[order(recs$cored[idx])]
-  chunks <- split(idx, ceiling(seq_along(idx) / (PER * MAXROWS)))
-  for (k in seq_along(chunks)) {
-    part <- part + 1
-    nv <- sum(recs$cored[chunks[[k]]]); ns <- length(chunks[[k]]) - nv
-    hdr <- sprintf("(%s)  Category %s — %s%s: %d study tree%s%s", letters[part], catinfo$code[ci], catinfo$nm[ci],
-                   if (length(chunks) > 1) sprintf(" (part %d of %d)", k, length(chunks)) else "",
-                   ns, if (ns == 1) "" else "s", if (nv > 0) sprintf(" + %d cored hemlock%s", nv, if (nv == 1) "" else "s") else "")
-    plates[[part]] <- list(hdr = hdr, col = catinfo$col[ci], ids = chunks[[k]])
-  }
+  part <- part + 1
+  nv <- sum(recs$cored[idx]); ns <- length(idx) - nv
+  hdr <- sprintf("(%s)  Category %s — %s: %d study tree%s%s", letters[part], catinfo$code[ci], catinfo$nm[ci],
+                 ns, if (ns == 1) "" else "s", if (nv > 0) sprintf(" + %d cored hemlock%s", nv, if (nv == 1) "" else "s") else "")
+  plates[[part]] <- list(hdr = hdr, col = catinfo$col[ci], ids = idx, per = PER_FOR[[catinfo$code[ci]]])
 }
 for (pi in seq_along(plates)) {
-  p <- plates[[pi]]; nrow_ <- ceiling(length(p$ids) / PER)
-  W <- 6.5; rowh <- 1.15; H <- 0.42 + nrow_ * rowh
+  p <- plates[[pi]]; PER <- p$per; nrow_ <- ceiling(length(p$ids) / PER)
+  W <- 6.5; rowh <- ROWH_FOR[[as.character(PER)]]; H <- 0.42 + nrow_ * rowh
   out <- file.path(OUT_DIR, sprintf("CJFR-plate-%s.png", letters[pi]))
   png(out, width = W, height = H, units = "in", res = 220, type = "cairo"); grid.newpage()
   hh <- 0.34 / H
