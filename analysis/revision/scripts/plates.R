@@ -11,18 +11,18 @@ ERT <- "images/main_ERT"; SOT <- "images/main_SoT"; CROP <- "410x470+60+30"
 m <- load_merged(); pc <- build_pc1(m)$pc1; m$struct <- m$percent_damaged > 1
 cats <- four_cat(pc > mean(pc), m$struct)
 sp_full <- function(s) sub("^([A-Z])\\.", "\\1. ", s)
-recs <- data.frame(label = sprintf("%s  %s  |  %g%%  |  %.0f Ω·m", m$tree, sp_full(m$sp), m$percent_damaged, m$mean),
+recs <- data.frame(label = sprintf("%s  %s\n%g%% damage  |  %.0f Ω·m", m$tree, sp_full(m$sp), m$percent_damaged, m$mean),
                    sot = vapply(m$tree, function(t) find_scan(SOT, t), character(1)),
                    ert = vapply(m$tree, function(t) find_scan(ERT, t), character(1)),
                    cat = cats, cored = FALSE, stringsAsFactors = FALSE)
 v <- read.csv("data/hemlock/validation_phases.csv")
-recs <- rbind(recs, data.frame(label = sprintf("%s (cored)  |  %g%%  |  %.0f Ω·m", v$tree, v$percent_damaged, v$mean),
+recs <- rbind(recs, data.frame(label = sprintf("%s (cored)\n%g%% damage  |  %.0f Ω·m", v$tree, v$percent_damaged, v$mean),
                                sot = file.path("images/hemlock_SoT", paste0(v$tree, "_DBH.jpg")),
                                ert = file.path("images/hemlock_ERT", paste0(v$tree, "_DBH.jpg")),
                                cat = sub(":.*$", "", v$quadrant), cored = TRUE, stringsAsFactors = FALSE))
 catinfo <- data.frame(code = c("I", "II", "III", "IV"), nm = c("No Decay", "Incipient", "Active", "Cavity"),
                       col = c("#3b6fb0", "#4e9a2c", "#d98a1f", "#b83232"))
-PER_FOR <- c(I = 4, II = 3, III = 3, IV = 3); ROWH_FOR <- c(`4` = 0.95, `3` = 1.15)
+PER_FOR <- c(I = 4, II = 3, III = 3, IV = 3); ROWH_FOR <- c(`4` = 1.0, `3` = 1.2)
 draw_fit <- function(img, x, y, w, h, figw, figh) {
   info <- image_info(img); ar <- info$height / info$width; wi <- w * figw; hi <- h * figh
   if (wi * ar <= hi) { dw <- wi; dh <- wi * ar } else { dh <- hi; dw <- hi / ar }
@@ -51,10 +51,10 @@ for (pi in seq_along(plates)) {
     y0 <- top - (row + 1) * rh; base <- 0.01 + col * (0.98 / PER); cellw <- 0.98 / PER
     for (jj in 1:2) {
       img <- image_crop(image_read(c(r$sot, r$ert)[jj]), CROP)
-      draw_fit(img, base + (jj - 1) * (cellw * 0.49), y0 + 0.02 * rh, cellw * 0.47, rh * 0.80, W, H)
+      draw_fit(img, base + (jj - 1) * (cellw * 0.49), y0 + 0.02 * rh, cellw * 0.47, rh * 0.74, W, H)
     }
-    grid.text(r$label, x = base + cellw * 0.49, y = y0 + rh * 0.925,
-              gp = gpar(fontsize = 6.8, col = if (r$cored) "#555555" else "black", fontface = if (r$cored) "italic" else "plain"))
+    grid.text(r$label, x = base + cellw * 0.49, y = y0 + rh * 0.885,
+              gp = gpar(fontsize = 6.6, lineheight = 1.05, col = if (r$cored) "#555555" else "black", fontface = if (r$cored) "italic" else "plain"))
   }
   dev.off(); cat("saved", out, sprintf(" (%d pairs, %.1f in tall)\n", length(p$ids), H))
 }
