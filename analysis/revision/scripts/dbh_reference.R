@@ -1,7 +1,9 @@
 # Table S5: sampled DBH relative to stand-level size distributions (R1 #11).
 # BGS reference = June 2025 variable-radius (prism) survey of the stand
-#   (data/supplementary/BGS_VRP_2025.csv); live trees, each weighted by
-#   1/basal area so the distribution is per tree, not per unit basal area.
+#   (data/supplementary/BGS_VRP_2025.csv); live trees >= 10 cm, each weighted
+#   by its expansion factor (trees per ha = basal-area factor / tree basal
+#   area, i.e. proportional to 1/DBH^2), so the distribution is per stem rather
+#   than per unit basal area, as a prism tally otherwise is.
 # EMS reference = 2019 Harvard Forest ForestGEO census, live trees (main stem)
 #   >= 10 cm DBH. Orwig, Foster & Ellison 2023, HF253 v6,
 #   doi:10.6073/pasta/818789a882a318c1d7f3fc43a2289e12 — download
@@ -23,7 +25,7 @@ rows <- list()
 for (site in c("BGS", "EMS")) for (s in c("acerru", "nysssy", "querru", "tsugca")) {
   o <- ours$dbh[ours$sp == s & ours$site == site]
   if (!length(o)) next
-  if (site == "BGS") { x <- vrp$dbh[vrp$species == s]; w <- 1 / x^2; ref <- "BGS prism survey 2025 (live trees >= 10 cm, weighted by trees per ha)" }
+  if (site == "BGS") { x <- vrp$dbh[vrp$species == s]; w <- 1 / x^2; ref <- "BGS prism survey 2025 (live trees >= 10 cm, weighted by expansion factor = BAF / tree basal area)" }
   else { x <- cen$dbh[cen$sp == s]; w <- rep(1, length(x)); ref <- "ForestGEO census 2019 (live trees >= 10 cm)" }
   qq <- wq(x, w, c(.25, .5, .75)); pc <- wpct(x, w, o)
   rows[[length(rows) + 1]] <- data.frame(site = site, species = latin[[s]], reference = ref, reference_n = length(x),

@@ -1,7 +1,7 @@
 "site","species","reference","reference_n","ref_p25_cm","ref_median_cm","ref_p75_cm","sampled_n","sampled_dbh_min_cm","sampled_dbh_max_cm","sampled_percentile_min","sampled_percentile_max"
-"BGS","A. rubrum","BGS prism survey 2025 (live trees >= 10 cm, weighted by trees per ha)",123,17,23,28,10,17.1,28.7,28,80
-"BGS","N. sylvatica","BGS prism survey 2025 (live trees >= 10 cm, weighted by trees per ha)",92,17,24,34,10,16.9,27.8,30,60
-"BGS","T. canadensis","BGS prism survey 2025 (live trees >= 10 cm, weighted by trees per ha)",109,14,21,31,9,18.5,35.7,42,86
+"BGS","A. rubrum","BGS prism survey 2025 (live trees >= 10 cm, weighted by expansion factor = BAF / tree basal area)",123,17,23,28,10,17.1,28.7,28,80
+"BGS","N. sylvatica","BGS prism survey 2025 (live trees >= 10 cm, weighted by expansion factor = BAF / tree basal area)",92,17,24,34,10,16.9,27.8,30,60
+"BGS","T. canadensis","BGS prism survey 2025 (live trees >= 10 cm, weighted by expansion factor = BAF / tree basal area)",109,14,21,31,9,18.5,35.7,42,86
 "EMS","A. rubrum","ForestGEO census 2019 (live trees >= 10 cm)",5234,14,18,25,10,17.61,26.17,46,79
 "EMS","Q. rubra","ForestGEO census 2019 (live trees >= 10 cm)",3271,26,33,42,9,34.78,42.74,55,78
 "EMS","T. canadensis","ForestGEO census 2019 (live trees >= 10 cm)",7648,14,22,32,9,17.21,35.65,37,80
