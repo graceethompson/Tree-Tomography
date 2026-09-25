@@ -1,4 +1,6 @@
-# Table S5: sampled DBH relative to stand-level size distributions (R1 #11).
+# Archived check (not in the SI): sampled DBH relative to stand-level size
+# distributions, made while answering R1 #11. The manuscript describes the
+# realized selection criteria (mid-sized trees, 17-43 cm DBH) instead.
 # BGS reference = June 2025 variable-radius (prism) survey of the stand
 #   (data/supplementary/BGS_VRP_2025.csv); live trees >= 10 cm, each weighted
 #   by its expansion factor (trees per ha = basal-area factor / tree basal
@@ -34,5 +36,5 @@ for (site in c("BGS", "EMS")) for (s in c("acerru", "nysssy", "querru", "tsugca"
     sampled_percentile_min = round(min(pc)), sampled_percentile_max = round(max(pc)))
 }
 tab <- bind_rows(rows)
-write.csv(tab, "analysis/revision/output/CJFR-dbh-reference.csv", row.names = FALSE)
+write.csv(tab, "analysis/revision/output/archive/CJFR-dbh-reference.csv", row.names = FALSE)
 print(tab[, -3])
