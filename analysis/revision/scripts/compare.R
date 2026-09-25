@@ -100,8 +100,8 @@ panel <- function(x, anom_line, xlabel, cats, title, xinvert = FALSE, ylab = FAL
 }
 
 png(file.path(OUT_DIR, "CJFR-binning-compare.png"),
-    width = 16, height = 5.2, units = "in", res = 150)
-par(mfrow = c(1, 3), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 2.2, 0), mgp = c(2.4, 0.7, 0))
+    width = 6.2, height = 15, units = "in", res = 150)
+par(mfrow = c(3, 1), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 0.5, 0), mgp = c(2.4, 0.7, 0))
 panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A", ylab = TRUE)
 legend("topleft", legend = names(catcol), pch = 21, pt.bg = unname(catcol),
        col = "white", pt.cex = 1.2, cex = 0.8, bty = "n", title = "Category")
