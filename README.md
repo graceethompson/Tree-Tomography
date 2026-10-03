@@ -81,3 +81,7 @@ All scripts use relative paths from the project root. Set your working directory
 1. `treedecay_og.R` — SoT descriptive analysis
 2. `treedecay_app.R` — ERT descriptive analysis
 3. `final_phase_and_scans.R` — Phase diagram and PCA analysis
+
+## Citation and license
+
+Code: MIT (`LICENSE`). Please cite the archived release (Zenodo DOI; see `CITATION.cff`) and Thompson et al. (2026), https://doi.org/10.64898/2026.06.10.730433.

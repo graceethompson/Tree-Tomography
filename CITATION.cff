@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below, together with Thompson et al. (2026), Internal decay in living trees: a quantitative tomography framework and its application in a temperate forest."
+type: software
+title: "Tree-Tomography: quantitative tomography of internal decay in living trees, including the ERT image analysis application"
+version: 1.0.0
+date-released: "2026-10-02"
+authors:
+  - family-names: Thompson
+    given-names: Grace E.
+    orcid: "https://orcid.org/0009-0003-1423-932X"
+  - family-names: Gewirtzman
+    given-names: Jonathan
+    orcid: "https://orcid.org/0000-0003-3959-3758"
+license: MIT
+repository-code: "https://github.com/graceethompson/Tree-Tomography"
+keywords:
+  - tomography
+  - electrical resistance tomography
+  - sonic tomography
+  - wood decay
+  - Shiny
+  - Harvard Forest
+references:
+  - type: article
+    authors:
+      - family-names: Thompson
+        given-names: Grace E.
+      - family-names: Lutz
+        given-names: Maxwell P.
+      - family-names: Lucey
+        given-names: Taylor K.
+      - family-names: Duncan
+        given-names: Bethany
+      - family-names: Yang
+        given-names: Masako
+      - family-names: Jurado
+        given-names: Samuel
+      - family-names: Matthes
+        given-names: Jaclyn Hatala
+      - family-names: Marra
+        given-names: Robert E.
+      - family-names: Gewirtzman
+        given-names: Jonathan
+    title: "Internal decay in living trees: a quantitative tomography framework and its application in a temperate forest"
+    year: 2026
+    journal: bioRxiv
+    doi: 10.64898/2026.06.10.730433

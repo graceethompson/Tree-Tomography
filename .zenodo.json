@@ -1,0 +1,16 @@
+{
+  "title": "Tree-Tomography: quantitative tomography of internal decay in living trees, including the ERT image analysis application",
+  "description": "Code and data for the Harvard Forest tomography study of internal decay in four tree species (Thompson et al. 2026), including the open-source R/Shiny application that extracts quantitative metrics (mean, median, SD, CV, Gini, entropy, central moisture accumulation, radial gradient and an 8-ring radial profile) from PiCUS electrical resistance tomograms.",
+  "creators": [
+    {"name": "Thompson, Grace E.", "orcid": "0009-0003-1423-932X"},
+    {"name": "Gewirtzman, Jonathan", "orcid": "0000-0003-3959-3758"}
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "keywords": ["tomography", "electrical resistance tomography", "sonic tomography", "wood decay", "Shiny", "Harvard Forest"],
+  "related_identifiers": [
+    {"identifier": "10.64898/2026.06.10.730433", "relation": "isSupplementTo", "scheme": "doi", "resource_type": "publication-preprint"}
+  ],
+  "version": "1.0.0",
+  "language": "eng"
+}
