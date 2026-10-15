@@ -61,7 +61,7 @@ cat("Heights per tree:\n")
 print(ert %>% count(tree_id, name = "n_heights"))
 
 # Load core moisture data
-mc <- read_excel("data/hemlock/MC_Tomo_paper_Jon.xlsx", sheet = 1)
+mc <- read_excel("data/hemlock/hemlock_core_moisture.xlsx", sheet = 1)
 names(mc) <- c("tree_id", "moisture")
 
 # Merge ERT with moisture

@@ -3,9 +3,9 @@
 # Assemble the tomography data package for the Harvard Forest Data Archive (on EDI):
 # sonic (SoT) and electrical resistance (ERT) tomography of the 60 stem-flux trees and of
 # the 12 hemlocks of the moisture validation set. A separate dataset from the stem flux
-# package; both papers (Thompson et al., CJFR; Gewirtzman et al., JGR-B) cite it.
+# package; the tomography and stem flux papers both cite it.
 #
-# Run from the repository root. Sources: data/, images/ and analysis/revision/data/ of this
+# Run from the repository root. Sources: data/, images/ and analysis/data/ of this
 # repository; metadata text and column definitions in data_package/metadata/.
 # Output : data_package/output/package/ (EML templates in data_package/output/).
 # Requires: EMLassemblyline, readxl
@@ -23,7 +23,7 @@ unlink(TEMPLATE_DIR, recursive = TRUE); dir.create(PACKAGE_DIR, recursive = TRUE
 tables <- c(
   Tree_ID_info.csv                = file.path(REPO, "data", "Tree_ID_info.csv"),
   ERT_application_results.csv     = file.path(REPO, "data", "ERT_application_results.csv"),
-  sot_sensor_counts.csv           = file.path(REPO, "analysis", "revision", "data", "sot_image_annotations.csv"),
+  sot_sensor_counts.csv           = file.path(REPO, "analysis", "data", "sot_image_annotations.csv"),
   hemlock_ERT_results.csv         = file.path(REPO, "data", "hemlock", "ERT_results_2026-03-05.csv"),
   hemlock_SoT_results.csv         = file.path(REPO, "data", "hemlock", "SOT_results.csv"))
 stopifnot(all(file.exists(tables)))
@@ -32,7 +32,7 @@ for (k in names(tables)) {   # copied as recorded; byte-order marks removed so t
   if (k == "sot_sensor_counts.csv") x[-1] <- sub(",$", ",NA", x[-1])   # empty note = NA
   writeLines(x, file.path(PACKAGE_DIR, k), useBytes = TRUE)
 }
-mc <- as.data.frame(readxl::read_excel(file.path(REPO, "data", "hemlock", "MC_Tomo_paper_Jon.xlsx")))
+mc <- as.data.frame(readxl::read_excel(file.path(REPO, "data", "hemlock", "hemlock_core_moisture.xlsx")))
 stopifnot(identical(names(mc), c("ID", "Moisture content (%)")))
 write.csv(data.frame(tree_id = mc$ID, moisture_content_pct = mc$`Moisture content (%)`),
           file.path(PACKAGE_DIR, "hemlock_core_moisture.csv"), row.names = FALSE)

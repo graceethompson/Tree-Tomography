@@ -105,15 +105,11 @@ treedecayinfo %>%
 
 #library(tidyverse)
 library(lme4)  
-install.packages("betareg")
 library(betareg)
 #library(dplyr)  
 #library(ggplot2)
-install.packages("emmeans")
 library(emmeans) 
-install.packages("DHARMa")
 library(DHARMa)
-#install.packages("patchwork")
 #library(patchwork)
 
 

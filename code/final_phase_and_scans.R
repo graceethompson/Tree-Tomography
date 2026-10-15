@@ -273,7 +273,7 @@ p_final <- ggplot(phase_dat, aes(x = pc1, y = structural_loss)) +
            fill = quad_fill[4], alpha = 0.07) +
   # Near-threshold transitional band: assignments between I and II (or III
   # and IV) within mean +/- 0.5 SD of PC1 are sensitive to the threshold
-  # convention (revision, reviewer 1 issue 1)
+  # convention
   annotate("rect",
            xmin = ert_threshold - 0.5 * ert_band_sd,
            xmax = ert_threshold + 0.5 * ert_band_sd,
@@ -379,7 +379,7 @@ if (pca_fit$rotation["mean", 1] > 0) {
 }
 
 # Load core moisture
-mc <- read_excel("data/hemlock/MC_Tomo_paper_Jon.xlsx", sheet = 1)
+mc <- read_excel("data/hemlock/hemlock_core_moisture.xlsx", sheet = 1)
 names(mc) <- c("tree_id", "moisture")
 hem_ert_height <- hem_ert_height %>% left_join(mc, by = "tree_id")
 
