@@ -4,21 +4,33 @@
 .Ruserdata
 .DS_Store
 Icon?
+.claude/
 
-# Markdown drafts / prompts (keep README.md); notes/memos stay untracked
+# Markdown drafts / notes stay untracked (keep the READMEs and data package metadata)
 *.md
 !README.md
+!data_package/metadata/*.md
 
-# Revision working documents (in-project but untracked)
-analysis/revision/*.docx
+# Local working material, not part of the public repository
+# (manuscript assembly, review correspondence, internal checks)
+analysis/revision/
+*.docx
 
-# Local revision package (docs, previews, rendered HTML)
-analysis/revision/revision-package/
+# Superseded or exploratory code and its inputs (kept locally only)
+code/decay_hurdle_analysis.R
+code/treedecay_relfreq.R
+code/Tree_Tomography_Data_Analysis.Rmd
+data/supplementary/*
+!data/supplementary/BGS_VRP_2025.csv
+
+# External data downloaded by the user (ForestGEO census, HF253)
 data/external/
 
-# Regenerable tomogram panels (large)
+# Regenerable outputs (large); see README
 output/panels/
+output/hemlock_figures/fig_scans_by_height_with_pc1.pdf
+output/hemlock_figures/fig_scans_by_height_pc1_only.pdf
+analysis/output/additional/
 
 # Data package build (metadata text is tracked; the built package is not)
-!data_package/metadata/*.md
 data_package/output/
