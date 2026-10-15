@@ -29,6 +29,7 @@ tables <- c(
 stopifnot(all(file.exists(tables)))
 for (k in names(tables)) {   # copied as recorded; byte-order marks removed so the column names are clean
   x <- readLines(tables[[k]], encoding = "UTF-8", warn = FALSE); x[1] <- sub("^﻿", "", x[1])
+  if (k == "sot_sensor_counts.csv") x[-1] <- sub(",$", ",NA", x[-1])   # empty note = NA
   writeLines(x, file.path(PACKAGE_DIR, k), useBytes = TRUE)
 }
 mc <- as.data.frame(readxl::read_excel(file.path(REPO, "data", "hemlock", "MC_Tomo_paper_Jon.xlsx")))
