@@ -1,0 +1,14 @@
+column,unit,description
+filename,,ERT image file (tree_date; in tomograms_study_trees.zip/ERT_absolute)
+tree,,tag number of the tree
+ert_mean,ohm m,mean electrical resistivity across the cross-section
+ert_median,ohm m,median electrical resistivity
+ert_sd,ohm m,standard deviation of electrical resistivity
+ert_cv,,coefficient of variation of electrical resistivity
+ert_gini,,Gini coefficient of the resistivity distribution
+ert_entropy,,Shannon entropy of the resistivity distribution
+ert_cma,,"central moisture accumulation: proportion of the wettest pixels (lowest 30 % of resistivity) that lie in the central third of the cross-section (> 0.33 = moisture concentrated in the centre)"
+ert_radialgradiant,ohm m,"radial gradient: mean resistivity at the edge minus mean resistivity at the centre (positive = drier edge) (spelling as in the source file)"
+npixels,,number of image pixels inside the cross-section boundary
+sot_solid,%,percentage of the SoT cross-section classified as solid wood
+sot_damaged,%,percentage of the SoT cross-section classified as damaged (non-brown)

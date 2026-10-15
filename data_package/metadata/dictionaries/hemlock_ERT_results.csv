@@ -1,0 +1,11 @@
+column,unit,description
+Filename,,hemlock ERT tomogram (HF_tag_height; in tomograms_hemlock.zip/ERT); scans analysed more than once appear more than once
+Mean,ohm m,mean electrical resistivity across the cross-section
+Median,ohm m,median electrical resistivity
+SD,ohm m,standard deviation of electrical resistivity
+CV,,coefficient of variation of electrical resistivity
+Gini,,Gini coefficient of the resistivity distribution
+Entropy,,Shannon entropy of the resistivity distribution
+CMA,,"central moisture accumulation: proportion of the wettest pixels (lowest 30 % of resistivity) that lie in the central third of the cross-section"
+RadialGradient,ohm m,"radial gradient: mean resistivity at the edge minus mean resistivity at the centre (positive = drier edge)"
+NPixels,,number of image pixels inside the cross-section boundary

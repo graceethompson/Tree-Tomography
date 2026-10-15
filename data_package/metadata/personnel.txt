@@ -1,0 +1,13 @@
+givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
+Jonathan		Gewirtzman	Stanford University	jgewirtz@stanford.edu	0000-0003-3959-3758	creator			
+Grace	E	Thompson	Harvard Forest, Harvard University; University of Connecticut		0009-0003-1423-932X	creator			
+Maxwell	P	Lutz	Harvard Forest, Harvard University		0009-0006-1361-7511	creator			
+Taylor	K	Lucey	University of Massachusetts Amherst			creator			
+Bethany		Duncan	Columbia University; Louisiana State University		0009-0007-5625-5220	creator			
+Masako		Yang	Harvard University			creator			
+Samuel		Jurado	Yale University		0009-0005-1902-4066	creator			
+Jaclyn	Hatala	Matthes	Harvard Forest, Harvard University		0000-0001-8999-8062	creator			
+Robert	E	Marra	The Connecticut Agricultural Experiment Station		0000-0002-5357-3270	creator			
+Jonathan		Gewirtzman	Stanford University	jgewirtz@stanford.edu	0000-0003-3959-3758	contact			
+Jaclyn	Hatala	Matthes	Harvard Forest, Harvard University		0000-0001-8999-8062	PI	Redefining the ecological memory of disturbance over multiple temporal and spatial scales in forest ecosystems	National Science Foundation	DEB-1945921, DEB-2231681
+Jaclyn	Hatala	Matthes	Harvard Forest, Harvard University		0000-0001-8999-8062	PI	Environmental System Science	U.S. Department of Energy, Office of Science	DE-SC0024092

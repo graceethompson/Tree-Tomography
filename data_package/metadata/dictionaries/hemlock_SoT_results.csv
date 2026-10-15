@@ -1,0 +1,3 @@
+column,unit,description
+Filename,,hemlock SoT tomogram (HF_tag_height; in tomograms_hemlock.zip/SoT)
+pct_damaged,%,percentage of the SoT cross-section in non-brown (damaged) classes

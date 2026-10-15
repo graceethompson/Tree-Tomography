@@ -1,0 +1,9 @@
+column,unit,description
+plot,,plot code: BGS (wetland) or upland plot code
+species,,"species code: bg Nyssa sylvatica; hem Tsuga canadensis; rm Acer rubrum; ro Quercus rubra"
+tree,,tag number of the tree
+dbh,cm,stem diameter at breast height
+crack_detected,,yes if a crack was detected on the sonic tomogram (as recorded in the tomography study)
+percent_solid_wood,%,percentage of the SoT cross-section classified as solid wood
+percent_damaged,%,percentage of the SoT cross-section in non-brown (damaged) classes (structural loss)
+decay,,"present if percent_damaged > 0; otherwise absent"
