@@ -2,7 +2,7 @@
 # data_package/build_data_package.R
 # Assemble the tomography data package for the Harvard Forest Data Archive (on EDI):
 # sonic (SoT) and electrical resistance (ERT) tomography of the 60 stem-flux trees and of
-# the 12 hemlocks of the moisture validation set. A separate dataset from the stem flux
+# the 12 cored eastern hemlocks. A separate dataset from the stem flux
 # package; the tomography and stem flux papers both cite it.
 #
 # Run from the repository root. Sources: data/, images/ and analysis/data/ of this
@@ -78,18 +78,18 @@ table_info <- rbind(
   c("Tomography tree table", "SoT results of the 57 study trees with a complete SoT scan: plot, species, tag, DBH, crack detected, percent solid and damaged wood."),
   c("ERT image analysis results", "Eight ERT resistivity metrics for each ERT tomogram of the study trees, as exported by the ERT image-analysis application (Tree-Tomography repository)."),
   c("SoT sensor counts", "Number of SoT sensors and PiCUS solid-wood percentage read from each SoT tomogram (study trees and hemlocks)."),
-  c("Hemlock ERT results", "Eight ERT resistivity metrics for each ERT tomogram of the hemlock validation set (up to three heights per tree)."),
-  c("Hemlock SoT results", "SoT damaged percentage for each SoT tomogram of the hemlock validation set."),
-  c("Hemlock core moisture", "Gravimetric moisture content of the increment core of each hemlock in the validation set."))
+  c("Hemlock ERT results", "Eight ERT resistivity metrics for each ERT tomogram of the cored hemlocks (up to three heights per tree)."),
+  c("Hemlock SoT results", "SoT damaged percentage for each SoT tomogram of the cored hemlocks."),
+  c("Hemlock core moisture", "Gravimetric moisture content of the increment core of each cored hemlock."))
 other_info <- rbind(
   c("tomograms_study_trees.zip", "Tomograms of the 60 study trees",
     "JPEG exports of the PiCUS tomograms at breast height: ERT_absolute (ERT, absolute resistivity scale), ERT_normalized (ERT, scale normalized to each tree) and SoT (sonic). File names are tree_date (e.g. 412_22vii24 = tree 412, 22 July 2024)."),
-  c("tomograms_hemlock.zip", "Tomograms of the hemlock validation set",
-    "JPEG exports of the ERT and SoT tomograms of the 12 validation hemlocks. File names are HF_tag_height (Lower, DBH, Upper)."))
+  c("tomograms_hemlock.zip", "Tomograms of the cored hemlocks",
+    "JPEG exports of the ERT and SoT tomograms of the 12 cored hemlocks. File names are HF_tag_height (Lower, DBH, Upper)."))
 
 eml <- make_eml(
   path = TEMPLATE_DIR, data.path = PACKAGE_DIR, eml.path = PACKAGE_DIR,
-  dataset.title = "Sonic and electrical resistance tomography of upland and wetland trees at Harvard Forest 2024, with a hemlock moisture validation set",
+  dataset.title = "Sonic and electrical resistance tomography of upland and wetland trees at Harvard Forest 2024, with cored eastern hemlocks",
   temporal.coverage = c("2024-07-02", "2024-09-11"),   # scan dates (Zeit field of the PiCUS .pit files)
   maintenance.description = "Completed.",
   data.table = tables, data.table.name = table_info[, 1], data.table.description = table_info[, 2],

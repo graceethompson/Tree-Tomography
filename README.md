@@ -32,9 +32,9 @@ Tree-Tomography/
 
 - `Tree_ID_info.csv`: the 57 study trees (plot, species, tree tag, dbh, SoT percent damaged and percent solid wood)
 - `ERT_application_results.csv`: 8 ERT metrics per tree (mean, median, sd, cv, gini, entropy, cma, radial gradient), from the app
-- `hemlock/`: validation hemlocks
+- `hemlock/`: the cored hemlocks
   - `validation_summary.csv`: ERT metrics and core moisture per tree (written by `code/ert_validation_analysis.R`)
-  - `validation_phases.csv`: phase-diagram class of each validation hemlock (written by `code/final_phase_and_scans.R`)
+  - `validation_phases.csv`: phase-diagram class of each cored hemlock (written by `code/final_phase_and_scans.R`)
   - `SOT_results.csv`: SoT percent damaged per scan (tree × height)
   - `ERT_results_2026-03-05.csv`: ERT metrics per scan (tree × height)
   - `hemlock_core_moisture.xlsx`: gravimetric moisture content of the cores
@@ -45,7 +45,7 @@ Tree-Tomography/
 
 - `main_SoT/`, `main_ERT/`: tomograms of the study trees
 - `main_ERT_normalized/`: ERT tomograms on the normalized colour scale
-- `hemlock_SoT/`, `hemlock_ERT/`: tomograms of the validation hemlocks (`<tree>_<Lower|DBH|Upper>.jpg`)
+- `hemlock_SoT/`, `hemlock_ERT/`: tomograms of the cored hemlocks (`<tree>_<Lower|DBH|Upper>.jpg`)
 - `app_screenshot.png`: screenshot used in the supplementary app figure
 
 ### `app/ERT_App/`
