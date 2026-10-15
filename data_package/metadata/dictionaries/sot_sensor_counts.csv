@@ -1,0 +1,5 @@
+column,unit,description
+filename,,SoT tomogram file (tree_date for the study trees in tomograms_study_trees.zip/SoT; HF_tag_height for the hemlocks in tomograms_hemlock.zip/SoT)
+sensor_count,,number of SoT sensors placed around the stem (read from the tomogram)
+solid_wood_pct,%,"PiCUS ""solid wood %"" shown in the tomogram header"
+notes,,notes on the tomogram

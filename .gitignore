@@ -18,3 +18,7 @@ data/external/
 
 # Regenerable tomogram panels (large)
 output/panels/
+
+# Data package build (metadata text is tracked; the built package is not)
+!data_package/metadata/*.md
+data_package/output/

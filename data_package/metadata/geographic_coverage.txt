@@ -1,0 +1,4 @@
+geographicDescription	northBoundingCoordinate	southBoundingCoordinate	eastBoundingCoordinate	westBoundingCoordinate
+Black Gum Swamp (wetland site): study trees and prism survey points, Prospect Hill tract, Harvard Forest, Petersham, Massachusetts, USA	42.5390	42.5350	-72.1798	-72.1850
+Environmental Measurement Station (EMS) eddy covariance tower footprint (upland site): study trees, Prospect Hill tract, Harvard Forest, Petersham, Massachusetts, USA	42.5383	42.5365	-72.1718	-72.1776
+Harvard Forest CTFS-ForestGEO plot (HF253), Prospect Hill tract, Harvard Forest, Petersham, Massachusetts, USA: hemlock validation trees	42.54	42.54	-72.18	-72.18

@@ -1,0 +1,18 @@
+keyword	keywordThesaurus
+trees	LTER Controlled Vocabulary
+forests	LTER Controlled Vocabulary
+wetlands	LTER Controlled Vocabulary
+decomposition	LTER Controlled Vocabulary
+wood decay	
+heart rot	
+wetwood	
+sonic tomography	
+electrical resistance tomography	
+wood moisture	
+Nyssa sylvatica	
+Acer rubrum	
+Tsuga canadensis	
+Quercus rubra	
+Harvard Forest	
+Black Gum Swamp	
+Environmental Measurement Station	
