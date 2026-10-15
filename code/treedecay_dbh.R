@@ -8,8 +8,8 @@ library(tidyverse)
 library(dplyr)
 library(ggplot2)
 
-read_csv("Tree_ID_info.csv")
-treedecayinfo <- read_csv("Tree_ID_info.csv")
+read_csv("data/Tree_ID_info.csv")
+treedecayinfo <- read_csv("data/Tree_ID_info.csv")
 
 # Create table with BGS and EMS distinction
 treedecayinfo <- treedecayinfo %>%

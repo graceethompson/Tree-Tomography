@@ -80,7 +80,9 @@ ert_norm_dir <- file.path(base_dir, "main_ERT")
 ert_abs_dir  <- file.path(base_dir, "main_ERT")
 
 # Hemlock image directories (separate study)
-hem_base <- "/Users/jongewirtzman/My Drive/Research/Tomography/Hemlock_Tomography"
+# Validation-hemlock tomograms: the ERT exports are in images/hemlock_ERT; the SoT percent-calculation
+# exports used for the panels are not in the repository (set HEMLOCK_TOMO_DIR to their folder).
+hem_base <- Sys.getenv("HEMLOCK_TOMO_DIR", "../Hemlock_Tomography")
 hem_sot_dir <- file.path(hem_base, "SoTs_Percent_Calculations")
 hem_ert_norm_dir <- file.path(hem_base, "ERT JPEGS_Absolute")
 

@@ -13,7 +13,7 @@ library(cowplot)
 library(grid)
 
 # Set working directory
-setwd("/Users/jongewirtzman/My Drive/Research/Tomography/Tree-Tomography")
+# Run from the repository root.
 
 # ── Color palette ──────────────────────────────────────────────────────────
 pal_height <- c("DBH" = "#2166AC", "Lower" = "#4DAC26", "Upper" = "#D6604D")
