@@ -34,3 +34,6 @@ analysis/output/additional/
 
 # Data package build (metadata text is tracked; the built package is not)
 data_package/output/
+
+# Default graphics device output from interactive-style scripts
+Rplots.pdf
