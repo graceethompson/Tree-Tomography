@@ -89,7 +89,7 @@ other_info <- rbind(
 
 eml <- make_eml(
   path = TEMPLATE_DIR, data.path = PACKAGE_DIR, eml.path = PACKAGE_DIR,
-  dataset.title = "Sonic and electrical resistance tomography of upland and wetland trees at Harvard Forest 2024, with cored eastern hemlocks",
+  dataset.title = "Sonic and electrical resistance tomography of upland and wetland trees at Harvard Forest 2024",
   temporal.coverage = c("2024-07-02", "2024-09-11"),   # scan dates (Zeit field of the PiCUS .pit files)
   maintenance.description = "Completed.",
   data.table = tables, data.table.name = table_info[, 1], data.table.description = table_info[, 2],
