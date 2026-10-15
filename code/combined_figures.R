@@ -173,8 +173,8 @@ for (i in seq_len(n_boot)) {
 pred_spp$lo <- apply(boot_mat, 2, quantile, 0.025)
 pred_spp$hi <- apply(boot_mat, 2, quantile, 0.975)
 
-# Raw binary outcomes overlaid (jittered), coloured by site, per reviewer
-# issue 6: the fitted probabilities are shown over the data they summarize.
+# Raw binary outcomes overlaid (jittered), coloured by site, so that the
+# fitted probabilities are shown over the data they summarize.
 set.seed(7)
 p4A <- ggplot(pred_spp, aes(x = species, y = prob)) +
   geom_jitter(data = df_h,
@@ -241,7 +241,7 @@ pred_sev$species <- factor(as.character(pred_sev$species),
                            levels = c("rm", "bg", "ro", "hem"))
 
 # Individual decayed trees overlaid, coloured by site, with per-species n
-# printed, per reviewer issue 7.
+# printed.
 df_decayed_plot <- df_decayed %>%
   mutate(species = factor(as.character(species), levels = levels(pred_sev$species)))
 n_lab <- df_decayed_plot %>% count(species, .drop = FALSE)
@@ -275,7 +275,7 @@ pred_combined_sev <- data.frame(
   left_join(pred_sev %>% select(species, sev = pred), by = "species") %>%
   mutate(expected_sev = prob * sev)
 
-# Panel D (internal only; not in the manuscript): no interval estimate now
+# Panel D (not in the paper): no interval estimate now
 # that panel C uses model-based CIs rather than a bootstrap.
 pred_combined_sev$lo <- NA_real_
 pred_combined_sev$hi <- NA_real_

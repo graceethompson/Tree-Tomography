@@ -4,6 +4,8 @@ library(jpeg)
 library(png)
 library(patchwork)
 
+dir.create("output/panels", recursive = TRUE, showWarnings = FALSE)
+
 # ============================================================================
 # 1. DATA PREP (same as phase_diagram_analysis.R)
 # ============================================================================

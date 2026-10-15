@@ -13,7 +13,7 @@ treedecayinfo <- treedecayinfo %>%
     plot %in% c("C1", "C2", "D1", "D2", "E1", "E5", "F1", "G1", "H1") ~ "EMS",
     TRUE ~ "BGS"))
 
-# Don't know why I have this here 
+# Species as a factor
 treedecayinfo <- treedecayinfo %>%
   group_by(site) %>% # From this point forward, any grouped operations are performed within each site
   mutate(species = factor(species)) %>% # Converts species into a factor
@@ -102,7 +102,6 @@ par(mfrow = c(2,2))
 plot(overlapping_solid_twowayanova)
 
 
-install.packages("lmPerm")
 library(lmPerm)
 
 overlapping_solid_permanova <- aovp(percent_solid_wood ~ species * site, 
@@ -430,7 +429,6 @@ ggplot(treedecayinfo, aes(species, percent_damaged, color = species)) +
 ggsave("output/figures/sot_damaged_wood_tagged.pdf", width = 8, height = 5)
 
 # Trying a beta regression generalized linear model 
-install.packages("betareg")
 library(betareg)
 
 
