@@ -10,7 +10,7 @@ Corresponding to an existing biometric plot network established around the footp
 
 ### Eastern hemlock water content
 
-Twelve eastern hemlocks were measured at multiple heights with ERT to validate ERT-derived moisture metrics against core-extracted gravimetric moisture content.
+Twelve eastern hemlocks were scanned with ERT and SoT at breast height, six of them also at a lower and an upper height, to validate ERT-derived moisture metrics against core-extracted gravimetric moisture content.
 
 ## ERT Image Analysis App
 
@@ -42,7 +42,7 @@ Source code: `app/ERT_App/app.R`
   - `SOT_results.csv` — SoT percent damaged per hemlock section
   - `ERT_results_2026-03-05.csv` — Per-height ERT metrics for hemlocks
   - `MC_Tomo_paper_Jon.xlsx` — Core moisture content data
-- `supplementary/` — Supporting data files from earlier analyses
+- `supplementary/` — Inputs of the original data compilation (`code/Tree_Tomography_Data_Analysis.Rmd`) and the 2025 Black Gum Swamp prism survey (`BGS_VRP_2025.csv`)
 
 ### `code/`
 
@@ -56,7 +56,10 @@ Source code: `app/ERT_App/app.R`
 - `check_agreement.R` — Agreement analysis between SoT and ERT
 - `decay_hurdle_analysis.R` — Hurdle model analysis of decay presence/severity
 - `decay_presence_severity.R` — Decay presence/severity analysis with figures
-- `fig_ert_workflow.R` — 3-panel ERT workflow figure (raw tomogram, calibration, quantitative output)
+- `fig_ert_workflow.R` — 3-panel ERT workflow figure (raw tomogram, calibration, quantitative output) and the app screenshot figure
+- `combined_figures.R` — combined SoT, ERT and hurdle-model figures (`fig2_*`, `fig3_*`, `fig4_*` in `output/figures/`)
+- `treedecay_dbh.R` — decay versus stem diameter
+- `crop_ert_image.R` — crops an ERT tomogram to its measurement polygon (example output in `output/cropped/`)
 - `Tree_Tomography_Data_Analysis.Rmd` — Data compilation (Max Lutz)
 
 ### `images/`
@@ -71,7 +74,7 @@ Source code: `app/ERT_App/app.R`
 
 - `figures/` — Main study figures (phase diagram, PCA biplot, quadrant distributions, SoT/ERT boxplots, ERT workflow figure)
 - `hemlock_figures/` — Hemlock validation and scan figures
-- `panels/` — Tomogram image panels by phase diagram position
+- `panels/` — Tomogram image panels by phase diagram position (large; not tracked, regenerate with `code/phase_image_panels.R`)
 - `tables/` — Analysis result tables
 
 ## Running the analysis
@@ -81,6 +84,16 @@ All scripts use relative paths from the project root. Set your working directory
 1. `treedecay_og.R` — SoT descriptive analysis
 2. `treedecay_app.R` — ERT descriptive analysis
 3. `final_phase_and_scans.R` — Phase diagram and PCA analysis
+4. `fig_ert_workflow.R` and `combined_figures.R` — manuscript figures
+5. `ert_validation_analysis.R` — hemlock validation figures
+
+The sensitivity and robustness analyses of the supplement are in `analysis/revision/` (see its README). The hemlock tomogram panels of `phase_image_panels.R` also need the hemlock SoT percent-calculation exports, which are not in the repository (`HEMLOCK_TOMO_DIR`). The ForestGEO census used by `analysis/revision/scripts/stand_context.R` and `dbh_reference.R` is Harvard Forest dataset HF253 (`hf253-06-stems-2019.csv`), placed in `data/external/`.
+
+R packages: tidyverse, patchwork, cowplot, gridExtra, scales, ggrepel, factoextra, pheatmap, betareg, emmeans, broom, DHARMa, lme4, lmPerm, mclust, cluster, DescTools, ROCR, TOC, readxl, magick, jpeg, png, imager, sp; for the app also shiny, shinydashboard and DT.
+
+## Data
+
+The tomography data and images in `data/` and `images/` are a working copy for running the code. The archived dataset is in the Harvard Forest Data Archive (dataset ID to be added); cite that dataset for the data.
 
 ## Citation and license
 

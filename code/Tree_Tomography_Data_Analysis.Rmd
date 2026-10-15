@@ -11,7 +11,7 @@ output: html_document
 library(tidyverse)
 #Reading in the data from the soil flux measurements. This data was previously collected with bad chamber volume but was recalculated to correct for the error. However, we are mostly concered with the soil moisture anyway.
 
-soil_moisture <- read.csv("~/Documents/Harvard_Forest/Data/Full_datasets/volume_recalced_soil_flux.csv") %>% mutate(., DateTime = as.POSIXct(DATE_TIME.initial_value, format = "%m/%d/%y %H:%M")) %>% 
+soil_moisture <- read.csv("../data/supplementary/volume_recalced_soil_flux.csv") %>% mutate(., DateTime = as.POSIXct(DATE_TIME.initial_value, format = "%m/%d/%y %H:%M")) %>% 
   select(LABEL, DateTime, SWC_2.mean, EC_2.mean) %>% #selecting the columns I want (excluding soil flux)
   filter(nchar(LABEL) == 3) %>% #getting rid of some bad Labels
   subset(., .$SWC_2.mean >= 0) #Real measurements cannot be greater than 0 (ex: -9999 were present)
@@ -44,7 +44,7 @@ soil_moisture_mean <- soil_moisture %>%
 
 Now Lets add the tree demographic data
 ```{r}
-tree_ID <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Flux_Trees_ID.csv") %>% 
+tree_ID <- read.csv("../data/supplementary/Flux_Trees_ID.csv") %>% 
   .[c(1:60),c(1:5)]
 
 ```
@@ -54,7 +54,7 @@ tree_ID <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Flux_Trees_ID.cs
 This is just for fun and personal experiment. Previous correlations did not work from the previous instrument, just want to check with 7810 data
 
 ```{r}
-stem_flux <- read.csv("~/Documents/Harvard_Forest/R/Tree_Fluxes/all_7810_tree_flux_combined.csv")
+stem_flux <- read.csv("../data/supplementary/all_7810_tree_flux_combined.csv")
 
 stem_flux_mean <- stem_flux %>%
   group_by(REMARK) %>%
@@ -72,7 +72,7 @@ stem_flux_mean <- stem_flux %>%
 
 ```{r}
 
-tomograph_tree_list <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Tomography_categories_Grace.xlsx - Sheet1.csv") %>% #This is to insure that the trees measured are retained throughout the data merge.
+tomograph_tree_list <- read.csv("../data/supplementary/Tomography_categories_Grace.xlsx - Sheet1.csv") %>% #This is to insure that the trees measured are retained throughout the data merge.
 select(Tree.ID, Density)
 
 tomograph_tree_list$Tree.ID <- as.character(tomograph_tree_list$Tree.ID)
@@ -115,7 +115,7 @@ tomdat_df <- tomdat_df %>%
 
 #Exporting as a csv
 
-write.csv(tomdat_df, file = "~/Documents/Harvard_Forest/Tree_Tomography/Tomography_suplimentary_data.csv")
+write.csv(tomdat_df, file = "../data/supplementary/Tomography_suplimentary_data.csv")
 
 
 ```
@@ -132,7 +132,7 @@ library(ROCR)
 library(TOC)
 
 #Processed ERT images
-absolute_ERT <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Image Processing/Absolute_ERT_results_2025-10-10.csv") %>% 
+absolute_ERT <- read.csv("../data/supplementary/Absolute_ERT_results_2025-10-10.csv") %>% 
   rename(Tree.ID = tree,
          mean_ert = mean,
          median_ert = median,
@@ -143,10 +143,10 @@ absolute_ERT <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Image Proce
   )
 
 #soil moisture, soil conductivity, and mean stem flux
-supplimentary_dat <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Tomography_suplimentary_data.csv")
+supplimentary_dat <- read.csv("../data/supplementary/Tomography_suplimentary_data.csv")
 
 #presences absence data of
-tomography_categories <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Tomography_categories_Grace.xlsx - Sheet1.csv")
+tomography_categories <- read.csv("../data/supplementary/Tomography_categories_Grace.xlsx - Sheet1.csv")
 
 
 #Experimentation with TOC curve
@@ -197,10 +197,10 @@ Visualization creation from meeting on 12/5/2025
 ```{r}
 library(tidyverse)
 
-Absolute_ert_moisture <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Image Processing/Absolute_ERT_results_2025-10-10.csv") %>% 
+Absolute_ert_moisture <- read.csv("../data/supplementary/Absolute_ERT_results_2025-10-10.csv") %>% 
   select(-c(filename,))
 
-Tree_damage <- read.csv("~/Documents/Harvard_Forest/Tree_Tomography/Tree_percent_damage_Grace.csv") %>% 
+Tree_damage <- read.csv("../data/supplementary/Tree_percent_damage_Grace.csv") %>% 
   select(-notes)
 
 tom_df <- dplyr::left_join(Absolute_ert_moisture, Tree_damage)
@@ -385,7 +385,7 @@ I really wish I had my notes, because I can't remember what I was tasked with do
 
 ```{r}
 
-write.csv(tom_df, file = "~/Documents/Harvard_Forest/Tree_Tomography/temp.csv")
+write.csv(tom_df, file = tempfile(fileext = ".csv"))
 
 
 max_ert <- tom_df %>%
@@ -510,7 +510,7 @@ ggsave("output/figures/pct_from_healthiest_scatter.pdf", width = 9, height = 7)
 #K-mean clustering . . .
   
 
-write.csv(tom_df_2, "~/Documents/Harvard_Forest/Tree_Tomography/Image Processing/temp.csv")
+write.csv(tom_df_2, tempfile(fileext = ".csv"))
 
 
 

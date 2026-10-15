@@ -24,7 +24,7 @@ library(DHARMa)
 #library(patchwork)
 
 
-treedecayinfo <- read.csv("Tree_ID_info.csv")
+treedecayinfo <- read.csv("data/Tree_ID_info.csv")
 treedecayinfo$site <- as.factor(ifelse(treedecayinfo$plot == "BGS", "BGS", "EMS"))
 treedecayinfo$species <- as.factor(treedecayinfo$species)
 

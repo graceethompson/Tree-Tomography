@@ -1,6 +1,6 @@
-# Revision analysis (cjfr-2026-0202)
+# Supplementary analyses
 
-Sensitivity and robustness analyses supporting the major revision of
+Sensitivity and robustness analyses for
 "Internal decay in living trees: a quantitative tomography framework and its
 application in a temperate forest." All scripts read only the existing repo data
 (`data/`, `images/`, plus `analysis/revision/data/`) and write to
@@ -30,7 +30,7 @@ classification, Otsu/GMM helpers, tomogram lookup).
 
 | Script | Purpose |
 |---|---|
-| `reanalysis.R` | Reproduce reviewer-cited statistics: ANOVAs (one-way vs two-way), hurdle-model LRTs, classification counts, SoT damage distribution, DBH/site confound check, validation correlations, carbon denominators |
+| `reanalysis.R` | Reproduce key statistics: ANOVAs (one-way vs two-way), hurdle-model LRTs, classification counts, SoT damage distribution, DBH/site confound check, validation correlations, carbon denominators |
 | `statistical_tests.R` | Fisher exact tests on the incipient site contrast (per threshold; generalists-only subset); calibration-anchor uncertainty (CI on the calibration line vs single-tree prediction interval) |
 | `threshold.R`, `threshold_fig.R` | Unimodality of the ERT axis (GMM/BIC); threshold-rule menu (mean, median, Otsu, GMM, ±SD); continuous threshold sweep of the site contrast |
 | `absolute.R` | Same analyses in absolute units (Ω·m; predicted moisture via the hemlock calibration); species-baseline confound of the absolute axis; literature/validation anchor comparison |
@@ -44,17 +44,17 @@ classification, Otsu/GMM helpers, tomogram lookup).
 | `make_assignments_table.R` | Writes `output/scheme_assignments.csv`: every tree's category under each scheme |
 | `make_fisher_table.R` | Writes `output/CJFR-fisher-tests.csv`: Fisher exact tests of the site incipient contrast at each threshold and for the generalists-only subset |
 
-### Reviewer-requested additions
+### Additional analyses
 
-| Script | Reviewer point | Purpose |
-|---|---|---|
-| `hurdle_figs.R` | #6, #7 | Occurrence-stage fitted probabilities over the jittered binary observations by species × site; severity-stage beta-regression fit over the individual decayed trees (n per species shown, incl. the single *N. sylvatica* reference); severity residual diagnostics (the single-reference tree has leverage 1 → undefined residual); DHARMa panel for the binomial stage |
-| `sensor_counts.R` | #8 | Sensor counts + DBH for all 57 trees (from `data/sot_image_annotations.csv`, read off every tomogram); sensor spacing as effective-resolution proxy; covariance of resolution with site, species, and the damage estimate |
-| `vertical_variation.R` | #10 | Multi-height validation scans (Lower/DBH/Upper): within-tree vertical variation in SoT damage and ERT resistivity; how often a BH-only plane misses decay flagged at another height |
-| `sot_scale_check.R` | repro #1 | Verifies the PiCUS velocity colour scale (v:100% – v:70%) is pixel-identical across all 85 real SoT tomogram exports (main + validation), i.e. the damaged-area colour thresholds were constant across trees |
-| `green_zone.R` | repro #2 | How green (intermediate-velocity) zones were tabulated. Resolves the ambiguity: `percent_solid_wood` = PiCUS "Solid wood %" (brown only; header-verified 56/57), and the recorded `percent_damaged` EXCLUDED green (violet+blue only) — the manuscript's "non-brown colors combined" wording needs correcting. Includes an independent pixel-color re-measurement (r ≈ 0.98–0.99) and the sensitivity of classifications and the site contrast to counting green as damaged |
+| Script | Purpose |
+|---|---|
+| `hurdle_figs.R` | Occurrence-stage fitted probabilities over the jittered binary observations by species × site; severity-stage beta-regression fit over the individual decayed trees (n per species shown, incl. the single *N. sylvatica* reference); severity residual diagnostics (the single-reference tree has leverage 1 → undefined residual); DHARMa panel for the binomial stage |
+| `sensor_counts.R` | Sensor counts + DBH for all 57 trees (from `analysis/revision/data/sot_image_annotations.csv`, read off every tomogram); sensor spacing as effective-resolution proxy; covariance of resolution with site, species, and the damage estimate |
+| `vertical_variation.R` | Multi-height validation scans (Lower/DBH/Upper): within-tree vertical variation in SoT damage and ERT resistivity; how often a BH-only plane misses decay flagged at another height |
+| `sot_scale_check.R` | Verifies the PiCUS velocity colour scale (v:100% – v:70%) is pixel-identical across all 85 real SoT tomogram exports (main + validation), i.e. the damaged-area colour thresholds were constant across trees |
+| `green_zone.R` | How green (intermediate-velocity) zones were tabulated. Resolves the ambiguity: `percent_solid_wood` = PiCUS "Solid wood %" (brown only; header-verified 56/57), and the recorded `percent_damaged` EXCLUDED green (violet+blue only). Includes an independent pixel-color re-measurement (r ≈ 0.98–0.99) and the sensitivity of classifications and the site contrast to counting green as damaged |
 
-`data/sot_image_annotations.csv`: sensor count and PiCUS "Solid wood %" header
+`analysis/revision/data/sot_image_annotations.csv`: sensor count and PiCUS "Solid wood %" header
 value read from every SoT tomogram (main survey + validation hemlocks).
 
 ## Outputs
@@ -63,16 +63,10 @@ value read from every SoT tomogram (main survey + validation hemlocks).
 threshold sweep + normalization panel, absolute-unit panels, axis
 comparison, boundary stability, hurdle-model panels, the sensor-spacing
 covariance panel, vertical variation, the paired all-scans montage
-(published scheme), the 6-cell variant (pending a decision), and tables `CJFR-absolute-thresholds.csv`,
+(published scheme), the 6-cell variant, and tables `CJFR-absolute-thresholds.csv`,
 `scheme_assignments.csv`, `CJFR-sensor-counts.csv`,
 `CJFR-fisher-tests.csv`. Figures are publication-rendered: bare panel
-letters, no in-figure titles (captions live with the manuscript SI; the
-figure plan, captions, and response drafts are kept locally in
-`revision-package/`, untracked).
-`output/archive/` — material not bound for the manuscript (scheme
-montages, contact sheets, scan montage, cavity / PC1-vs-CMA /
-decision-tree panels, the normalization-comparison figure, the binomial
-DHARMa panel, the green-zone figure).
+letters, no in-figure titles (captions live with the manuscript SI).
 
 ## Headline numbers
 

@@ -8,7 +8,7 @@ library(readxl)
 # 1. DATA PREP — same as phase_image_panels.R
 # ============================================================================
 
-setwd("/Users/jongewirtzman/My Drive/Research/Tomography/Tree-Tomography")
+# Run from the repository root.
 
 tree_info <- read_csv("data/Tree_ID_info.csv", show_col_types = FALSE)
 ert_data  <- read_csv("data/ERT_application_results.csv", show_col_types = FALSE)
@@ -417,7 +417,7 @@ cat("Tree order by moisture:", paste(tree_order$tree_id, collapse = ", "), "\n")
 # 5. HELPER: Create scans-by-height figure
 # ============================================================================
 
-hem_ert_img_dir <- "/Users/jongewirtzman/My Drive/Research/Tomography/Hemlock_Tomography/ERT JPEGS_Absolute"
+hem_ert_img_dir <- "images/hemlock_ERT"   # validation hemlock ERT exports (absolute scale)
 
 make_scans_by_height <- function(tree_data, tree_order, metric_rows,
                                   output_file, title_text = "") {
