@@ -1,5 +1,5 @@
-# Shared helpers for the revision sensitivity analyses (cjfr-2026-0202).
-# Source from any script in analysis/revision/scripts/; run from the repo root.
+# Shared helpers for the sensitivity analyses in analysis/scripts/.
+# Source from any script in analysis/scripts/; run from the repo root.
 #
 # Reconstructs the manuscript's ERT PC1 (species-normalized z-scores, PCA on the
 # 57 main trees, oriented so higher = wetter / lower resistivity) and reproduces
@@ -77,7 +77,7 @@ four_cat <- function(anom, struct) {
       ifelse(struct & anom, "III", "IV")))
 }
 
-# Otsu threshold on a numeric vector (histogram-based, as in the Python scripts)
+# Otsu threshold on a numeric vector (histogram-based)
 otsu_threshold <- function(x, nbins = 256) {
   h <- hist(x, breaks = nbins, plot = FALSE)
   # replicate numpy.histogram: exactly nbins equal-width bins over the range
@@ -87,7 +87,7 @@ otsu_threshold <- function(x, nbins = 256) {
   w <- counts / sum(counts)
   cw <- cumsum(w); cm <- cumsum(w * centers); gm <- cm[length(cm)]
   best_t <- NA_real_; best_v <- -1
-  for (i in seq_len(nbins - 1) + 1) {   # i = 2..nbins, matching python range(1, nbins)
+  for (i in seq_len(nbins - 1) + 1) {   # i = 2..nbins
     w0 <- cw[i]; w1 <- 1 - w0
     if (w0 <= 0 || w1 <= 0) next
     v <- w0 * w1 * ((cm[i] / w0) - ((gm - cm[i]) / w1))^2
@@ -128,4 +128,7 @@ find_scan <- function(dir, tree_id,
   g[1]
 }
 
-OUT_DIR <- "analysis/revision/output"
+OUT_DIR <- "analysis/output"
+# SI figures and tables go to OUT_DIR; supporting figures that are not in the
+# paper go to OUT_DIR/additional (not tracked in git).
+dir.create(file.path(OUT_DIR, "additional"), recursive = TRUE, showWarnings = FALSE)

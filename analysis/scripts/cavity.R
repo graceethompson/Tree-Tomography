@@ -1,9 +1,9 @@
 # Cavity (IV) vs active (III) among the structurally-damaged trees: composite
-# PC1 rule vs a physical crack/dry-core rule. R port of cavity.py. Run from the
+# PC1 rule vs a physical crack/dry-core rule. Run from the
 # repo root:
-#   Rscript analysis/revision/scripts/cavity.R
+#   Rscript analysis/scripts/cavity.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 # UTF-8 locale so the png devices render em-dash / sqrt / arrow glyphs
 if (!grepl("UTF-8", Sys.getlocale("LC_CTYPE"))) invisible(try(Sys.setlocale("LC_CTYPE", "en_US.UTF-8"), silent = TRUE))
@@ -47,7 +47,7 @@ cat(sprintf("\nGap at the III/IV boundary: cavities at PC1<= %.2f; next active a
             s[3], s[4], mu, s[4] - s[3]))
 
 # ---------- figure ----------
-png(file.path(OUT_DIR, "CJFR-cavity-fig.png"),
+png(file.path(OUT_DIR, "additional", "cavity-fig.png"),
     width = 9, height = 5.2, units = "in", res = 170)
 par(mar = c(4.2, 4.6, 3.2, 0.8), mgp = c(2.6, 0.7, 0))
 plot(NA, xlim = c(-1.4, 5.3), ylim = c(-0.01, 0.48), xlab = "", ylab = "", axes = FALSE)

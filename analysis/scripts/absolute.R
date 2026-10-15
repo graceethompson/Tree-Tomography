@@ -1,6 +1,6 @@
-# R port of absolute.py (revision sensitivity analysis, cjfr-2026-0202).
-# Run from the repo root: Rscript analysis/revision/scripts/absolute.R
-source("analysis/revision/scripts/revision_common.R")
+# Classification and threshold analyses in absolute units (resistivity, Ohm-m; predicted moisture).
+# Run from the repo root: Rscript analysis/scripts/absolute.R
+source("analysis/scripts/common.R")
 
 skewness <- function(x) { mu <- mean(x); s <- sqrt(mean((x - mu)^2)); mean((x - mu)^3) / s^3 }
 
@@ -90,7 +90,7 @@ for (r in rules) {
     BGS_inc = as.integer(round(bgsr)), EMS_inc = as.integer(round(emsr)))
 }
 write.csv(do.call(rbind, tbl),
-          file.path(OUT_DIR, "CJFR-absolute-thresholds.csv"),
+          file.path(OUT_DIR, "absolute-thresholds.csv"),
           row.names = FALSE, quote = FALSE)
 
 # stability of anomaly label across absolute rule set
@@ -114,7 +114,7 @@ cat(sprintf("BGS incip range %.0f-%.0f%%, EMS %.0f-%.0f%%\n",
 
 # ---------------- FIGURE (3 panels) ----------------
 # matplotlib figsize (16.5, 4.9) at dpi 170 -> 2805 x 833 px
-png(file.path(OUT_DIR, "CJFR-absolute-fig.png"),
+png(file.path(OUT_DIR, "absolute-fig.png"),
     width = 1500, height = 2700, res = 200, pointsize = 10)
 par(mfrow = c(3, 1), mgp = c(2.4, 0.7, 0))
 par(cex = 1)   # undo the automatic mfrow cex shrink so text matches matplotlib
@@ -190,7 +190,7 @@ cat("\nsaved figure + CSV\n")
 # ---- classification at the three converged absolute anchors (cited in §4.4) ----
 # Same rule as the manuscript scheme, but "elevated moisture" = mean resistivity
 # below the anchor instead of species-normalized PC1 above the study-set mean.
-sa <- read.csv("analysis/revision/output/scheme_assignments.csv")
+sa <- read.csv("analysis/output/scheme_assignments.csv")
 dam <- sa$percent_damaged > 1
 anc <- do.call(rbind, lapply(names(anchor), function(nm) {
   thr <- anchor[[nm]]; wet <- sa$mean < thr
@@ -202,5 +202,5 @@ anc <- do.call(rbind, lapply(names(anchor), function(nm) {
              incipient_pct_BGS = round(100 * ib / nb), incipient_pct_EMS = round(100 * ie / ne),
              fisher_p = signif(fisher.test(matrix(c(ib, nb - ib, ie, ne - ie), 2))$p.value, 2))
 }))
-write.csv(anc, file.path(OUT_DIR, "CJFR-absolute-anchor-classification.csv"), row.names = FALSE)
+write.csv(anc, file.path(OUT_DIR, "absolute-anchor-classification.csv"), row.names = FALSE)
 print(anc)

@@ -1,8 +1,8 @@
 # Where does 'incipient' start? Sensitivity of the sound->incipient cut and a
-# 6-cell dead-band scheme. R port of incipient.py. Run from the repo root:
-#   Rscript analysis/revision/scripts/incipient.R
+# 6-cell dead-band scheme. Run from the repo root:
+#   Rscript analysis/scripts/incipient.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 # UTF-8 locale so the png devices render em-dash / sqrt / arrow glyphs
 if (!grepl("UTF-8", Sys.getlocale("LC_CTYPE"))) invisible(try(Sys.setlocale("LC_CTYPE", "en_US.UTF-8"), silent = TRUE))
@@ -62,7 +62,7 @@ y <- sqrt(pmax(m$percent_damaged, 0))
 xr <- range(m$xdev); xpad <- 0.05 * diff(xr)
 xlim <- c(xr[1] - xpad, xr[2] + xpad)
 
-png(file.path(OUT_DIR, "CJFR-6cell.png"),
+png(file.path(OUT_DIR, "6cell.png"),
     width = 8.4, height = 5.6, units = "in", res = 170)
 par(mar = c(4.4, 4.2, 1.2, 0.8), mgp = c(2.4, 0.7, 0))
 cat_ <- classify(0)   # baseline species-median split; bands overlay uncertainty

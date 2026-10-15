@@ -1,8 +1,8 @@
-# R port of threshold.py (revision sensitivity analysis, cjfr-2026-0202).
-# Run from the repo root: Rscript analysis/revision/scripts/threshold.R
-source("analysis/revision/scripts/revision_common.R")
+# Threshold sensitivity of the ERT moisture axis: unimodality (GMM/BIC), threshold rules, sweep.
+# Run from the repo root: Rscript analysis/scripts/threshold.R
+source("analysis/scripts/common.R")
 
-# ---- small formatting helpers (match the Python printout) ----
+# ---- small formatting helpers for the printout ----
 pydict <- function(keys, vals) {
   paste0("{", paste(sprintf("'%s': %s", keys, vals), collapse = ", "), "}")
 }
@@ -117,7 +117,7 @@ for (Mcut in c(90, 100, 110)) {
 
 # ---------- FIGURE ----------
 # matplotlib figsize (12, 4.6) at dpi 170 -> 2040 x 782 px
-png(file.path(OUT_DIR, "archive", "CJFR-threshold-rules.png"),
+png(file.path(OUT_DIR, "additional", "threshold-rules.png"),
     width = 2040, height = 782, res = 170, pointsize = 10)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1), mgp = c(2.4, 0.7, 0))
 rule_cols <- c("mean (published)" = "#c0392b", "median" = "#2980b9",

@@ -1,6 +1,6 @@
-# R port of rules.py — graded moisture bands and III/IV physical rule.
-# Run from repo root: Rscript analysis/revision/scripts/rules.R
-source("analysis/revision/scripts/revision_common.R")
+# Graded moisture bands and III/IV physical rule.
+# Run from repo root: Rscript analysis/scripts/rules.R
+source("analysis/scripts/common.R")
 options(width = 160)
 
 m <- load_merged()

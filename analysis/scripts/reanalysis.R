@@ -1,6 +1,7 @@
-# R port of reanalysis.py — revision reanalysis (Reviewers #3, #6, #8).
-# Run from repo root: Rscript analysis/revision/scripts/reanalysis.R
-source("analysis/revision/scripts/revision_common.R")
+# Reproduces key statistics: stem-size confound, one- vs two-way ANOVAs,
+# hurdle-model tests, classification counts and the hemlock validation.
+# Run from repo root: Rscript analysis/scripts/reanalysis.R
+source("analysis/scripts/common.R")
 
 sd_pop <- function(x) sqrt(mean((x - mean(x))^2))  # numpy default ddof=0
 hr <- strrep("=", 70)
@@ -13,8 +14,8 @@ print(addmargins(table(df$sp, df$site)))
 cat("\nDecay present counts by species x site:\n")
 print(ftable(xtabs(~ sp + site + decay_bin, df), col.vars = "decay_bin"))
 
-# ---------- A. STEM SIZE CONFOUND (Reviewer #8) ----------
-cat("\n", hr, "\nA. DBH by site & species (Reviewer #8 stem-size confound)\n", hr, "\n", sep = "")
+# ---------- A. STEM SIZE CONFOUND ----------
+cat("\n", hr, "\nA. DBH by site & species (stem-size confound)\n", hr, "\n", sep = "")
 summ <- function(x) c(count = length(x), mean = mean(x), std = sd(x), min = min(x), max = max(x))
 print(round(t(sapply(split(df$dbh, df$site), summ)), 6))
 print(round(t(sapply(split(df$dbh, df$sp), summ)), 6))
@@ -36,8 +37,8 @@ glm_dbh <- glm(decay_bin ~ dbh, df, family = binomial())
 sc <- summary(glm_dbh)$coefficients
 cat(sprintf("decay~dbh logistic: beta=%.3f p=%.3f\n", sc["dbh", "Estimate"], sc["dbh", "Pr(>|z|)"]))
 
-# ---------- B. ANOVA one-way vs two-way (Reviewer #6) ----------
-cat("\n", hr, "\nB. ANOVA on percent_damaged (Reviewer #6)\n", hr, "\n", sep = "")
+# ---------- B. ANOVA one-way vs two-way ----------
+cat("\n", hr, "\nB. ANOVA on percent_damaged\n", hr, "\n", sep = "")
 m1 <- lm(percent_damaged ~ site, df)
 cat("One-way (site):\n"); print(round(as.data.frame(anova(m1)), 4))
 m2 <- lm(percent_damaged ~ sp + site, df)
@@ -113,8 +114,8 @@ cat("\n1% SoT threshold: trees by damage band:\n")
 bands <- cut(df$percent_damaged, c(-0.1, 0, 1, 5, 100), labels = c("0", "(0-1]", "(1-5]", ">5"))
 print(table(bands))
 
-# ---------- E. Validation: PC1 vs mean resistivity vs moisture (Reviewer #3) ----------
-cat("\n", hr, "\nE. Hemlock validation: PC1 vs mean resistivity vs moisture (Reviewer #3)\n", hr, "\n", sep = "")
+# ---------- E. Validation: PC1 vs mean resistivity vs moisture ----------
+cat("\n", hr, "\nE. Hemlock validation: PC1 vs mean resistivity vs moisture\n", hr, "\n", sep = "")
 v <- load_validation()
 vmet <- c("mean_res", "Median", "SD", "CV", "Gini", "Entropy", "CMA", "RadialGradient")
 vv <- v

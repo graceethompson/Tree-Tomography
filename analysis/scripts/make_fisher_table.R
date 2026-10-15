@@ -1,9 +1,9 @@
-# Writes output/CJFR-fisher-tests.csv (Table S-FISHER): Fisher exact tests of
+# Writes output/fisher-tests.csv (Table S-FISHER): Fisher exact tests of
 # the wetland-upland incipient contrast at each candidate ERT threshold, the
 # whole-sample version, and the generalists-only subset. Same computations as
 # statistical_tests.R, formatted as a table.
-# Run from repo root: Rscript analysis/revision/scripts/make_fisher_table.R
-source("analysis/revision/scripts/revision_common.R")
+# Run from repo root: Rscript analysis/scripts/make_fisher_table.R
+source("analysis/scripts/common.R")
 
 m <- load_merged()
 pc <- build_pc1(m, "species")$pc1
@@ -44,6 +44,6 @@ rows[[length(rows) + 1]] <- row_for(
   sum(incg & g$site == "EMS"), sum(g$site == "EMS"))
 
 out <- do.call(rbind, rows)
-write.csv(out, "analysis/revision/output/CJFR-fisher-tests.csv", row.names = FALSE)
+write.csv(out, "analysis/output/fisher-tests.csv", row.names = FALSE)
 print(out)
-cat("wrote analysis/revision/output/CJFR-fisher-tests.csv\n")
+cat("wrote analysis/output/fisher-tests.csv\n")

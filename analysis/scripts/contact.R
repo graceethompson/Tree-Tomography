@@ -1,9 +1,9 @@
-# Ported from contact.py -- contact sheets of all 57 main-tree ERT tomograms.
-# Run from the repo root: Rscript analysis/revision/scripts/contact.R
+# Contact sheets of all 57 main-tree ERT tomograms.
+# Run from the repo root: Rscript analysis/scripts/contact.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 suppressPackageStartupMessages(library(magick))
 library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 ERT <- "images/main_ERT"
 CROP <- "410x470+60+30"   # PIL crop box (60,30)-(470,500)
@@ -45,7 +45,7 @@ sheet <- function(sub, fname, title) {
   cat("saved", fname, n, "trees\n")
 }
 
-sheet(rows[1:30, ], file.path(OUT_DIR, "contact1.png"),
+sheet(rows[1:30, ], file.path(OUT_DIR, "additional", "contact1.png"),
       "ERT tomograms 1/2  (blue=wet, red=dry)")
-sheet(rows[31:nrow(rows), ], file.path(OUT_DIR, "contact2.png"),
+sheet(rows[31:nrow(rows), ], file.path(OUT_DIR, "additional", "contact2.png"),
       "ERT tomograms 2/2  (blue=wet, red=dry)")

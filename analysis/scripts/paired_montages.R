@@ -1,10 +1,10 @@
-# Ported from paired_montages.py -- paired SoT+ERT scan montages, grouped by
+# Paired SoT+ERT scan montages, grouped by
 # classification scheme. Run from the repo root:
-#   Rscript analysis/revision/scripts/paired_montages.R
+#   Rscript analysis/scripts/paired_montages.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 suppressPackageStartupMessages(library(magick))
 library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 ERT <- "images/main_ERT"; SOT <- "images/main_SoT"
 CROP <- "410x470+60+30"
@@ -85,7 +85,7 @@ montage <- function(key) {
   units <- vapply(plan, function(p) if (p$kind == "hdr") 0.32 else 1.0, numeric(1))
   tot <- sum(units)
   W <- PER * 3.5; H <- tot * 1.7
-  out <- file.path(OUT_DIR, paste0("CJFR-paired-", key, ".png"))
+  out <- file.path(OUT_DIR, paste0("paired-", key, ".png"))
   png(out, width = W, height = H, units = "in", res = 150, type = "cairo")
   grid.newpage()
   top <- 0.985

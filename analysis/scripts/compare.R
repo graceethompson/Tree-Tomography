@@ -1,8 +1,8 @@
 # Does the ERT axis choice change the binning? PC1 vs CMA vs absolute /
-# species-normalized resistivity. R port of compare.py. Run from the repo root:
-#   Rscript analysis/revision/scripts/compare.R
+# species-normalized resistivity. Run from the repo root:
+#   Rscript analysis/scripts/compare.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 # UTF-8 locale so the png devices render em-dash / sqrt / arrow glyphs
 if (!grepl("UTF-8", Sys.getlocale("LC_CTYPE"))) invisible(try(Sys.setlocale("LC_CTYPE", "en_US.UTF-8"), silent = TRUE))
@@ -99,7 +99,7 @@ panel <- function(x, anom_line, xlabel, cats, title, xinvert = FALSE, ylab = FAL
   title(main = title, cex.main = 0.85)
 }
 
-png(file.path(OUT_DIR, "CJFR-binning-compare.png"),
+png(file.path(OUT_DIR, "binning-compare.png"),
     width = 6.2, height = 15, units = "in", res = 150)
 par(mfrow = c(3, 1), mar = c(4.2, 4.2, 2.4, 1), oma = c(0, 0, 0.5, 0), mgp = c(2.4, 0.7, 0))
 panel(pc, mu, "ERT PC1 (species-normalized composite)", A, "A", ylab = TRUE)
@@ -111,7 +111,7 @@ panel(m$mean, median(m$mean), "mean resistivity (Ω·m, absolute)", C,
 invisible(dev.off())
 
 # second fig: PC1 diagram colored by CMA value (continuous) to show CMA is a SEPARATE axis
-png(file.path(OUT_DIR, "archive", "CJFR-pc1-cma.png"),
+png(file.path(OUT_DIR, "additional", "pc1-cma.png"),
     width = 7.6, height = 5.6, units = "in", res = 150)
 layout(matrix(1:2, 1, 2), widths = c(6.4, 1.2))
 par(mar = c(4.2, 4.2, 3.4, 0.6), mgp = c(2.4, 0.7, 0))

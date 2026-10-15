@@ -1,10 +1,10 @@
-# Ported from grouped.py -- ERT scan montages grouped by category under four
+# ERT scan montages grouped by category under four
 # alternative binning schemes. Run from the repo root:
-#   Rscript analysis/revision/scripts/grouped.R
+#   Rscript analysis/scripts/grouped.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 suppressPackageStartupMessages(library(magick))
 library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 ERT <- "images/main_ERT"
 CROP <- "410x470+60+30"
@@ -59,7 +59,7 @@ montage <- function(key) {
   units <- vapply(plan, function(p) if (p$kind == "hdr") 0.34 else 1.0, numeric(1))
   tot <- sum(units)
   W <- NC * 1.7; H <- tot * 1.55
-  out <- file.path(OUT_DIR, paste0("CJFR-grouped-", key, ".png"))
+  out <- file.path(OUT_DIR, "additional", paste0("grouped-", key, ".png"))
   png(out, width = W, height = H, units = "in", res = 85, type = "cairo")
   grid.newpage()
   grid.text(paste0(title, "   —   ERT scans grouped by resulting category"),

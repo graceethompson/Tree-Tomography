@@ -1,8 +1,8 @@
 # Boundary-by-boundary stability of the four-category phase diagram.
-# R port of boundaries.py. Run from the repo root:
-#   Rscript analysis/revision/scripts/boundaries.R
+# Run from the repo root:
+#   Rscript analysis/scripts/boundaries.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 # UTF-8 locale so the png devices render em-dash / sqrt / arrow glyphs
 if (!grepl("UTF-8", Sys.getlocale("LC_CTYPE"))) invisible(try(Sys.setlocale("LC_CTYPE", "en_US.UTF-8"), silent = TRUE))
@@ -94,7 +94,7 @@ sx <- nz                                   # linear scale
 st <- ave(nz, nz, FUN = seq_along)        # stack duplicates vertically
 xt <- c(0, 1, 5, 10, 15, 20, 25, 30, 35)
 
-png(file.path(OUT_DIR, "CJFR-boundary-fig.png"),
+png(file.path(OUT_DIR, "boundary-fig.png"),
     width = 8.2, height = 3.4, units = "in", res = 170)
 par(mar = c(4.0, 4.0, 1.2, 0.8), mgp = c(2.4, 0.7, 0))
 plot(NA, xlim = c(-1, 36), ylim = c(0.4, 4.6), axes = FALSE,

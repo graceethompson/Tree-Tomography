@@ -1,4 +1,4 @@
-# SI table: stand context for the sampled trees (R1 #11).
+# SI table: stand context for the sampled trees.
 # For each focal species at each site: share of live basal area, DBH quartiles
 # of the stand, and the sampled DBH range.
 # BGS = June 2025 variable-radius (prism) survey of the stand, 40 plots
@@ -33,5 +33,5 @@ for (site in c("BGS", "EMS")) for (s in c("acerru", "nysssy", "querru", "tsugca"
     n_sampled = length(o), sampled_dbh_min_cm = round(min(o) + 1e-9, 1), sampled_dbh_max_cm = round(max(o) + 1e-9, 1))
 }
 tab <- bind_rows(rows) %>% arrange(site, -pct_live_basal_area)
-write.csv(tab, "analysis/revision/output/CJFR-stand-context.csv", row.names = FALSE)
+write.csv(tab, "analysis/output/stand-context.csv", row.names = FALSE)
 print(tab, row.names = FALSE)

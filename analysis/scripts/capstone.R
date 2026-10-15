@@ -1,6 +1,6 @@
-# R port of capstone.py — site-direction robustness across axes and thresholds.
-# Run from repo root: Rscript analysis/revision/scripts/capstone.R
-source("analysis/revision/scripts/revision_common.R")
+# Site-direction robustness across axes and thresholds.
+# Run from repo root: Rscript analysis/scripts/capstone.R
+source("analysis/scripts/common.R")
 
 sd_pop <- function(x) sqrt(mean((x - mean(x))^2))  # numpy ndarray.std(), ddof=0
 

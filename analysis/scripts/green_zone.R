@@ -1,12 +1,11 @@
 # How were the green (intermediate-velocity) zones handled, and does it matter?
-# (Reviewer 1, reproducibility comment #2.)
 #
 # PiCUS tomograms color each pixel by sonic velocity class: browns = solid wood,
-# green = intermediate, violet = decayed, blue = cavity. The manuscript describes
-# percent damage as "non-brown colors combined", but the recorded numbers say
+# green = intermediate, violet = decayed, blue = cavity. Percent damage could
+# be read as all non-brown colors combined, but the recorded numbers say
 # otherwise: in data/Tree_ID_info.csv, percent_solid_wood matches the "Solid
 # wood: X %" printed by PiCUS on every tomogram (verified against the image
-# headers, analysis/revision/data/sot_image_annotations.csv), and
+# headers, analysis/data/sot_image_annotations.csv), and
 # percent_solid_wood + percent_damaged < 100 for most damaged trees. The gap is
 # the green zone: the recorded percent_damaged EXCLUDED green (violet+blue only).
 #
@@ -16,9 +15,9 @@
 # contrast under the three green treatments (excluded / counted as damaged /
 # counted as solid).
 #
-# Run from the repo root: Rscript analysis/revision/scripts/green_zone.R
+# Run from the repo root: Rscript analysis/scripts/green_zone.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 suppressPackageStartupMessages({
   library(jpeg)
   library(ggplot2)
@@ -149,6 +148,6 @@ p2 <- ggplot(stack, aes(tree_f, pct, fill = class)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 5.5),
         legend.position = "bottom")
 
-ggsave(file.path(OUT_DIR, "archive", "CJFR-green-zone.png"), p1 | p2,
+ggsave(file.path(OUT_DIR, "additional", "green-zone.png"), p1 | p2,
        width = 12.5, height = 5.2, dpi = 170)
-cat("\nsaved", file.path(OUT_DIR, "CJFR-green-zone.png"), "\n")
+cat("\nsaved", file.path(OUT_DIR, "green-zone.png"), "\n")

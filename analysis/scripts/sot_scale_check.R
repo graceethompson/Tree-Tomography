@@ -1,7 +1,7 @@
 # Verifies that the PiCUS velocity colour scale was constant across every SoT
 # tomogram export (main survey + validation hemlocks): the "v:100%" and "v:70%"
 # scale-endpoint labels are pixel-identical (within JPEG compression noise) in
-# every real export. Supports the reproducibility response: the colour scale and
+# every real export, i.e. the colour scale and
 # velocity thresholds used to tabulate damaged area did not vary across trees.
 library(magick)
 

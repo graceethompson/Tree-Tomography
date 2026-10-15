@@ -1,9 +1,9 @@
-# Ported from montage.py -- exemplar paired SoT+ERT tomograms for each category.
-# Run from the repo root: Rscript analysis/revision/scripts/montage.R
+# Exemplar paired SoT+ERT tomograms for each category.
+# Run from the repo root: Rscript analysis/scripts/montage.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 suppressPackageStartupMessages(library(magick))
 library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
 ERT <- "images/main_ERT"; SOT <- "images/main_SoT"
 
@@ -37,7 +37,7 @@ draw_fit <- function(img, x, y, w, h, figw, figh) {
               width = unit(dw, "in"), height = unit(dh, "in"))
 }
 
-out <- file.path(OUT_DIR, "CJFR-scan-montage.png")
+out <- file.path(OUT_DIR, "additional", "scan-montage.png")
 png(out, width = W, height = H, units = "in", res = 115, type = "cairo")
 grid.newpage()
 grid.text(paste0("What the categories look like: paired SoT (structural loss) + ERT (moisture) tomograms\n",
@@ -61,7 +61,7 @@ for (i in seq_len(n)) {
   for (j in seq_along(panels)) {
     px <- x0 + 0.035 * cw + (j - 1) * 0.475 * cw
     pw <- 0.455 * cw
-    img <- image_read(panels[[j]][[1]])   # full frame, not cropped (as in montage.py)
+    img <- image_read(panels[[j]][[1]])   # full frame, not cropped
     grid.text(panels[[j]][[2]], x = px + pw / 2, y = ytop - 0.185 * ch,
               gp = gpar(fontsize = 8, col = "#333333"))
     draw_fit(img, px, ytop - ch + 0.015 * ch, pw, 0.775 * ch, W, H)

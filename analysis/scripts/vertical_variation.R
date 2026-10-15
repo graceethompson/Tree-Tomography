@@ -1,18 +1,17 @@
-# Vertical variation in decay columns from the multi-height validation scans
-# (Reviewer 1, comment #10).
+# Vertical variation in decay columns from the multi-height validation scans.
 #
 # The 12 validation hemlocks were imaged below (Lower), at (DBH), and above
-# (Upper) breast height (images/hemlock_SoT, images/hemlock_ERT). The reviewer
-# asks that these be used to estimate how much a single BH measurement plane
+# (Upper) breast height (images/hemlock_SoT, images/hemlock_ERT). These are used
+# to estimate how much a single BH measurement plane
 # under- or over-states decay, since butt rots are widest near the ground.
 #
 # Data: data/hemlock/SOT_results.csv (per-image SoT % damaged) and
 # data/hemlock/ERT_results_2026-03-05.csv (per-image ERT metrics; replicate
 # analyses of the same image are averaged).
 #
-# Run from the repo root: Rscript analysis/revision/scripts/vertical_variation.R
+# Run from the repo root: Rscript analysis/scripts/vertical_variation.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 suppressPackageStartupMessages({
   library(ggplot2)
   library(patchwork)
@@ -121,6 +120,6 @@ p2 <- ggplot(sub, aes(height, Mean, group = tree, colour = tree)) +
   theme_classic(base_size = 10)
 
 fig <- p1 | p2
-ggsave(file.path(OUT_DIR, "CJFR-vertical-variation.png"), fig,
+ggsave(file.path(OUT_DIR, "vertical-variation.png"), fig,
        width = 11, height = 4.6, dpi = 170)
-cat("\nsaved", file.path(OUT_DIR, "CJFR-vertical-variation.png"), "\n")
+cat("\nsaved", file.path(OUT_DIR, "vertical-variation.png"), "\n")

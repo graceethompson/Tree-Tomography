@@ -1,14 +1,14 @@
-# Ported from flow.py -- decision-tree flowchart of the decay classification
+# Decision-tree flowchart of the decay classification
 # rules and thresholds. Run from the repo root:
-#   Rscript analysis/revision/scripts/flow.R
+#   Rscript analysis/scripts/flow.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 
-out <- file.path(OUT_DIR, "CJFR-decision-tree.png")
+out <- file.path(OUT_DIR, "additional", "decision-tree.png")
 png(out, width = 13.5, height = 9, units = "in", res = 150, type = "cairo")
 grid.newpage()
-# data coordinates 0-100 x 0-100 as in the Python script, plus headroom for the title
+# data coordinates 0-100 x 0-100, plus headroom for the title
 pushViewport(viewport(xscale = c(0, 100), yscale = c(-1, 104)))
 
 box <- function(x, y, w, h, text, fc, ec = "#333333", fs = 9.5, tc = "#111111", bold = FALSE) {

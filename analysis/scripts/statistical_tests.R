@@ -1,15 +1,15 @@
-# Statistical tests supporting the revision (R port of statistical_tests.py):
+# Statistical tests of the classification:
 #  1. Fisher exact tests on the incipient site contrast (by threshold; generalists-only)
 #  2. Calibration-anchor uncertainty: CI on the mean calibration line vs single-tree PI
-# Run from repo root: Rscript analysis/revision/scripts/statistical_tests.R
-source("analysis/revision/scripts/revision_common.R")
+# Run from repo root: Rscript analysis/scripts/statistical_tests.R
+source("analysis/scripts/common.R")
 
 m <- load_merged()
 bp <- build_pc1(m, "species")
 pc <- bp$pc1
 m$pc1 <- pc
 m$struct <- m$percent_damaged > 1
-sdv <- sd(pc)          # ddof=1, as in the Python script
+sdv <- sd(pc)          # ddof=1 (sample SD)
 sound <- !m$struct
 
 # Sample odds ratio (a*d)/(b*c), matching scipy.stats.fisher_exact's OR;

@@ -1,25 +1,24 @@
-# Sensor counts, stem size, and SoT effective resolution (Reviewer 1, comment #8).
+# Sensor counts, stem size, and SoT effective resolution.
 #
-# The reviewer asks that sensor counts and stem diameters be reported for all
-# trees, and that we demonstrate whether stem size and sensor count covary with
+# Reports sensor counts and stem diameters for all trees, and tests whether stem size and sensor count covary with
 # site, species, or the percent-damage estimate (SoT reconstruction error is
 # resolution-dependent, and resolution scales with sensor count and stem size).
 #
 # Sensor counts were read from the numbered sensor positions on every PiCUS
-# tomogram (analysis/revision/data/sot_image_annotations.csv; the same file's
+# tomogram (analysis/data/sot_image_annotations.csv; the same file's
 # 'Solid wood %' header values verify against data/Tree_ID_info.csv in 56/57
 # trees). Sensor spacing (circumference / sensor count) is used as the
 # effective-resolution proxy.
 #
-# Run from the repo root: Rscript analysis/revision/scripts/sensor_counts.R
+# Run from the repo root: Rscript analysis/scripts/sensor_counts.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 suppressPackageStartupMessages({
   library(ggplot2)
   library(patchwork)
 })
 
-ann <- read.csv("analysis/revision/data/sot_image_annotations.csv")
+ann <- read.csv("analysis/data/sot_image_annotations.csv")
 ann$tree <- suppressWarnings(as.integer(sub("_.*", "", ann$filename)))
 main_ann <- ann[!is.na(ann$tree), ]
 # one sensor count per tree (duplicate scans agree except where noted in the csv)
@@ -118,7 +117,7 @@ if (any(cmp$visual != cmp$pixel))
 out <- df[order(df$site, df$sp, df$tree),
           c("tree", "sp", "site", "dbh", "sensor_count", "paths", "spacing", "percent_damaged")]
 out$spacing <- round(out$spacing, 1)
-write.csv(out, file.path(OUT_DIR, "CJFR-sensor-counts.csv"), row.names = FALSE)
+write.csv(out, file.path(OUT_DIR, "sensor-counts.csv"), row.names = FALSE)
 
 # ---- figure ----
 p1 <- ggplot(df, aes(dbh, spacing, colour = site, shape = factor(sensor_count))) +
@@ -138,6 +137,6 @@ p2 <- ggplot(df, aes(spacing, percent_damaged, colour = site)) +
 
 # Panel A (spacing vs DBH) dropped: it repeats Table S-SENSORS content.
 # The figure is now the single covariance panel (damage vs spacing).
-ggsave(file.path(OUT_DIR, "CJFR-sensor-counts.png"), p2,
+ggsave(file.path(OUT_DIR, "sensor-counts.png"), p2,
        width = 5.8, height = 4.4, dpi = 170)
-cat("\nsaved CJFR-sensor-counts.png and CJFR-sensor-counts.csv\n")
+cat("\nsaved sensor-counts.png and sensor-counts.csv\n")

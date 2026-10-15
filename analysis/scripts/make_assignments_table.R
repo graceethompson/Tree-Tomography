@@ -1,7 +1,7 @@
-# Per-tree category assignments under each classification scheme (R port of
-# make_assignments_table.py). Writes analysis/revision/output/scheme_assignments.csv.
-# Run from repo root: Rscript analysis/revision/scripts/make_assignments_table.R
-source("analysis/revision/scripts/revision_common.R")
+# Per-tree category assignments under each classification scheme.
+# Writes analysis/output/scheme_assignments.csv.
+# Run from repo root: Rscript analysis/scripts/make_assignments_table.R
+source("analysis/scripts/common.R")
 options(scipen = 12)  # keep small values (e.g. cma 0.0005) in decimal notation
 
 m <- load_merged()

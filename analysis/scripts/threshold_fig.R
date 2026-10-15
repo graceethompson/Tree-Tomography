@@ -1,6 +1,6 @@
-# R port of threshold_fig.py (revision sensitivity analysis, cjfr-2026-0202).
-# Run from the repo root: Rscript analysis/revision/scripts/threshold_fig.R
-source("analysis/revision/scripts/revision_common.R")
+# Threshold-sensitivity figure (threshold-fig.png).
+# Run from the repo root: Rscript analysis/scripts/threshold_fig.R
+source("analysis/scripts/common.R")
 
 m <- load_merged()
 b <- build_pc1(m, "species")
@@ -27,7 +27,7 @@ for (i in seq_along(ts)) {
 }
 
 # ---------- FIGURE ----------
-png(file.path(OUT_DIR, "CJFR-threshold-fig.png"),
+png(file.path(OUT_DIR, "threshold-fig.png"),
     width = 2188, height = 1680, res = 175, pointsize = 10)
 par(mfrow = c(2, 2), mar = c(4, 4, 3.5, 1), mgp = c(2.4, 0.7, 0))
 
@@ -74,7 +74,7 @@ title(main = "B", adj = 0, cex.main = 1, font.main = 2)
 
 # Panel C: same distribution under the pooled normalization (preserves
 # absolute between-site/species differences); replaces the former
-# standalone normalization figure (CJFR-threshold-rules.png, archived).
+# standalone normalization figure (threshold.R, output/additional/threshold-rules.png).
 kd3 <- density(pc_pooled)
 xs3 <- seq(min(pc_pooled) - 0.4, max(pc_pooled) + 0.4, length.out = 300)
 ky3 <- approx(kd3$x, kd3$y, xs3, rule = 2)$y

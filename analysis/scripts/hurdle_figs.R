@@ -1,18 +1,18 @@
-# Hurdle-model observation and diagnostic figures (Reviewer 1, comments #6 & #7).
+# Hurdle-model observation and diagnostic figures.
 #
-# The manuscript's hurdle model (code/decay_hurdle_analysis.R) reports only
-# model-predicted means and intervals. The reviewer asked for:
-#   #6 - the fitted logistic probabilities with the jittered binary observations
+# The hurdle model (fitted in code/combined_figures.R for Fig. 4) is reported as
+# model-predicted means and intervals. This script shows:
+#   (1) the fitted logistic probabilities with the jittered binary observations
 #        overlaid by species and site, making the sparse basis of the occurrence
 #        model visible;
-#   #7 - the beta-regression severity fit with the individual decayed trees
+#   (2) the beta-regression severity fit with the individual decayed trees
 #        overlaid by species (showing per-species decayed n, incl. the single
 #        N. sylvatica reference observation), plus residual diagnostics for the
 #        severity stage matching the DHARMa checks reported for the binomial stage.
 #
-# Run from the repo root: Rscript analysis/revision/scripts/hurdle_figs.R
+# Run from the repo root: Rscript analysis/scripts/hurdle_figs.R
 
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 suppressPackageStartupMessages({
   library(ggplot2)
   library(betareg)
@@ -110,7 +110,7 @@ diag_df <- data.frame(
   leverage = hatvalues(m2)
 )
 # the single N. sylvatica tree is its own reference level: leverage = 1, so its
-# standardized residual is undefined (NaN) — the instability the reviewer flags
+# standardized residual is undefined (NaN)
 n_undef <- sum(!is.finite(diag_df$resid))
 diag_df <- diag_df[is.finite(diag_df$resid), ]
 pc <- ggplot(diag_df, aes(fitted, resid)) +
@@ -128,16 +128,16 @@ pd <- ggplot(data.frame(x = qq$x, y = qq$y), aes(x, y)) +
        title = "B") +
   theme_classic(base_size = 10)
 
-# Panels (a)-(b) (occurrence fit, severity fit over raw data) moved into the
-# revised main-text Fig. 4; this SI figure keeps the severity diagnostics.
+# Panels (a)-(b) (occurrence fit, severity fit over raw data) are shown in
+# main-text Fig. 4 (code/combined_figures.R); this SI figure keeps the severity diagnostics.
 fig <- pc | pd
-ggsave(file.path(OUT_DIR, "CJFR-hurdle-fig.png"), fig, width = 9, height = 4.2, dpi = 170)
+ggsave(file.path(OUT_DIR, "hurdle-fig.png"), fig, width = 9, height = 4.2, dpi = 170)
 
 # DHARMa simulated residuals for the occurrence stage (as in the manuscript),
 # saved alongside for completeness.
 suppressPackageStartupMessages(library(DHARMa))
-png(file.path(OUT_DIR, "archive", "CJFR-hurdle-dharma.png"), width = 1700, height = 850, res = 150)
+png(file.path(OUT_DIR, "additional", "hurdle-dharma.png"), width = 1700, height = 850, res = 150)
 plot(simulateResiduals(m1, seed = 1))
 dev.off()
 
-cat("\nsaved", file.path(OUT_DIR, "CJFR-hurdle-fig.png"), "and CJFR-hurdle-dharma.png\n")
+cat("\nsaved", file.path(OUT_DIR, "hurdle-fig.png"), "and hurdle-dharma.png\n")

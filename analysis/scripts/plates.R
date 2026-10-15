@@ -3,10 +3,10 @@
 # one portrait page (category I at 4 pairs per row, the others at 3). The 12 cored
 # hemlocks (DBH scans, classified by the same thresholds) are appended to
 # their categories, labelled "(cored)".
-# Run from the repo root: Rscript analysis/revision/scripts/plates.R
+# Run from the repo root: Rscript analysis/scripts/plates.R
 if (!l10n_info()[["UTF-8"]]) try(invisible(Sys.setlocale("LC_CTYPE", "en_US.UTF-8")), silent = TRUE)
 suppressPackageStartupMessages(library(magick)); library(grid)
-source("analysis/revision/scripts/revision_common.R")
+source("analysis/scripts/common.R")
 ERT <- "images/main_ERT"; SOT <- "images/main_SoT"; CROP <- "410x470+60+30"
 m <- load_merged(); pc <- build_pc1(m)$pc1; m$struct <- m$percent_damaged > 1
 cats <- four_cat(pc > mean(pc), m$struct)
@@ -40,7 +40,7 @@ for (ci in seq_len(nrow(catinfo))) {
 for (pi in seq_along(plates)) {
   p <- plates[[pi]]; PER <- p$per; nrow_ <- ceiling(length(p$ids) / PER)
   W <- 6.5; rowh <- ROWH_FOR[[as.character(PER)]]; H <- 0.42 + nrow_ * rowh
-  out <- file.path(OUT_DIR, sprintf("CJFR-plate-%s.png", letters[pi]))
+  out <- file.path(OUT_DIR, sprintf("plate-%s.png", letters[pi]))
   png(out, width = W, height = H, units = "in", res = 220, type = "cairo"); grid.newpage()
   hh <- 0.34 / H
   grid.rect(x = 0.5, y = 1 - hh / 2 - 0.01, width = 0.98, height = hh, gp = gpar(fill = adjustcolor(p$col, alpha.f = 0.16), col = NA))
