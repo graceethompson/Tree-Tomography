@@ -75,7 +75,7 @@ zip_images("tomograms_study_trees.zip", c(ERT_absolute = "main_ERT", ERT_normali
 zip_images("tomograms_hemlock.zip", c(ERT = "hemlock_ERT", SoT = "hemlock_SoT"))
 
 table_info <- rbind(
-  c("Tomography tree table", "SoT results of each of the 60 study trees: plot, species, tag, DBH, crack detected, percent solid and damaged wood."),
+  c("Tomography tree table", "SoT results of the 57 study trees with a complete SoT scan: plot, species, tag, DBH, crack detected, percent solid and damaged wood."),
   c("ERT image analysis results", "Eight ERT resistivity metrics for each ERT tomogram of the study trees, as exported by the ERT image-analysis application (Tree-Tomography repository)."),
   c("SoT sensor counts", "Number of SoT sensors and PiCUS solid-wood percentage read from each SoT tomogram (study trees and hemlocks)."),
   c("Hemlock ERT results", "Eight ERT resistivity metrics for each ERT tomogram of the hemlock validation set (up to three heights per tree)."),
