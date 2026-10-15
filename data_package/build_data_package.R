@@ -23,7 +23,6 @@ unlink(TEMPLATE_DIR, recursive = TRUE); dir.create(PACKAGE_DIR, recursive = TRUE
 tables <- c(
   Tree_ID_info.csv                = file.path(REPO, "data", "Tree_ID_info.csv"),
   ERT_application_results.csv     = file.path(REPO, "data", "ERT_application_results.csv"),
-  tomography_results_compiled.csv = file.path(REPO, "data", "tomography_results_compiled.csv"),
   sot_sensor_counts.csv           = file.path(REPO, "analysis", "revision", "data", "sot_image_annotations.csv"),
   hemlock_ERT_results.csv         = file.path(REPO, "data", "hemlock", "ERT_results_2026-03-05.csv"),
   hemlock_SoT_results.csv         = file.path(REPO, "data", "hemlock", "SOT_results.csv"))
@@ -77,7 +76,6 @@ zip_images("tomograms_hemlock.zip", c(ERT = "hemlock_ERT", SoT = "hemlock_SoT"))
 table_info <- rbind(
   c("Tomography tree table", "SoT results of each of the 60 study trees: plot, species, tag, DBH, crack detected, percent solid and damaged wood."),
   c("ERT image analysis results", "Eight ERT resistivity metrics for each ERT tomogram of the study trees, as exported by the ERT image-analysis application (Tree-Tomography repository)."),
-  c("Tomography metrics (compiled)", "The ERT metrics and SoT solid and damaged percentages of each study tree in one table (as used by the stem flux study)."),
   c("SoT sensor counts", "Number of SoT sensors and PiCUS solid-wood percentage read from each SoT tomogram (study trees and hemlocks)."),
   c("Hemlock ERT results", "Eight ERT resistivity metrics for each ERT tomogram of the hemlock validation set (up to three heights per tree)."),
   c("Hemlock SoT results", "SoT damaged percentage for each SoT tomogram of the hemlock validation set."),

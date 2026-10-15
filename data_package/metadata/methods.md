@@ -8,7 +8,7 @@ Each tree was measured at breast height (1.37 m) between 2 July and 2 August 202
 
 # ERT image analysis
 
-Eight resistivity metrics (mean, median, standard deviation, coefficient of variation, Gini coefficient, Shannon entropy, central moisture accumulation and radial gradient) were extracted from each absolute-scale ERT tomogram with the ERT image-analysis application of the Tree-Tomography repository (Thompson and Gewirtzman 2026, https://github.com/graceethompson/Tree-Tomography): the application detects the measured cross-section, maps pixel colours to resistivity by calibrating the colour bar on a log scale, and computes the metrics over the pixels inside the cross-section (ERT_application_results.csv; tomography_results_compiled.csv combines these with the SoT percentages).
+Eight resistivity metrics (mean, median, standard deviation, coefficient of variation, Gini coefficient, Shannon entropy, central moisture accumulation and radial gradient) were extracted from each absolute-scale ERT tomogram with the ERT image-analysis application of the Tree-Tomography repository (Thompson and Gewirtzman 2026, https://github.com/graceethompson/Tree-Tomography): the application detects the measured cross-section, maps pixel colours to resistivity by calibrating the colour bar on a log scale, and computes the metrics over the pixels inside the cross-section (ERT_application_results.csv).
 
 # Hemlock validation set
 
