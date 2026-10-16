@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below, together with Thomp
 type: software
 title: "Tree-Tomography: quantitative tomography of internal decay in living trees, including the ERT image analysis application"
 version: 1.0.0
-date-released: "2026-10-02"
+date-released: "2026-10-16"
 authors:
   - family-names: Thompson
     given-names: Grace E.
