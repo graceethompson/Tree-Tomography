@@ -20,4 +20,4 @@ Tomogram files of the 60 study trees are named tree_date (e.g. 412_22vii24 = tre
 
 # Code
 
-The analyses of the companion papers are reproduced by the Tree-Tomography repository (archived on Zenodo, https://doi.org/10.5281/zenodo.23421501) and the tree-flux-2025 repository (https://github.com/jgewirtzman/tree-flux-2025).
+The analyses of the companion papers are reproduced by the Tree-Tomography repository (archived on Zenodo, https://doi.org/10.5281/zenodo.23421501) and the tree-flux-2025 repository (archived on Zenodo, https://doi.org/10.5281/zenodo.23421660).
