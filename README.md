@@ -173,4 +173,4 @@ The tomography data and images are archived in the Harvard Forest Data Archive (
 
 ## Citation and license
 
-Code: MIT (`LICENSE`). Please cite the archived release of this repository (Zenodo DOI; see `CITATION.cff`) and Thompson et al. (2026), https://doi.org/10.64898/2026.06.10.730433.
+Code: MIT (`LICENSE`). Please cite the archived release of this repository (Thompson and Gewirtzman 2026, Zenodo, https://doi.org/10.5281/zenodo.23421500 for the latest version; v1.0.0: https://doi.org/10.5281/zenodo.23421501) and Thompson et al. (2026), https://doi.org/10.64898/2026.06.10.730433.

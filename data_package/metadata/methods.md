@@ -8,7 +8,7 @@ Each tree was measured at breast height (1.37 m) between 2 July and 2 August 202
 
 # ERT image analysis
 
-Eight resistivity metrics (mean, median, standard deviation, coefficient of variation, Gini coefficient, Shannon entropy, central moisture accumulation and radial gradient) were extracted from each absolute-scale ERT tomogram with the ERT image-analysis application of the Tree-Tomography repository (Thompson and Gewirtzman 2026, https://github.com/graceethompson/Tree-Tomography): the application detects the measured cross-section, maps pixel colours to resistivity by calibrating the colour bar on a log scale, and computes the metrics over the pixels inside the cross-section (ERT_application_results.csv).
+Eight resistivity metrics (mean, median, standard deviation, coefficient of variation, Gini coefficient, Shannon entropy, central moisture accumulation and radial gradient) were extracted from each absolute-scale ERT tomogram with the ERT image-analysis application of the Tree-Tomography repository (Thompson and Gewirtzman 2026, https://doi.org/10.5281/zenodo.23421501): the application detects the measured cross-section, maps pixel colours to resistivity by calibrating the colour bar on a log scale, and computes the metrics over the pixels inside the cross-section (ERT_application_results.csv).
 
 # Cored hemlocks
 
@@ -20,4 +20,4 @@ Tomogram files of the 60 study trees are named tree_date (e.g. 412_22vii24 = tre
 
 # Code
 
-The analyses of the companion papers are reproduced by the Tree-Tomography repository (archived on Zenodo) and the tree-flux-2025 repository (https://github.com/jgewirtzman/tree-flux-2025).
+The analyses of the companion papers are reproduced by the Tree-Tomography repository (archived on Zenodo, https://doi.org/10.5281/zenodo.23421501) and the tree-flux-2025 repository (https://github.com/jgewirtzman/tree-flux-2025).
