@@ -1,5 +1,7 @@
 # Tree-Tomography
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23421500.svg)](https://doi.org/10.5281/zenodo.23421500)
+
 Code, working data and figures for Thompson et al., "Internal decay in living trees: a quantitative tomography framework and its application in a temperate forest" (preprint: https://doi.org/10.64898/2026.06.10.730433). The repository also holds the ERT image analysis app and the build script for the tomography data package deposited in the Harvard Forest Data Archive.
 
 ## Study design
